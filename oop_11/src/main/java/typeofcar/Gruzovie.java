@@ -2,6 +2,10 @@ package typeofcar;
 
 import com.car.Car;
 
+/**
+ * Класс описывает общие свойства и методы грузовых авто
+ */
+
 public class Gruzovie extends Car {
     private int obemPritsepa;
     private int maxVesGruza;
@@ -32,6 +36,13 @@ public class Gruzovie extends Car {
     public void setMaxVesGruza(int maxVesGruza) {
         this.maxVesGruza = maxVesGruza;
     }
+
+    /**
+     * Метод расчитывает какой вес ещё можно доложить в машину
+     * @param maxVesGruza максимальный вес груза в машине
+     * @param dobavitVes вес который необходимо поместить в машину
+     * @return
+     */
 
     public int ostalosMesta(int maxVesGruza, int dobavitVes) {
         if(dobavitVes <= maxVesGruza) {

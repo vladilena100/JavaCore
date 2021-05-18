@@ -2,12 +2,11 @@ package model;
 
 import typeofcar.Legkovie;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+/**
+ * Класс описывает общие свойства машины RollsRoys
+ */
 
 public class RollsRoys extends Legkovie {
-
-    private static final Logger LOG = LogManager.getLogger(RollsRoys.class);
 
     private int kolvoButilokVMiniBare;
     private boolean zontVDveri;
@@ -42,6 +41,14 @@ public class RollsRoys extends Legkovie {
     public void setZontVDveri(boolean zontVDveri) {
         this.zontVDveri = zontVDveri;
     }
+
+    /**
+     * Метод указывает хватит ли пользователю шампанского в мини баре
+     * для поездки
+     * @param people количество пассажиров
+     * @param kolvoBokalovNaOdnogo количество бокалов шампанского для каждого из пассажиров
+     * @return
+     */
 
     public String neobkhodimoButilok(int people, int kolvoBokalovNaOdnogo) {
         String result = "";

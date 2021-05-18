@@ -2,7 +2,12 @@ package model;
 
 import typeofcar.Legkovie;
 
+/**
+ * Класс описывает общие свойства машины Tesla
+ */
+
 public class Tesla extends Legkovie {
+
     private boolean avtopilot;
     private int zaryadSolnechnoiPaneli;
     private final int zapasKmOtSolnPanel = 20;
@@ -33,9 +38,14 @@ public class Tesla extends Legkovie {
         this.avtopilot = avtopilot;
     }
 
+    /**
+     * Метод позволяет узнать на какое кол-во км хватит заряда
+     * солнечной панели
+     * @param zaryadSolnechnoiPaneli заряд солнечной панели
+     * @return
+     */
+
     public double zapasKm(int zaryadSolnechnoiPaneli) {
-        //double na1protsente = zapasKmOtSolnPanel / 100 * zaryadSolnechnoiPaneli;
-        //zapas = na1protsente * zaryadSolnechnoiPaneli;
         return (double) zapasKmOtSolnPanel / 100 * zaryadSolnechnoiPaneli;
     }
 }

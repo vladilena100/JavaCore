@@ -2,6 +2,10 @@ package typeofcar;
 
 import com.car.Car;
 
+/**
+ * Класс описывает общие свойства легковых авто
+ */
+
 public class Legkovie extends Car {
     private String kuzov;
     private int obemBagazhnika;
@@ -32,6 +36,13 @@ public class Legkovie extends Car {
     public void setObemBagazhnika(int obemBagazhnika) {
         this.obemBagazhnika = obemBagazhnika;
     }
+
+    /**
+     * Метод расчитывает какой объем ещё остался в багажнике
+     * @param obemBagazhnika объем багажника
+     * @param predmet объем предмета
+     * @return
+     */
 
     public int ostatokMesta (int obemBagazhnika, int predmet) {
         if(predmet <= obemBagazhnika) {

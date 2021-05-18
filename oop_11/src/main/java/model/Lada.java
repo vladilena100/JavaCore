@@ -2,12 +2,11 @@ package model;
 
 import typeofcar.Legkovie;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+/**
+ * Класс описывает общие свойства машин Lada
+ */
 
 public class Lada extends Legkovie {
-
-    private static final Logger LOG = LogManager.getLogger(Lada.class);
 
     private int protsentRzhavchiny;
     private int diametrDirkiDlyaZimneyRibalki;
@@ -36,6 +35,14 @@ public class Lada extends Legkovie {
     public void setDiametrDirkiDlyaZimneyRibalki(int diametrDirkiDlyaZimneyRibalki) {
         this.diametrDirkiDlyaZimneyRibalki = diametrDirkiDlyaZimneyRibalki;
     }
+
+    /**
+     * Метод позволяет узнать сможете ли вы вытащить рыбу из отверстия
+     * под ковриком для зимней рыбалки
+     * @param diametrDirkiDlyaZimneyRibalki диаметр отверстия под ковриком для зимней рыбалки
+     * @param diametrRyby диаметр рыбы
+     * @return
+     */
 
     public String prohodRyby(int diametrDirkiDlyaZimneyRibalki, int diametrRyby) {
         String result = "";

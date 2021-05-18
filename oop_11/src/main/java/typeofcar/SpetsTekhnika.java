@@ -2,13 +2,12 @@ package typeofcar;
 
 import com.car.Car;
 
-import model.Lada;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+/**
+ * Класс описывает общие свойства Спец.техники
+ */
 
 public class SpetsTekhnika extends Car {
 
-    private static final Logger LOG = LogManager.getLogger(SpetsTekhnika.class);
 
     private String typeChassie;
     private String oblastPrimeneniya;
@@ -37,6 +36,12 @@ public class SpetsTekhnika extends Car {
     public void setOblastPrimeneniya(String oblastPrimeneniya) {
         this.oblastPrimeneniya = oblastPrimeneniya;
     }
+
+    /**
+     * Метод указывает какой тип шасси необходим для определенного покрытия
+     * @param nomer номер покрытия
+     * @return
+     */
 
     public String nuzhniyTypChassie(int nomer) {
         String result = "";
