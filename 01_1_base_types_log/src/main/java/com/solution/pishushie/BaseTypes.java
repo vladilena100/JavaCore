@@ -16,7 +16,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возврат отформатированного числа
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String toggleScientificNotation(java.lang.String str) {
         BigDecimal bigDecimal = new BigDecimal(str).setScale(16, RoundingMode.HALF_UP);
         if (str.contains("e") || str.contains("E")) {
@@ -34,7 +34,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение отсортированного массива
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public int[] sort(int[] array) {
         boolean isSorted = false;
         int buf;
@@ -59,7 +59,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public float arithmeticMean(int[] array) {
         float sum = 0;
         int count = 0;
@@ -82,7 +82,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата с форматированием
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String format(double n, java.lang.String language) {
         Locale locale = new Locale(language);
         return String.format(locale, "%f", n);
@@ -97,7 +97,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String plus(java.lang.String value1, java.lang.String value2) {
         BigDecimal bd1 = new BigDecimal(value1);
         BigDecimal bd2 = new BigDecimal(value2);
@@ -114,7 +114,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String minus(java.lang.String value1, java.lang.String value2) {
         BigDecimal bd1 = new BigDecimal(value1);
         BigDecimal bd2 = new BigDecimal(value2);
@@ -131,7 +131,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String mul(java.lang.String value1, java.lang.String value2) {
         BigDecimal bd1 = new BigDecimal(value1);
         BigDecimal bd2 = new BigDecimal(value2);
@@ -148,7 +148,7 @@ public class BaseTypes implements BaseTypesUtil {
      * @return возвращение результата
      */
 
-    @java.lang.Override
+    //@java.lang.Override
     public java.lang.String div(java.lang.String value1, java.lang.String value2) {
         BigDecimal bd1 = new BigDecimal(value1);
         BigDecimal bd2 = new BigDecimal(value2);
