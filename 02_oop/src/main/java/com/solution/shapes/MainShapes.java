@@ -73,6 +73,6 @@ public class MainShapes {
                 }
             }
         }
-        LOG.info("" + Arrays.toString(ploshadi));
+        LOG.info("площади фигур" + Arrays.toString(ploshadi));
     }
 }
