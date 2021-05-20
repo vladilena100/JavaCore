@@ -1,4 +1,4 @@
-package com.solution.vasilieva;
+package com.solution.pishushie;
 
 import com.nixsolutions.ppp.basetypes.BaseTypesUtil;
 
