@@ -7,6 +7,13 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Класс позволяет записать сообщение в файл
+ *
+ * @author Vladilena Vasilieva
+ * @since 23.05.21
+ */
+
 public class Saver implements com.nixsolutions.ppp.exceptions.Saver {
 
     private static final Logger LOG = LogManager.getLogger(Saver.class);

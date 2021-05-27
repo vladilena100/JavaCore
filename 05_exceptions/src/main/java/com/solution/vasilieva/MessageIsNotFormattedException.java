@@ -3,7 +3,10 @@ package com.solution.vasilieva;
 import java.io.IOException;
 
 /**
- * My exception
+ * Исключения для обработки событий когда сообщение не соответствует формату
+ *
+ * @author Vladilena Vasilieva
+ * @since 23.05.21
  */
 
 public class MessageIsNotFormattedException extends IOException {

@@ -4,6 +4,14 @@ import com.nixsolutions.ppp.exceptions.OneMessageFileLogger;
 
 import java.io.IOException;
 
+/**
+ * Класс позволяет записать и проверить на соответствие
+ * записанное сообщение
+ *
+ * @author Vladilena Vasilieva
+ * @since 23.05.21
+ */
+
 public class MessageLogger implements OneMessageFileLogger {
 
     String path;
