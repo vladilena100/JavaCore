@@ -12,9 +12,9 @@ import org.apache.logging.log4j.Logger;
 /**
  * the class implements methods for creating a new collection
  *
+ * @param <E>
  * @author Vladileva Vasilieva
  * @since 26.05.21
- * @param <E>
  */
 
 public class DefaultCollectionClass<E> implements DefaultCollection<E> {
@@ -32,6 +32,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * Метод возвращает размер коллекции
+     *
      * @return
      */
 
@@ -42,12 +43,13 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод проверяет пустая ли коллекция
+     *
      * @return
      */
 
     @Override
     public boolean isEmpty() {
-        if (size == 0) {
+        if (values.length == 0) {
             return true;
         } else {
             return false;
@@ -56,23 +58,32 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод проверяет присутствует ли в коллекции объект
+     *
      * @param o
      * @return
      */
 
     @Override
     public boolean contains(Object o) {
-        boolean result = false;
-        for (int i = 0; i < values.length; i++) {
-            if (values[i] == (E[]) o) {
-                result = true;
-            } else result = false;
+
+        boolean result1 = false;
+        boolean result2 = true;
+        try {
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] == (E[]) o) {
+                    result1 = true;
+                } else result2 = false;
+            }
+        } catch (ClassCastException e) {
+            LOG.error(e);
+            return false;
         }
-        return result;
+        return ((result1)&&(!result2));
     }
 
     /**
      * поведенческий шаблон
+     *
      * @return
      */
 
@@ -83,6 +94,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод возвращает массив определенного типа
+     *
      * @return
      */
 
@@ -91,8 +103,14 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
         return Arrays.copyOf(values, size);
     }
 
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
     /**
      * метод добавления элемента в коллекцию
+     *
      * @param o
      * @return
      */
@@ -114,6 +132,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод удаления элемента из коллекции
+     *
      * @param o
      * @return
      */
@@ -144,6 +163,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод добавления новой коллекции к изначальной
+     *
      * @param c
      * @return
      */
@@ -179,6 +199,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * удаляет элементы не принадлежащие переданной коллекции
+     *
      * @param c
      * @return
      */
@@ -208,6 +229,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * удаляет элементы, принадлежащие переданной
+     *
      * @param c
      * @return
      */
@@ -236,6 +258,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     /**
      * метод проверяет соответствие коллекций
+     *
      * @param c
      * @return
      */
@@ -255,19 +278,10 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
                 }
             }
         }
-        return ((result1 == true)&&(result2 == true)) ? true : false;
+        return ((result1 == true) && (result2 == true)) ? true : false;
     }
 
-    /**
-     *
-     * @param a
-     * @return
-     */
 
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
-    }
 
     public class DefaultIteratorClass<E> implements DefaultIterator<E> {
 
@@ -280,6 +294,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
         /**
          * Метод проверяет есть ли следующий элемент
+         *
          * @return
          */
 
@@ -290,6 +305,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
         /**
          * метод возвращает следующий элемент
+         *
          * @return
          */
 
