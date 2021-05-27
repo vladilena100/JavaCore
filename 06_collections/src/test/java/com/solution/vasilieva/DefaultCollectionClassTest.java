@@ -1,12 +1,13 @@
 package com.solution.vasilieva;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -14,11 +15,11 @@ public class DefaultCollectionClassTest {
 
     private static final Logger LOG = LogManager.getLogger(DefaultCollectionClassTest.class);
 
-    private DefaultCollectionClass defaultCollectionClass;
+    private DefaultCollection defaultCollectionClass;
 
     @Before
     public void initTest() {
-        DefaultCollectionClass defaultCollectionClass = new DefaultCollectionClass();
+        DefaultCollection defaultCollectionClass = new DefaultCollection();
     }
 
     @After
@@ -28,7 +29,7 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void size() {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
         defaultCollectionClass.add(3);
@@ -37,7 +38,7 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void isEmpty() {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
         defaultCollectionClass.add(3);
@@ -46,11 +47,12 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void contains() {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
+        defaultCollectionClass.add(null);
         defaultCollectionClass.add(3);
-        assertEquals(false, defaultCollectionClass.contains(2));
+        assertEquals(true, defaultCollectionClass.contains(null));
     }
 
     @Test
@@ -63,7 +65,7 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void add() {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
         defaultCollectionClass.add(3);
@@ -72,7 +74,7 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void remove() {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
         defaultCollectionClass.add(3);
@@ -81,22 +83,67 @@ public class DefaultCollectionClassTest {
 
     @Test
     public void addAll() {
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+        DefaultCollection<Integer> second = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(4);
+        defaultCollectionClass.add(5);
+        defaultCollectionClass.add(6);
+        assertEquals(true, defaultCollectionClass.addAll(second));
     }
 
     @Test
     public void clear() {
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+
+        boolean result = false;
+        defaultCollectionClass.clear();
+        LOG.info(Arrays.toString(defaultCollectionClass.toArray()));
+        assertEquals(true, defaultCollectionClass.contains(null));
     }
 
     @Test
     public void retainAll() {
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+        DefaultCollection<Integer> second = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(6);
+        defaultCollectionClass.add(3);
+        assertEquals(true, defaultCollectionClass.retainAll(second));
     }
 
     @Test
     public void removeAll() {
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+        DefaultCollection<Integer> second = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(6);
+        defaultCollectionClass.add(3);
+        assertEquals(true, defaultCollectionClass.retainAll(second));
     }
 
     @Test
     public void containsAll() {
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+        DefaultCollection<Integer> second = new DefaultCollection<Integer>();
+        defaultCollectionClass.add(1);
+        defaultCollectionClass.add(2);
+        defaultCollectionClass.add(3);
+        assertEquals(true, defaultCollectionClass.containsAll(second));
     }
 
     @Test

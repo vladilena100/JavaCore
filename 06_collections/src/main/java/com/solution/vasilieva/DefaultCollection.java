@@ -1,9 +1,7 @@
 package com.solution.vasilieva;
 
-import com.nixsolutions.ppp.collections.DefaultCollection;
 import com.nixsolutions.ppp.collections.DefaultIterator;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,16 +15,16 @@ import org.apache.logging.log4j.Logger;
  * @since 26.05.21
  */
 
-public class DefaultCollectionClass<E> implements DefaultCollection<E> {
+public class DefaultCollection<E> implements com.nixsolutions.ppp.collections.DefaultCollection {
 
-    private static final Logger LOG = LogManager.getLogger(DefaultCollectionClass.class);
+    private static final Logger LOG = LogManager.getLogger(DefaultCollection.class);
 
     private int size;
     protected int count = 0;
 
     E[] values;
 
-    public DefaultCollectionClass() {
+    public DefaultCollection() {
         values = (E[]) new Object[0];
     }
 
@@ -70,7 +68,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
         boolean result2 = true;
         try {
             for (int i = 0; i < values.length; i++) {
-                if (values[i] == (E[]) o) {
+                if (values[i] == (E) o) {
                     result1 = true;
                 } else result2 = false;
             }
@@ -78,7 +76,7 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
             LOG.error(e);
             return false;
         }
-        return ((result1)&&(!result2));
+        return (result1 == true);
     }
 
     /**
@@ -100,12 +98,20 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(values, size);
+        Object arrayToReturn[] = new Object[values.length];
+        for (int i = 0; i < values.length; i++) {
+            arrayToReturn[i] = values[i];
+        }
+        return arrayToReturn;
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public Object[] toArray(Object[] a) {
+        Object[] arr = new Object[values.length];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = values[i];
+        }
+        return arr;
     }
 
     /**
@@ -143,10 +149,8 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
         try {
             int number = 0;
             for (int i = 0; i < values.length; i++) {
-                if (values[i] == (E[]) o) {
+                if (values[i] == (E) o) {
                     number = i;
-                } else {
-                    throw new IllegalArgumentException("нет такого" + o);
                 }
             }
             E[] temp = values;
@@ -176,9 +180,9 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
             int count = a.length;
             E[] temp = values;
             values = (E[]) new Object[temp.length + count];
-            int number = values.length - temp.length - 1;
+            int number = values.length - temp.length;
             System.arraycopy(temp, 0, values, 0, values.length - count);
-            System.arraycopy(a, number + 1, values, values.length - 1, number);
+            System.arraycopy(a, number, values, values.length - 1, number);
             return true;
         } catch (ClassCastException e) {
             LOG.error(e);
@@ -282,8 +286,14 @@ public class DefaultCollectionClass<E> implements DefaultCollection<E> {
     }
 
 
-
-    public class DefaultIteratorClass<E> implements DefaultIterator<E> {
+    /**
+     * Класс итератор позволяет проверить наличие следующего элемента
+     * и вывести следующий элемент
+     *
+     * @author Vladilena Vasilieva
+     * @since 26.05.21
+     */
+   public static class DefaultIteratorClass<E> implements DefaultIterator<E> {
 
         private int index = 0;
         E[] values;

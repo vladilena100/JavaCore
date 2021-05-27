@@ -1,13 +1,19 @@
 package com.solution.vasilieva;
 
-import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
+    private static final Logger LOG = LogManager.getLogger(DefaultCollection.class);
+
     public static void main(String[] args) {
-        DefaultCollectionClass<Integer> defaultCollectionClass = new DefaultCollectionClass<Integer>();
+
+        DefaultCollection<Integer> defaultCollectionClass = new DefaultCollection<Integer>();
         defaultCollectionClass.add(1);
         defaultCollectionClass.add(2);
         defaultCollectionClass.add(3);
-        System.out.println(defaultCollectionClass.remove(2));
+        defaultCollectionClass.clear();
+        //LOG.info(Arrays.toString(defaultCollectionClass.toArray()));
+        LOG.info(defaultCollectionClass.contains(null));
     }
 }
