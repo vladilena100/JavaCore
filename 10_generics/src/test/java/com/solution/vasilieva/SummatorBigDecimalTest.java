@@ -49,14 +49,6 @@ public class SummatorBigDecimalTest {
         map.put("key 1", list);
         map.put("key 2", list2);
 
-//        List<BigDecimal> listRes = new ArrayList<BigDecimal>();
-//        BigDecimal v = new BigDecimal("6.0");
-//        listRes.add(v);
-//
-//        List<BigDecimal> listRes2 = new ArrayList<BigDecimal>();
-//        BigDecimal w = new BigDecimal("15.0");
-//        listRes2.add(w);
-
         Map<String, Double> mapResult = new HashMap<>();
         mapResult.put("key 1", 6.0);
         mapResult.put("key 2", 15.0);
