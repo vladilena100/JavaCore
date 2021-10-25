@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import support.ConnectionManager;
+import support.DBPoolConfig;
 
 import javax.sql.DataSource;
 
@@ -35,6 +36,7 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public class JdbcUserDaoTest extends DataSourceBasedDBTestCase {
 
+    public static final String JDBC_TEST_PROPERTIES = "jdbc-test.properties";
     private static JdbcUserDao jdbcUserDao;
     private static ConnectionManager connectionManager;
     private static DataSource dataSource;
@@ -46,8 +48,8 @@ public class JdbcUserDaoTest extends DataSourceBasedDBTestCase {
 
     @BeforeClass
     public static void init() {
-        connectionManager = ConnectionManager.getInstance("jdbc-test.properties");
-        dataSource = connectionManager.getDataSourse();
+        connectionManager = ConnectionManager.getInstance(new DBPoolConfig(JDBC_TEST_PROPERTIES));
+        dataSource = connectionManager.getDataSource();
         jdbcUserDao = new JdbcUserDao(connectionManager);
     }
 
@@ -64,7 +66,7 @@ public class JdbcUserDaoTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected DatabaseOperation getSetUpOperation() {
-        return DatabaseOperation.REFRESH;
+        return DatabaseOperation.CLEAN_INSERT;
     }
 
     @Override
@@ -84,11 +86,14 @@ public class JdbcUserDaoTest extends DataSourceBasedDBTestCase {
 
     @Test
     public void testFindById() throws Exception {
-        User byId = jdbcUserDao.findById(4L);
+        User byId = jdbcUserDao.findById(3L);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("user/user-by-id.xml")){
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("user");
             assertEquals(expectedTable.getValue(0, "id"), byId.getId().toString());
+            assertEquals(expectedTable.getValue(1, "id"), byId.getId().toString());
+            assertEquals(expectedTable.getValue(2, "id"), byId.getId().toString());
+            assertEquals(expectedTable.getValue(3, "id"), byId.getId().toString());
         }
     }
 

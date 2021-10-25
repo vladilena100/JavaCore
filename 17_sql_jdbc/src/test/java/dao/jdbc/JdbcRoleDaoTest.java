@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import support.ConnectionManager;
+import support.DBPoolConfig;
 
 import javax.sql.DataSource;
 
@@ -33,6 +34,7 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public class JdbcRoleDaoTest extends DataSourceBasedDBTestCase {
 
+    public static final String JDBC_TEST_PROPERTIES = "jdbc-test.properties";
     private static JdbcRoleDao jdbcRoleDao;
     private static ConnectionManager connectionManager;
     private static DataSource dataSource;
@@ -44,8 +46,8 @@ public class JdbcRoleDaoTest extends DataSourceBasedDBTestCase {
 
     @BeforeClass
     public static void init() {
-        connectionManager = ConnectionManager.getInstance("jdbc-test.properties");
-        dataSource = connectionManager.getDataSourse();
+        connectionManager = ConnectionManager.getInstance(new DBPoolConfig(JDBC_TEST_PROPERTIES));
+        dataSource = connectionManager.getDataSource();
         jdbcRoleDao = new JdbcRoleDao(connectionManager);
     }
 
@@ -62,7 +64,7 @@ public class JdbcRoleDaoTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected DatabaseOperation getSetUpOperation() {
-        return DatabaseOperation.REFRESH;
+        return DatabaseOperation.CLEAN_INSERT;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class JdbcRoleDaoTest extends DataSourceBasedDBTestCase {
 
     @Test
     public void testCreate() throws Exception {
-        jdbcRoleDao.create(new Role(3L, "SUPER_ADMIN"));
+        jdbcRoleDao.create(new Role("SUPER_ADMIN"));
         try (InputStream is = getClass().getResourceAsStream("/role/expected-role.xml")){
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("role");

@@ -1,21 +1,10 @@
 package support;
 
-import java.lang.reflect.InvocationTargetException;
+import dao.Dao;
 
-/**
- * DaoFactory
- *
- * @author Vladilena Vasilieva
- */
+public interface DAOFactory<E> {
 
-public class DAOFactory {
+    String JDBC_PROPERTIES = "jdbc.properties";
 
-    public <T>T getDao(Class<T> clazz, String properties) throws NoSuchMethodException,
-                                                                 IllegalAccessException,
-                                                                 InstantiationException,
-                                                                 InvocationTargetException {
-        return clazz.getConstructor(ConnectionManager.class)
-                .newInstance(ConnectionManager
-                        .getInstance(properties));
-    }
+    public Dao<E> getDao();
 }
