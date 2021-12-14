@@ -29,7 +29,7 @@ public class JdbcUserDaoImpl implements DaoUser {
 
     public static final Long DEFAULT_ROLE = 1L;
 
-    private ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
     public JdbcUserDaoImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;

@@ -2,6 +2,7 @@ package services;
 
 import dao.DaoUser;
 import dao.jdbc.JdbcUserDaoImpl;
+import model.Role;
 import model.User;
 import support.ConnectionManager;
 import support.DBPoolConfig;
@@ -15,7 +16,7 @@ public class UserService implements DaoUser {
 
     private static final Logger LOG = LogManager.getLogger(UserService.class);
 
-    private DaoUser daoUser;
+    private final DaoUser daoUser;
 
     public UserService(DaoUser daoUser) {
         this.daoUser = new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties")));
@@ -62,5 +63,42 @@ public class UserService implements DaoUser {
     @Override
     public User findByEmail(String email) {
         return daoUser.findByEmail(email);
+    }
+
+    public User getUserByLoginPassword(String login, String password) {
+
+        User byLogin = daoUser.findByLogin(login);
+
+        if (byLogin != null && password.equals(byLogin.getPassword())) {
+            return byLogin;
+        } else {
+            //TODO свой эксепшен в логе
+        }
+    }
+
+    public boolean userIsExist(String login, String password) {
+
+        boolean result = false;
+
+        for (User user : daoUser.findAll()) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public Role getRoleByLoginPassword(String login, String password) {
+        Role result = new Role();
+
+        for (User user : daoUser.findAll()) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                result = user.getRole();
+            }
+        }
+
+        return result;
     }
 }

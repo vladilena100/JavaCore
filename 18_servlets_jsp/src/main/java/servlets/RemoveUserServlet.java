@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.jdbc.JdbcUserDaoImpl;
+import model.User;
 import services.UserService;
 import support.ConnectionManager;
 import support.DBPoolConfig;
@@ -14,32 +15,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/users/add")
-public class AddUserServlet extends HttpServlet {
+@WebServlet("/users/delete")
+public class RemoveUserServlet extends HttpServlet {
 
     private final UserService userService;
 
-    public AddUserServlet() {
+    public RemoveUserServlet() {
         this.userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties"))));
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String requestURI = req.getRequestURI();
+        String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
+        Long id = Long.valueOf(userId);
+        User userById = userService.findById(id);
+        userService.remove(userById);
         req.setAttribute("users", userService.findAll());
-        req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);
+        req.getRequestDispatcher("/view/adminPage.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String loginError = "password mismatch";
-
-        if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
-            req.setAttribute("passwordError", loginError);
-        } else {
-            userService.create(ParamFromUsers.paramUser(req));
-            doGet(req, resp);
-        }
-
-    }
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
 }

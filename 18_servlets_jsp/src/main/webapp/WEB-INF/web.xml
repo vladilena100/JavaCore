@@ -4,25 +4,37 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <!--filter for encoding-->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>filters.EncodingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+
     <!--filter check exist session for sign in-->
     <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>filters.LoginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+    </filter-mapping>
+
+    <!--filter check role users-->
+    <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>servlets.AuthFilter</filter-class>
+        <filter-class>filters.AuthFilter</filter-class>
     </filter>
 
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/</url-pattern>
     </filter-mapping>
-
-    <!--Logout servlet-->
-    <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>servlets.LogoutServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
 </web-app>

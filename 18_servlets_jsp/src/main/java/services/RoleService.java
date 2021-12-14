@@ -51,4 +51,5 @@ public class RoleService implements DaoRole {
     public Role findByName(String name) {
         return roleDao.findByName(name);
     }
+
 }
