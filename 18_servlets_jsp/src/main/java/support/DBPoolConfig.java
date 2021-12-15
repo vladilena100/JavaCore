@@ -35,6 +35,7 @@ public class DBPoolConfig extends AbstractDBConfig {
             properties.load(inputStream);
             config = new HikariConfig();
             String property = properties.getProperty("database.jdbc-url");
+            config.setDriverClassName("org.postgresql.Driver");
             config.setJdbcUrl(property);
             config.setUsername(properties.getProperty("database.username"));
             config.setPassword(properties.getProperty("database.password"));

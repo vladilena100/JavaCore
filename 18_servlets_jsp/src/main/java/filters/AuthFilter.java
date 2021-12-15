@@ -23,15 +23,20 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        if (((HttpServletRequest) servletRequest).getSession() != null) {
+        if (((HttpServletRequest) servletRequest).getSession().getAttribute("login") != null) {
             if (((HttpServletRequest) servletRequest).getSession().getAttribute("roleName") == "ADMIN") {
                 servletRequest.setAttribute("users", userService.findAll());
                 servletRequest.getRequestDispatcher("/view/adminPage.jsp").forward(servletRequest, servletResponse);
+            } else if (((HttpServletRequest) servletRequest).getRequestURI().equals("/logout")){
+                filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                servletRequest.getRequestDispatcher("/view/userPage.jsp").forward(servletRequest, servletResponse);
+                servletRequest.getRequestDispatcher("/users").forward(servletRequest, servletResponse);
             }
+        } else if (((HttpServletRequest) servletRequest).getRequestURI().equals("/login") && ((HttpServletRequest) servletRequest).getMethod().equals("POST")) {
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
             servletRequest.getRequestDispatcher("/view/login.jsp").forward(servletRequest, servletResponse);
+
         }
     }
 }

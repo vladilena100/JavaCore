@@ -2,7 +2,10 @@ package filters;
 
 import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import services.UserService;
+import servlets.LoginServlet;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 
@@ -14,6 +17,8 @@ import java.io.IOException;
 
 @WebFilter("/login")
 public class LoginFilter implements Filter {
+
+    private static final Logger LOG = LogManager.getLogger(LoginFilter.class);
 
     private final UserService userService;
 
@@ -29,6 +34,7 @@ public class LoginFilter implements Filter {
         String login = servletRequest.getParameter("login");
         String password = servletRequest.getParameter("password");
         User user = userService.getUserByLoginPassword(login, password);
+        LOG.info("user from login filter {}", user);
         if (user != null) {
             setSessionAttributeRequest(servletRequest, user);
             filterChain.doFilter(servletRequest, servletResponse);
