@@ -11,7 +11,7 @@
 <div class="container col-xl-11">
     <div class="m-2">
         <div class="text-right">
-            ${sessionScope.firstName} ${sessionScope.lastName} (<a href="/logout">Logout</a>)
+            ${sessionScope.firstName} ${sessionScope.lastName} (<a href="${pageContext.request.contextPath}/logout">Logout</a>)
         </div>
         <div class="text-left">
             <h1 class="text-dark" id="${action}">${action} user</h1>
@@ -60,7 +60,7 @@
                 <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <input type="password" class="form-control" id="password" aria-describedby="pass"
-                           placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                           placeholder="4657512" min="5" maxlength="64" tabindex="2" required
                            name="password" data-invalid-message="Password length must be greater than 4"
                            data-valid-message="Password is correct" data-id="invalidPassword"
                            data-class="invalid-input">
@@ -73,10 +73,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="passwordRepeat" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
+                <label for="passwordAgain" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
                 <div class="col-8 col-xl-9 required-field-block">
-                    <input type="password" class="form-control" id="passwordRepeat" aria-describedby="passwordConfirm"
-                           placeholder="password" name="passwordRepeat" min="5" maxlength="64"
+                    <input type="password" class="form-control" id="passwordAgain" aria-describedby="passwordConfirm"
+                           placeholder="password" name="passwordAgain" min="5" maxlength="64" required
                            data-invalid-message="Password doesn't match"
                            data-valid-message="Passwords match" tabindex="3"
                            data-class="invalid-input" data-id="invalidRPassword">
@@ -127,7 +127,7 @@
                         <c:when test="${action == 'Edit'}">
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="FirstName"
-                                   name="firstname" data-invalid-message="First name is not correct"
+                                   name="firstname" required data-invalid-message="First name is not correct"
                                    data-valid-message="First name is correct" data-id="invalidFname"
                                    value="${user.firstName}" data-class="invalid-input">
                             <div class="required-icon mr-2">
@@ -138,7 +138,7 @@
                         <c:otherwise>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="FirstName" data-class="invalid-input"
-                                   name="firstName" data-invalid-message="First name is not correct"
+                                   name="firstName" required data-invalid-message="First name is not correct"
                                    data-valid-message="First name is correct" data-id="invalidFname">
                             <div class="required-icon mr-2">
                                 <div class="text">*</div>
@@ -154,7 +154,7 @@
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
                             <input type="text" class="form-control" id="lastName" placeholder="LastName" name="lastName"
-                                   value="${user.lastName}" min="2" maxlength="64" tabindex="6"
+                                   required value="${user.lastName}" min="2" maxlength="64" tabindex="6"
                                    data-invalid-message="Last name is not correct" data-class="invalid-input"
                                    data-valid-message="Last name is correct" data-id="invalidLname">
                             <div class="required-icon mr-2">
@@ -164,7 +164,7 @@
                         </c:when>
                         <c:otherwise>
                             <input type="text" class="form-control" id="lastName" placeholder="LastName"
-                                   name="lastName" min="2" maxlength="64" data-class="invalid-input"
+                                   name="lastName" required min="2" maxlength="64" data-class="invalid-input"
                                    data-invalid-message="Last name is not correct" tabindex="6"
                                    data-valid-message="Last name is correct" data-id="invalidLname">
                             <div class="required-icon mr-2">
@@ -181,7 +181,7 @@
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
-                                   name="birthday" data-class="invalid-input" tabindex="7"
+                                   name="birthday" required data-class="invalid-input" tabindex="7"
                                    min="1900-01-01" value="${user.birthday}"
                                    data-invalid-message="Date is not correct"
                                    data-valid-message="Date is correct" data-id="invalidDate">
@@ -192,7 +192,7 @@
                         </c:when>
                         <c:otherwise>
                             <input type="date" class="form-control" id="birthday"
-                                   name="birthday" data-class="invalid-input"
+                                   name="birthday" required data-class="invalid-input"
                                    min="1900-01-01" tabindex="7"
                                    data-invalid-message="Date is not correct"
                                    data-valid-message="Date is correct" data-id="invalidDate">
@@ -207,7 +207,7 @@
             <div class="form-group row">
                 <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
                 <div class="col-sm-7 px-3 col-8 col-xl-9 required-field-block">
-                    <select id="select" class="form-control" name="role">
+                    <select id="select" class="form-control" name="role" required>
                         <option selected value="USER">User</option>
                         <option value="ADMIN">Admin</option>
                     </select>

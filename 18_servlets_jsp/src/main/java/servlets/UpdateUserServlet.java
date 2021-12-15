@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/users/edit")
+@WebServlet("/edit")
 public class UpdateUserServlet extends HttpServlet {
 
     private final UserService userService;
@@ -31,6 +31,8 @@ public class UpdateUserServlet extends HttpServlet {
         String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
         Long id = Long.valueOf(userId);
 
+        req.setAttribute("action", "Edit");
+        req.setAttribute("request", req.getRequestURI());
         req.setAttribute("user", userService.findById(id));
         req.getRequestDispatcher("addUpdateUser.jsp").forward(req, resp);
     }
@@ -40,16 +42,19 @@ public class UpdateUserServlet extends HttpServlet {
 
         User userForUpdate = ParamFromUsers.paramUser(req);
         String password = req.getParameter("password");
+        String passwordAgain = req.getParameter("passwordAgain");
 
         String requestURI = req.getRequestURI();
         String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
         Long id = Long.valueOf(userId);
         User userById = userService.findById(id);
 
-        //TODO проверить пароль на  соответствие пароль и пароль снова
-
-        if (password == null || password.isEmpty()) {
+        if (userForUpdate.getPassword() == null || userForUpdate.getPassword().isEmpty()) {
             userForUpdate.setPassword(userById.getPassword());
+        }
+
+        if (password.equals(passwordAgain)) {
+            userForUpdate.setPassword(password);
         }
 
         userService.update(userForUpdate);

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/users/add")
+@WebServlet("/add")
 public class AddUserServlet extends HttpServlet {
 
     private final UserService userService;
@@ -25,7 +25,10 @@ public class AddUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", userService.findAll());
+
+        req.setAttribute("action", "Add");
+        req.setAttribute("request", req.getRequestURI());
+        req.setAttribute("user", userService.findAll());
         req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);
     }
 

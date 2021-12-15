@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/users/delete")
+@WebServlet("/delete")
 public class RemoveUserServlet extends HttpServlet {
 
     private final UserService userService;

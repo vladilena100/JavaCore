@@ -1,11 +1,9 @@
 package util;
 
 import dao.jdbc.JdbcRoleDaoImpl;
-import dao.jdbc.JdbcUserDaoImpl;
 import model.Role;
 import model.User;
 import services.RoleService;
-import services.UserService;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 
@@ -14,7 +12,8 @@ import java.sql.Date;
 
 public class ParamFromUsers {
 
-    private static RoleService roleService = new RoleService(new JdbcRoleDaoImpl((ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties")))));
+    private static final RoleService roleService = new RoleService(new JdbcRoleDaoImpl((ConnectionManager
+            .getInstance(new DBPoolConfig("jdbc.properties")))));
 
 
     private ParamFromUsers() {

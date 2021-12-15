@@ -23,12 +23,15 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        //TODO проверку сессии на нал
-        if (((HttpServletRequest) servletRequest).getSession().getAttribute("roleName") == "ADMIN") {
-            servletRequest.setAttribute("users", userService.findAll());
-            servletRequest.getRequestDispatcher("/view/adminPage.jsp").forward(servletRequest, servletResponse);
+        if (((HttpServletRequest) servletRequest).getSession() != null) {
+            if (((HttpServletRequest) servletRequest).getSession().getAttribute("roleName") == "ADMIN") {
+                servletRequest.setAttribute("users", userService.findAll());
+                servletRequest.getRequestDispatcher("/view/adminPage.jsp").forward(servletRequest, servletResponse);
+            } else {
+                servletRequest.getRequestDispatcher("/view/userPage.jsp").forward(servletRequest, servletResponse);
+            }
         } else {
-            servletRequest.getRequestDispatcher("/view/userPage.jsp").forward(servletRequest, servletResponse);
+            servletRequest.getRequestDispatcher("/view/login.jsp").forward(servletRequest, servletResponse);
         }
     }
 }

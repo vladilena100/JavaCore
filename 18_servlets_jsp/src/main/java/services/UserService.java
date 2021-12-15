@@ -2,6 +2,7 @@ package services;
 
 import dao.DaoUser;
 import dao.jdbc.JdbcUserDaoImpl;
+import exception.FoundUserException;
 import model.Role;
 import model.User;
 import support.ConnectionManager;
@@ -72,7 +73,8 @@ public class UserService implements DaoUser {
         if (byLogin != null && password.equals(byLogin.getPassword())) {
             return byLogin;
         } else {
-            //TODO свой эксепшен в логе
+            LOG.error("such user does not exist");
+            throw new FoundUserException("login or password is not correct");
         }
     }
 
