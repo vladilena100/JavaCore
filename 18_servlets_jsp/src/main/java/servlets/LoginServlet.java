@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 
         User user = userService.getUserByLoginPassword(login, password);
         LOG.info("user from db {}", user);
-        req.setAttribute("user", user);
+        req.getSession().setAttribute("user", user);
         resp.sendRedirect("/users");
     }
 }

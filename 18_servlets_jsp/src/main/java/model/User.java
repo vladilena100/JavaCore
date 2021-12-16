@@ -3,6 +3,7 @@ package model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -15,6 +16,7 @@ import java.sql.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class User implements Serializable {
 
     private Long id;
@@ -30,6 +32,8 @@ public class User implements Serializable {
     private String lastName;
 
     private Date birthday;
+
+    private Integer age;
 
     private Role role;
 
@@ -107,5 +111,9 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getAge() {
+        return age;
     }
 }

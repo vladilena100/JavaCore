@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.jdbc.JdbcUserDaoImpl;
+import model.User;
 import services.UserService;
 import support.ConnectionManager;
 import support.DBPoolConfig;
@@ -28,7 +29,9 @@ public class UsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-        if (req.getSession().getAttribute("roleName") == "ADMIN") {
+        User user = (User) req.getSession().getAttribute("user");
+        String role = user.getRole().getName();
+        if (role.equals("ADMIN")) {
             req.setAttribute("users", userService.findAll());
             req.getRequestDispatcher("/view/adminPage.jsp").forward(req, resp);
         } else {

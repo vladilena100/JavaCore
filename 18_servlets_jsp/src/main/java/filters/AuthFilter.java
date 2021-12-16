@@ -71,14 +71,14 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         String url = req.getContextPath() + "/login";
 
-        boolean loggedIn = session != null && session.getAttribute("user") != null;
+        boolean loggedIn = session != null && req.getSession().getAttribute("user") != null;
         boolean loginRequest = req.getRequestURI().equals(url);
 
 
         if (loggedIn || loginRequest) {
             filterChain.doFilter(req, resp);
         } else {
-            resp.sendRedirect(url);
+            req.getRequestDispatcher("/login").forward(req, resp);
         }
     }
 
