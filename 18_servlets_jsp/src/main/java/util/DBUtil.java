@@ -30,7 +30,8 @@ public class DBUtil {
             "    first_name VARCHAR(64) NOT NULL," +
             "    last_name VARCHAR(64) NOT NULL," +
             "    birthday TIMESTAMP NOT NULL," +
-            "    role_id BIGINT NOT NULL," +
+            "    age BIGINT NOT NULL," +
+            "    role_id BIGINT," +
             "    FOREIGN KEY (role_id) REFERENCES role(role_id)" +
             ");";
 

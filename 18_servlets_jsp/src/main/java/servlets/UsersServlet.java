@@ -5,6 +5,7 @@ import model.User;
 import services.UserService;
 import support.ConnectionManager;
 import support.DBPoolConfig;
+import util.ParamFromUsers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebFilter;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebServlet("/users")
@@ -31,8 +34,13 @@ public class UsersServlet extends HttpServlet {
 
         User user = (User) req.getSession().getAttribute("user");
         String role = user.getRole().getName();
+        List<Integer> age = new ArrayList();
         if (role.equals("ADMIN")) {
             req.setAttribute("users", userService.findAll());
+            for (User userBirthday : userService.findAll()) {
+                age.add(ParamFromUsers.getAgeFromDateOfBirthday(userBirthday.getBirthday()));
+            }
+            req.setAttribute("age", age);
             req.getRequestDispatcher("/view/adminPage.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("/view/userPage.jsp").forward(req, resp);

@@ -32,7 +32,7 @@ public class RemoveUserServlet extends HttpServlet {
         Long id = Long.valueOf(userId);
         User userById = userService.findById(id);
         userService.remove(userById);
-        req.setAttribute("users", userService.findAll());
+        req.getSession().setAttribute("users", userService.findAll());
         req.getRequestDispatcher("/view/adminPage.jsp").forward(req, resp);
     }
 

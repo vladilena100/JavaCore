@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Модель пользователя с характерными полями
@@ -32,8 +33,6 @@ public class User implements Serializable {
     private String lastName;
 
     private Date birthday;
-
-    private Integer age;
 
     private Role role;
 
@@ -113,7 +112,4 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public int getAge() {
-        return age;
-    }
 }

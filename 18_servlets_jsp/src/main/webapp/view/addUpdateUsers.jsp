@@ -11,7 +11,7 @@
 <div class="container col-xl-11">
     <div class="m-2">
         <div class="text-right">
-            ${sessionScope.firstName} ${sessionScope.lastName} (<a href="${pageContext.request.contextPath}/logout">Logout</a>)
+            ${sessionScope.user.firstName} ${sessionScope.user.lastName} (<a href="${pageContext.request.contextPath}/logout">Logout</a>)
         </div>
         <div class="text-left">
             <h1 class="text-dark" id="${action}">${action} user</h1>
@@ -182,7 +182,7 @@
                         <c:when test="${action == 'Edit'}">
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
                                    name="birthday" required data-class="invalid-input" tabindex="7"
-                                   min="1900-01-01" value="${user.birthday}"
+                                   min="1900-01-01" max="2021-12-12" value="${user.birthday}"
                                    data-invalid-message="Date is not correct"
                                    data-valid-message="Date is correct" data-id="invalidDate">
                             <div class="required-icon mr-2">

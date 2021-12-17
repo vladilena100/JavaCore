@@ -122,11 +122,11 @@ public class JdbcRoleDaoImpl implements DaoRole {
              PreparedStatement statement = connection.prepareStatement(
                      "UPDATE role SET role_name = ? WHERE role_id = ?;"
              )) {
-                statement.setString(1, role.getName());
-                statement.setLong(2, role.getId());
-                statement.executeUpdate();
-                connection.commit();
-                LOG.info("Role {} successfully updated ", role);
+            statement.setString(1, role.getName());
+            statement.setLong(2, role.getId());
+            statement.executeUpdate();
+            connection.commit();
+            LOG.info("Role {} successfully updated ", role);
         } catch (SQLException e) {
             LOG.error("Can`t get connection to DB", e);
             throw new DataDaoException("Error created connection");
@@ -147,16 +147,16 @@ public class JdbcRoleDaoImpl implements DaoRole {
                      "DELETE FROM role WHERE role_id = ?;");
              PreparedStatement statementUser = connection.prepareStatement("SELECT * FROM \"user\" WHERE role_id = ?")) {
 
-                statementRole.setLong(1, role.getId());
-                statementUser.setLong(1, role.getId());
-                ResultSet resultSet = statementUser.executeQuery();
-                if (resultSet.next()) {
-                    LOG.error("Can`t delete role.");
-                    throw new DataDaoException("Error remove role, user exist this role");
-                }
-                statementRole.executeUpdate();
-                connection.commit();
-                LOG.info("Role {} removed successfully ", role);
+            statementRole.setLong(1, role.getId());
+            statementUser.setLong(1, role.getId());
+            ResultSet resultSet = statementUser.executeQuery();
+            if (resultSet.next()) {
+                LOG.error("Can`t delete role.");
+                throw new DataDaoException("Error remove role, user exist this role");
+            }
+            statementRole.executeUpdate();
+            connection.commit();
+            LOG.info("Role {} removed successfully ", role);
         } catch (SQLException e) {
             LOG.error("Can`t get connection to DB", e);
             throw new DataDaoException("Error created connection");
@@ -175,12 +175,12 @@ public class JdbcRoleDaoImpl implements DaoRole {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "SELECT * FROM role WHERE role_name = ?;");
-             ResultSet resultSet = statement.executeQuery()) {
+        ) {
             statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                connection.commit();
                 Role role = new Role(roleId, roleName);
                 LOG.info("Find role: {} by name {} ", role, name);
                 return role;

@@ -47,7 +47,7 @@ public class JdbcUserDaoImpl implements DaoUser {
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, u.age, r.role_id, r.role_name " +
+                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u INNER JOIN role AS r ON r.role_id = u.role_id WHERE u.id = ?")
              ) {
             statement.setLong(1, id);
@@ -62,9 +62,8 @@ public class JdbcUserDaoImpl implements DaoUser {
                 Date birthday = resultSet.getDate("birthday");
                 Long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                Integer age = resultSet.getInt("age");  //TODO it`s ok?
                 return new User(userId, login, password, email,
-                        firstName, lastName, birthday, age,
+                        firstName, lastName, birthday,
                         new Role(roleId, roleName));
             }
             return null;
@@ -85,7 +84,7 @@ public class JdbcUserDaoImpl implements DaoUser {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO \"user\"" +
-                             "(login, password, email, first_name, last_name, birthday, age, role_id) " +
+                             "(login, password, email, first_name, last_name, birthday, role_id) " +
                              "VALUES (?, ?, ?, ?, ?, ?, ?)"
              )) {
             statement.setString(1, user.getLogin());
@@ -94,7 +93,6 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
             statement.setDate(6, user.getBirthday());
-            statement.setInt(7, user.getAge()); //TODO добавить age
             statement.setLong(8, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
@@ -115,7 +113,7 @@ public class JdbcUserDaoImpl implements DaoUser {
     public void update(User user) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "UPDATE \"user\" SET login = ?, password = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, age = ?, role_id = ? WHERE id = ?;"
+                     "UPDATE \"user\" SET login = ?, password = ?, email = ?, first_name = ?, last_name = ?, birthday = ?, role_id = ? WHERE id = ?;"
              )) {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -123,7 +121,6 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
             statement.setDate(6, user.getBirthday());
-            statement.setInt(7, user.getAge()); //TODO
             statement.setLong(8, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
@@ -168,7 +165,7 @@ public class JdbcUserDaoImpl implements DaoUser {
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, u.age, r.role_id, r.role_name " +
+                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u INNER JOIN role AS r ON u.role_id = r.role_id ");
              ResultSet resultSet = statement.executeQuery()
         ) {
@@ -183,9 +180,8 @@ public class JdbcUserDaoImpl implements DaoUser {
                 Date birthday = resultSet.getDate("birthday");
                 Long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                Integer age = resultSet.getInt("age");
                 users.add(new User(userId, login, password, email,
-                        firstName, lastName, birthday, age,  //TODO
+                        firstName, lastName, birthday,
                         new Role(roleId, roleName)));
             }
             return users;
@@ -206,7 +202,7 @@ public class JdbcUserDaoImpl implements DaoUser {
     public User findByLogin(String login) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, u.age, r.role_id, r.role_name " +
+                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u " +
                              "INNER JOIN role AS r ON r.role_id = u.role_id " +
                              "WHERE u.login = ? ")
@@ -223,9 +219,8 @@ public class JdbcUserDaoImpl implements DaoUser {
                 Date birthday = resultSet.getDate("birthday");
                 Long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                Integer age = resultSet.getInt("age");  //TODO
                 return new User(userId, userLogin, password, email, firstName, lastName,
-                        birthday, age, new Role(roleId, roleName));
+                        birthday, new Role(roleId, roleName));
             }
         } catch (SQLException e) {
             LOG.error("Can`t find users by login", e);
@@ -245,7 +240,7 @@ public class JdbcUserDaoImpl implements DaoUser {
     public User findByEmail(String email) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, u.age, r.role_id, r.role_name " +
+                     "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u INNER JOIN role AS r ON r.role_id = u.role_id WHERE u.email = ? ")
              ) {
             statement.setString(1, email);
@@ -262,7 +257,7 @@ public class JdbcUserDaoImpl implements DaoUser {
                 String roleName = resultSet.getString("role_name");
                 Integer age = resultSet.getInt("age");
                 return new User(userId, userLogin, password, userEmail,
-                        firstName, lastName, birthday, age,  //TODO
+                        firstName, lastName, birthday,
                         new Role(roleId, roleName));
             }
         } catch (SQLException e) {

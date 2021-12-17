@@ -10,6 +10,7 @@ import support.DBPoolConfig;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
+
 public class ParamFromUsers {
 
     private static final RoleService roleService = new RoleService(new JdbcRoleDaoImpl((ConnectionManager
@@ -32,5 +33,12 @@ public class ParamFromUsers {
         Role roleId = roleService.findByName(role);
 
         return new User(login, password, email, firstName, lastName, birthday, new Role(roleId.getId(), roleId.getName()));
+    }
+
+    public static int getAgeFromDateOfBirthday(Date birthday) {
+
+        java.sql.Date myDate = new java.sql.Date( (new java.util.Date()).getTime());
+
+        return (myDate.getYear()) - birthday.getYear();
     }
 }
