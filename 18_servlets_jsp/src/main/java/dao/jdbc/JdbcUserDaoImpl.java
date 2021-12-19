@@ -93,7 +93,7 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
             statement.setDate(6, user.getBirthday());
-            statement.setLong(8, Optional.ofNullable(user.getRole())
+            statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
             statement.execute();
@@ -121,10 +121,10 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
             statement.setDate(6, user.getBirthday());
-            statement.setLong(8, Optional.ofNullable(user.getRole())
+            statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
-            statement.setLong(9, user.getId());
+            statement.setLong(8, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("Can`t update user", e);
@@ -180,9 +180,11 @@ public class JdbcUserDaoImpl implements DaoUser {
                 Date birthday = resultSet.getDate("birthday");
                 Long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                users.add(new User(userId, login, password, email,
+                User user = new User(userId, login, password, email,
                         firstName, lastName, birthday,
-                        new Role(roleId, roleName)));
+                        new Role(roleId, roleName));
+                user.setAge(birthday);
+                users.add(user);
             }
             return users;
         } catch (SQLException e) {
@@ -255,7 +257,6 @@ public class JdbcUserDaoImpl implements DaoUser {
                 Date birthday = resultSet.getDate("birthday");
                 Long roleId = resultSet.getLong("role_id");
                 String roleName = resultSet.getString("role_name");
-                Integer age = resultSet.getInt("age");
                 return new User(userId, userLogin, password, userEmail,
                         firstName, lastName, birthday,
                         new Role(roleId, roleName));

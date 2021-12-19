@@ -20,7 +20,7 @@ public class UserService implements DaoUser {
     private final DaoUser daoUser;
 
     public UserService(DaoUser daoUser) {
-        this.daoUser = new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties")));
+        this.daoUser = daoUser;
     }
 
     @Override
@@ -36,14 +36,13 @@ public class UserService implements DaoUser {
             daoUser.create(user);
         } else {
             LOG.info("user with this login or email already exists ");
+            throw new FoundUserException("user already exist");
         }
     }
 
     @Override
     public void update(User user) {
-        if (daoUser.findByEmail(user.getEmail()) == null) {
-            daoUser.update(user);
-        }
+        daoUser.update(user);
     }
 
     @Override

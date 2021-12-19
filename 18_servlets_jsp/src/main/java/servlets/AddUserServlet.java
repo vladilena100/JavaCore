@@ -1,10 +1,14 @@
 package servlets;
 
+import dao.jdbc.JdbcRoleDaoImpl;
 import dao.jdbc.JdbcUserDaoImpl;
+import model.User;
+import services.RoleService;
 import services.UserService;
+import support.ApplicationContext;
 import support.ConnectionManager;
 import support.DBPoolConfig;
-import util.ParamFromUsers;
+import util.ParamFromUsersUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/add")
+@WebServlet("/users/add")
 public class AddUserServlet extends HttpServlet {
 
-    private final UserService userService;
+    private final RoleService roleService = (RoleService) ApplicationContext.getInstance().getService("userService");
 
-    public AddUserServlet() {
-        this.userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties"))));
-    }
+    private final UserService userService = (UserService) ApplicationContext.getInstance().getService("userService");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,6 +31,7 @@ public class AddUserServlet extends HttpServlet {
         req.setAttribute("action", "Add");
         req.setAttribute("request", req.getRequestURI());
         req.setAttribute("user", userService.findAll());
+        req.setAttribute("roles", roleService.findAll());
         req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);
     }
 
@@ -40,8 +43,9 @@ public class AddUserServlet extends HttpServlet {
         if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
             req.setAttribute("passwordError", loginError);
         } else {
-            userService.create(ParamFromUsers.paramUser(req));
-            doGet(req, resp);
+            User user = ParamFromUsersUtil.paramUser(req);
+            userService.create(user);
+            resp.sendRedirect("/users");
         }
 
     }

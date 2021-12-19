@@ -4,14 +4,17 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <title>Users</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/required.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
 </head>
 <body style="min-width: 100px">
 <div class="container col-xl-11">
-    <div class="m-2">
+    <div class="m-2 flex-content">
         <div class="text-right">
-            ${sessionScope.user.firstName} ${sessionScope.user.lastName} (<a href="${pageContext.request.contextPath}/logout">Logout</a>)
+            ${sessionScope.user.firstName} ${sessionScope.user.lastName} (<a
+                href="${pageContext.request.contextPath}/logout">Logout</a>)
         </div>
         <div class="text-left">
             <h1 class="text-dark" id="${action}">${action} user</h1>
@@ -60,10 +63,8 @@
                 <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <input type="password" class="form-control" id="password" aria-describedby="pass"
-                           placeholder="4657512" min="5" maxlength="64" tabindex="2" required
-                           name="password" data-invalid-message="Password length must be greater than 4"
-                           data-valid-message="Password is correct" data-id="invalidPassword"
-                           data-class="invalid-input">
+                           placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                           name="password">
                     <c:if test="${action == 'Add'}">
                         <div class="required-icon mr-2">
                             <div class="text">*</div>
@@ -76,7 +77,7 @@
                 <label for="passwordAgain" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <input type="password" class="form-control" id="passwordAgain" aria-describedby="passwordConfirm"
-                           placeholder="password" name="passwordAgain" min="5" maxlength="64" required
+                           placeholder="password" name="passwordAgain" min="5" maxlength="64"
                            data-invalid-message="Password doesn't match"
                            data-valid-message="Passwords match" tabindex="3"
                            data-class="invalid-input" data-id="invalidRPassword">
@@ -126,8 +127,8 @@
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
-                                   placeholder="FirstName"
-                                   name="firstname" required data-invalid-message="First name is not correct"
+                                   placeholder="firstName"
+                                   name="firstName" required data-invalid-message="First name is not correct"
                                    data-valid-message="First name is correct" data-id="invalidFname"
                                    value="${user.firstName}" data-class="invalid-input">
                             <div class="required-icon mr-2">
@@ -208,13 +209,15 @@
                 <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
                 <div class="col-sm-7 px-3 col-8 col-xl-9 required-field-block">
                     <select id="select" class="form-control" name="role" required>
-                        <option selected value="USER">User</option>
-                        <option value="ADMIN">Admin</option>
+                        <c:forEach var="role" items="${roles}">
+                            <option value="${role.name}">${role.name}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
             <div>
-                <a class="btn btn-danger float-right text-center" href="${pageContext.request.contextPath}/users">Cancel</a>
+                <a class="btn btn-danger float-right text-center"
+                   href="${pageContext.request.contextPath}/users">Cancel</a>
                 <input type="submit" class="btn btn-primary float-right mr-1 text-center" value="Ok">
             </div>
         </form>

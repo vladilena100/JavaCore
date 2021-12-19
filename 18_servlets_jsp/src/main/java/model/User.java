@@ -8,6 +8,7 @@ import lombok.ToString;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Модель пользователя с характерными полями
@@ -15,7 +16,6 @@ import java.time.LocalDate;
  * @author Vladilena Vasilieva
  */
 
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class User implements Serializable {
@@ -34,10 +34,12 @@ public class User implements Serializable {
 
     private Date birthday;
 
+    private Integer age;
+
     private Role role;
 
-    public User(String login, String password, String email, String firstName, String lastName, Date birthday, Role role) {
-
+    public User(Long id, String login, String password, String email, String firstName, String lastName, Date birthday, Role role) {
+        this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -45,8 +47,9 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.birthday = birthday;
         this.role = role;
-
     }
+
+
 
     public Long getId() {
         return id;
@@ -102,6 +105,14 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Date birthday) {
+        this.age = (int) ChronoUnit.YEARS.between(birthday.toLocalDate(), LocalDate.now());
     }
 
     public Role getRole() {

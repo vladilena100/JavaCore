@@ -17,7 +17,7 @@
             href="${pageContext.request.contextPath}/logout">Logout</a>)
     </div>
     <div class="mt-5 text-left ml-2">
-        <a href="${pageContext.request.contextPath}/add">Add new user</a>
+        <a href="${pageContext.request.contextPath}/users/add">Add new user</a>
     </div>
     <table class="table table-striped mt-3 border border-dark">
         <thead class="thead-dark text-left">
@@ -31,32 +31,30 @@
         </tr>
         </thead>
         <tbody class="border border-dark">
-        <c:forEach var="age" items="${age}">
-            <c:forEach var="user" items="${users}">
-                <tr>
-                    <td>${user.login}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td>${age}</td>
-                    <td>${user.role.name}</td>
-                    <td style="max-width: 100px">
-                        <div class="row justify-content-center">
-                            <div class="mr-3">
-                                <a href="users/edit/${user.id}">Edit</a>
-                            </div>
-                            <c:choose>
-                                <c:when test="${sessionScope.id != user.id}">
-                                    <div class="ml-3">
-                                        <a href="users/delete/${user.id}"
-                                           onclick="return confirm('Are you sure?')">Delete</a>
-                                    </div>
-                                </c:when>
-                            </c:choose>
+        <c:forEach var="user" items="${users}">
+            <tr>
+                <td>${user.login}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.age}</td>
+                <td>${user.role.name}</td>
+                <td style="max-width: 100px">
+                    <div class="row justify-content-center">
+                        <div class="mr-3">
+                            <a href="users/edit/${user.id}">Edit</a>
                         </div>
-                    </td>
-                </tr>
-                </c:forEach>
-            </c:forEach>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.id != user.id}">
+                                <div class="ml-3">
+                                    <a href="users/delete/${user.id}"
+                                       onclick="return confirm('Are you sure?')">Delete</a>
+                                </div>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>

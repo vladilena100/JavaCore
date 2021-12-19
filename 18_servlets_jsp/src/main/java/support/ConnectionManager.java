@@ -12,16 +12,21 @@ import java.sql.SQLException;
 
 public final class ConnectionManager {
 
-    private static ConnectionManager connectionManager;
-    private AbstractDBConfig dbConfig;
+    private static volatile ConnectionManager connectionManager;
+    private final AbstractDBConfig dbConfig;
 
     private ConnectionManager(AbstractDBConfig dbConfig) {
         this.dbConfig = dbConfig;
     }
 
     public static ConnectionManager getInstance(AbstractDBConfig dbConfig) {
+
         if (connectionManager == null) {
-            connectionManager = new ConnectionManager(dbConfig);
+            synchronized (ConnectionManager.class) {
+                if (connectionManager == null) {
+                    connectionManager = new ConnectionManager(dbConfig);
+                }
+            }
         }
         return connectionManager;
     }

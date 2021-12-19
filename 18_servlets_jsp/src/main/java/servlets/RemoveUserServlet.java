@@ -3,9 +3,9 @@ package servlets;
 import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
 import services.UserService;
+import support.ApplicationContext;
 import support.ConnectionManager;
 import support.DBPoolConfig;
-import util.ParamFromUsers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,25 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/delete")
+@WebServlet("/users/delete")
 public class RemoveUserServlet extends HttpServlet {
 
-    private final UserService userService;
-
-    public RemoveUserServlet() {
-        this.userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties"))));
-    }
+    private final UserService userService = (UserService) ApplicationContext.getInstance().getService("userService");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String requestURI = req.getRequestURI();
-        String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-        Long id = Long.valueOf(userId);
-        User userById = userService.findById(id);
+        String id = (String) req.getAttribute("id");
+        long userId = Long.parseLong(id);
+        User userById = userService.findById(userId);
         userService.remove(userById);
-        req.getSession().setAttribute("users", userService.findAll());
-        req.getRequestDispatcher("/view/adminPage.jsp").forward(req, resp);
+        resp.sendRedirect("/users");
     }
 
     @Override
