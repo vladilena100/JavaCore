@@ -114,16 +114,16 @@
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
-                            <label for="firstname" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
+                            <label for="firstName" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="firstName"
-                                   name="firstName" required value="${user.firstName}" required>
+                                   name="firstName" required value="${user.firstName}">
                             <small id="invalidFname" class="output"></small>
                         </c:when>
                         <c:otherwise>
-                            <label for="firstname" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
+                            <label for="firstName" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
-                                   placeholder="FirstName" required>
+                                   placeholder="FirstName" name="firstName" required>
                             <small id="invalidFname" class="output"></small>
                         </c:otherwise>
                     </c:choose>
