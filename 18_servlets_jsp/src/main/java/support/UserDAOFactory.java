@@ -14,6 +14,6 @@ import model.User;
 public class UserDAOFactory implements DAOFactory<User> {
 
     public DaoUser getDao() {
-        return new JdbcUserDaoImpl(ConnectionManager.getInstance(new DBPoolConfig(JDBC_PROPERTIES)));
+        return new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance(JDBC_PROPERTIES)));
     }
 }

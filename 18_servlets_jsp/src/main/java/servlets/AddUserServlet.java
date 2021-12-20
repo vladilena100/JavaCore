@@ -5,7 +5,6 @@ import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
 import services.RoleService;
 import services.UserService;
-import support.ApplicationContext;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 import util.ParamFromUsersUtil;
@@ -21,9 +20,9 @@ import java.io.IOException;
 @WebServlet("/users/add")
 public class AddUserServlet extends HttpServlet {
 
-    private final RoleService roleService = (RoleService) ApplicationContext.getInstance().getService("userService");
+    private final RoleService roleService = new RoleService(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
-    private final UserService userService = (UserService) ApplicationContext.getInstance().getService("userService");
+    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

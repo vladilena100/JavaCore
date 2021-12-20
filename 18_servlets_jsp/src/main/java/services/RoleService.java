@@ -2,11 +2,7 @@ package services;
 
 import dao.DaoRole;
 import dao.jdbc.JdbcRoleDaoImpl;
-import dao.jdbc.JdbcUserDaoImpl;
 import model.Role;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 
@@ -14,12 +10,10 @@ import java.util.List;
 
 public class RoleService implements DaoRole {
 
-    private static final Logger LOG = LogManager.getLogger(RoleService.class);
-
-    private DaoRole roleDao;
+    private final DaoRole roleDao;
 
     public RoleService(DaoRole roleDao) {
-        this.roleDao = new JdbcRoleDaoImpl(ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties")));
+        this.roleDao = new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties")));
     }
 
     @Override

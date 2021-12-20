@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import services.RoleService;
 import services.UserService;
-import support.ApplicationContext;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 import util.ParamFromUsersUtil;
@@ -24,9 +23,9 @@ import java.io.IOException;
 @WebServlet("/users/edit")
 public class UpdateUserServlet extends HttpServlet {
 
-    private final UserService userService = (UserService) ApplicationContext.getInstance().getService("userService");
+    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
-    private final RoleService roleService = (RoleService) ApplicationContext.getInstance().getService("userService");
+    private final RoleService roleService = new RoleService(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
     private static final Logger LOG = LogManager.getLogger(UpdateUserServlet.class);
 

@@ -5,11 +5,10 @@ import dao.jdbc.JdbcUserDaoImpl;
 import exception.FoundUserException;
 import model.Role;
 import model.User;
-import support.ConnectionManager;
-import support.DBPoolConfig;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import support.ConnectionManager;
+import support.DBPoolConfig;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class UserService implements DaoUser {
     private final DaoUser daoUser;
 
     public UserService(DaoUser daoUser) {
-        this.daoUser = daoUser;
+        this.daoUser = new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties")));
     }
 
     @Override

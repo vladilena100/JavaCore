@@ -3,7 +3,6 @@ package servlets;
 import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
 import services.UserService;
-import support.ApplicationContext;
 import support.ConnectionManager;
 import support.DBPoolConfig;
 
@@ -18,7 +17,7 @@ import java.io.IOException;
 @WebServlet("/users/delete")
 public class RemoveUserServlet extends HttpServlet {
 
-    private final UserService userService = (UserService) ApplicationContext.getInstance().getService("userService");
+    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

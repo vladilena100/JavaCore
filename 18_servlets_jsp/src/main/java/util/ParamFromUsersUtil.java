@@ -13,8 +13,7 @@ import java.sql.Date;
 
 public class ParamFromUsersUtil {
 
-    private static final RoleService roleService = new RoleService(new JdbcRoleDaoImpl((ConnectionManager
-            .getInstance(new DBPoolConfig("jdbc.properties")))));
+    private static final RoleService roleService = new RoleService(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
 
     private ParamFromUsersUtil() {

@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 public abstract class AbstractDBConfig {
 
-    private String propertyFileName;
+    private final String propertyFileName;
 
     public AbstractDBConfig(String propertyFileName) {
         this.propertyFileName = propertyFileName;

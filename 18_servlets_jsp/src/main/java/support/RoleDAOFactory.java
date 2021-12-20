@@ -7,6 +7,6 @@ import model.Role;
 public class RoleDAOFactory implements DAOFactory<Role> {
     @Override
     public Dao<Role> getDao() {
-        return new JdbcRoleDaoImpl(ConnectionManager.getInstance(new DBPoolConfig(JDBC_PROPERTIES)));
+        return new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance(JDBC_PROPERTIES)));
     }
 }

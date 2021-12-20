@@ -15,8 +15,9 @@ public class DBPoolConfig extends AbstractDBConfig {
 
     private HikariDataSource dataSource;
     private HikariConfig config;
+    private static volatile DBPoolConfig dbPoolConfig;
 
-    public DBPoolConfig(String propertyFileName) {
+    private DBPoolConfig(String propertyFileName) {
         super(propertyFileName);
     }
 
@@ -49,5 +50,17 @@ public class DBPoolConfig extends AbstractDBConfig {
             LOG.error("Wrong database configuration ", e);
             throw new RuntimeException("Error set database configuration");
         }
+    }
+
+    public static DBPoolConfig getInstance(String propertyFileName) {
+
+        if (dbPoolConfig == null) {
+            synchronized (DBPoolConfig.class) {
+                if (dbPoolConfig == null) {
+                    dbPoolConfig = new DBPoolConfig(propertyFileName);
+                }
+            }
+        }
+        return dbPoolConfig;
     }
 }

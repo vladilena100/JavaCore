@@ -11,7 +11,7 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div class="container m-2 justify-content-center m-lg-2 m-md-2  col-xl-11">
+<div class="container">
     <div class="justify-content-center">
         <div class="mt-5 font-weight-bold">
             <h1 class="text-center">Hello, ${sessionScope.user.firstName}!</h1>

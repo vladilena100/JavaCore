@@ -12,7 +12,7 @@
 <body style="min-width: 100px">
 <div class="container col-xl-11">
     <div class="m-2 flex-content">
-        <div class="text-right">
+        <div style="text-align: right">
             ${sessionScope.user.firstName} ${sessionScope.user.lastName} (<a
                 href="${pageContext.request.contextPath}/logout">Logout</a>)
         </div>
@@ -36,178 +36,140 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="login" class="col-xl-3 col-4 col-form-label-sm">Login</label>
+
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
+                            <label for="login" class="col-xl-3 col-4 col-form-label-sm">Login</label>
                             <input type="text" class="form-control" id="login" placeholder="user" name="login"
-                                   min="2" maxlength="64" tabindex="1" readonly value="${user.login}"
-                                   data-invalid-message="Login is not correct" data-valid-message="Login is correct"
-                                   data-id="invalidLogin" data-class="invalid-input">
+                                   min="2" maxlength="64" tabindex="1" readonly value="${user.login}">
                             <small id="invalidLogin" class="output"></small>
                         </c:when>
                         <c:otherwise>
+                            <label for="login" class="col-xl-3 col-4 col-form-label-sm">Login</label>
                             <input type="text" class="form-control" id="login" placeholder="user" name="login"
-                                   min="2" maxlength="64" tabindex="1"
-                                   data-invalid-message="Login is not correct" data-valid-message="Login is correct"
-                                   data-id="invalidLogin" data-class="invalid-input">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   min="2" maxlength="64" tabindex="1" required>
                             <small id="invalidLogin" class="output"></small>
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
+
             <div class="form-group row">
-                <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
-                <div class="col-8 col-xl-9 required-field-block">
-                    <input type="password" class="form-control" id="password" aria-describedby="pass"
-                           placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                           name="password">
-                    <c:if test="${action == 'Add'}">
-                        <div class="required-icon mr-2">
-                            <div class="text">*</div>
-                        </div>
-                    </c:if>
-                    <small id="invalidPassword" class="output"></small>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="passwordAgain" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
-                <div class="col-8 col-xl-9 required-field-block">
-                    <input type="password" class="form-control" id="passwordAgain" aria-describedby="passwordConfirm"
-                           placeholder="password" name="passwordAgain" min="5" maxlength="64"
-                           data-invalid-message="Password doesn't match"
-                           data-valid-message="Passwords match" tabindex="3"
-                           data-class="invalid-input" data-id="invalidRPassword">
-                    <c:if test="${action == 'Add'}">
-                        <div class="required-icon mr-2">
-                            <div class="text">*</div>
-                        </div>
-                    </c:if>
-                    <small id="invalidRPassword" class="output"></small>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
+                            <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
+                            <input type="password" class="form-control" id="password" aria-describedby="pass"
+                                   placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                                   name="password">
+                        </c:when>
+                        <c:otherwise>
+                            <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
+                            <input type="password" class="form-control" id="password" aria-describedby="pass"
+                                   placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                                   name="password" required>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-8 col-xl-9 required-field-block">
+                    <c:choose>
+                        <c:when test="${action == 'Edit'}">
+                            <label for="passwordAgain">Confirm password</label>
+                            <input type="password" class="form-control" id="passwordAgain" aria-describedby="passwordAgain"
+                                   placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                                   name="passwordAgain">
+                        </c:when>
+                        <c:otherwise>
+                            <label for="passwordAgain">Confirm password</label>
+                            <input type="password" class="form-control" id="passwordAgain" aria-describedby="passwordAgain"
+                                   placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                                   name="passwordAgain" required>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8 col-xl-9 required-field-block">
+                    <c:choose>
+                        <c:when test="${action == 'Edit'}">
+                            <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="some@email.com"
-                                   name="email"
-                                   value="${user.email}" tabindex="4"
-                                   data-pattern="^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$"
-                                   data-invalid-message="Email is not correct"
-                                   data-valid-message="Email is correct"
-                                   data-class="invalid-input" data-id="invalidEmail">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   name="email" value="${user.email}" tabindex="4" required>
                             <small id="invalidEmail" class="output"></small>
                         </c:when>
                         <c:otherwise>
+                            <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="some@email.com"
-                                   name="email" tabindex="4"
-                                   data-pattern="^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$"
-                                   data-invalid-message="Email is not correct"
-                                   data-valid-message="Email is correct"
-                                   data-class="invalid-input" data-id="invalidEmail">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   name="email" tabindex="4" required>
                             <small id="invalidEmail" class="output"></small>
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="firstname" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
+                            <label for="firstname" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="firstName"
-                                   name="firstName" required data-invalid-message="First name is not correct"
-                                   data-valid-message="First name is correct" data-id="invalidFname"
-                                   value="${user.firstName}" data-class="invalid-input">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   name="firstName" required value="${user.firstName}" required>
                             <small id="invalidFname" class="output"></small>
                         </c:when>
                         <c:otherwise>
+                            <label for="firstname" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
-                                   placeholder="FirstName" data-class="invalid-input"
-                                   name="firstName" required data-invalid-message="First name is not correct"
-                                   data-valid-message="First name is correct" data-id="invalidFname">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   placeholder="FirstName" required>
                             <small id="invalidFname" class="output"></small>
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
+                            <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                             <input type="text" class="form-control" id="lastName" placeholder="LastName" name="lastName"
-                                   required value="${user.lastName}" min="2" maxlength="64" tabindex="6"
-                                   data-invalid-message="Last name is not correct" data-class="invalid-input"
-                                   data-valid-message="Last name is correct" data-id="invalidLname">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   required value="${user.lastName}" min="2" maxlength="64" tabindex="6" >
                             <small id="invalidLname" class="output"></small>
                         </c:when>
                         <c:otherwise>
+                            <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                             <input type="text" class="form-control" id="lastName" placeholder="LastName"
-                                   name="lastName" required min="2" maxlength="64" data-class="invalid-input"
-                                   data-invalid-message="Last name is not correct" tabindex="6"
-                                   data-valid-message="Last name is correct" data-id="invalidLname">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   name="lastName" required min="2" maxlength="64" data-class="invalid-input">
                             <small id="invalidLname" class="output"></small>
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
+                            <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
                                    name="birthday" required data-class="invalid-input" tabindex="7"
-                                   min="1900-01-01" max="2021-12-12" value="${user.birthday}"
-                                   data-invalid-message="Date is not correct"
-                                   data-valid-message="Date is correct" data-id="invalidDate">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   min="1900-01-01" max="2021-12-12" value="${user.birthday}">
                             <small id="invalidDate" class="output"></small>
                         </c:when>
                         <c:otherwise>
+                            <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday"
                                    name="birthday" required data-class="invalid-input"
-                                   min="1900-01-01" tabindex="7"
-                                   data-invalid-message="Date is not correct"
-                                   data-valid-message="Date is correct" data-id="invalidDate">
-                            <div class="required-icon mr-2">
-                                <div class="text">*</div>
-                            </div>
+                                   min="1900-01-01" tabindex="7">
                             <small id="invalidDate" class="output"></small>
                         </c:otherwise>
                     </c:choose>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
                 <div class="col-sm-7 px-3 col-8 col-xl-9 required-field-block">
+                    <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
                     <select id="select" class="form-control" name="role" required>
                         <c:forEach var="role" items="${roles}">
                             <option value="${role.name}">${role.name}</option>

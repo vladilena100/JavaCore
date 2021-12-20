@@ -95,7 +95,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>docker-jdbc-postgres</finalName>
+		<finalName>servlets</finalName>
 		<plugins>
 
 			<plugin>
@@ -171,6 +171,32 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/</directory>
+							<filtering>false</filtering>
+							<includes>
+								<include>**/**</include>
+							</includes>
+						</resource>
+						<resource>
+							<directory>${basedir}/src/main/resources/</directory>
+<!--							<targetPath>WEB-INF/classes</targetPath>-->
+							<filtering>false</filtering>
+							<includes>
+								<include>**/**</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
 			</plugin>
 
 		</plugins>
