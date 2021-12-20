@@ -38,11 +38,4 @@ public class ParamFromUsersUtil {
 
         return new User(userId, login, password, email, firstName, lastName, birthday, new Role(roleId.getId(), roleId.getName()));
     }
-
-    public static int getAgeFromDateOfBirthday(Date birthday) {
-
-        java.sql.Date myDate = new java.sql.Date( (new java.util.Date()).getTime());
-
-        return (myDate.getYear()) - birthday.getYear();
-    }
 }
