@@ -80,11 +80,11 @@ public class UserTag implements Tag {
                                 + user.getAge() + "</td>" + "<td>"
                                 + user.getRole().getName() + "</td><td>");
 
-                output.append("<a href=\"users/delete?id" + user.getId()
+                output.append("<a href=\"users/delete/" + user.getId()
                         + "\" onclick=\"return confirm"
                         + "('Are you sure?')\">delete</a><span>,</span>");
 
-                output.append("<a href= \"users/edit?" + user.getId()
+                output.append("<a href= \"users/edit/" + user.getId()
                         + "\"> update</a></td></tr></tbody>");
             }
             output.append("</table>");

@@ -20,7 +20,15 @@
     <div class="mt-5 text-left ml-2">
         <a href="${pageContext.request.contextPath}/users/add">Add new user</a>
     </div>
-    <
+    <div>
+        <ex:users_list users="${users}"/>
+    </div>
+    <style>
+        #users {
+            width: 70%;
+            margin: 0 auto;
+        }
+    </style>
 
 </div>
 </body>
