@@ -17,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
     environment:
-      POSTGRES_PASSWORD: zaQ1xSw2
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DATABASE: postgres
     ports:
       - 5434:5432
