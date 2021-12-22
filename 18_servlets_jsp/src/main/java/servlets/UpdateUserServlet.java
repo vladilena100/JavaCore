@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 
 @WebServlet("/users/edit")
@@ -38,6 +40,10 @@ public class UpdateUserServlet extends HttpServlet {
         req.setAttribute("request", req.getRequestURI());
         req.setAttribute("user", userService.findById(userId));
         req.setAttribute("roles", roleService.findAll());
+        Date bookingDate = new Date(new java.util.Date().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+        String maxDate = sdf.format(bookingDate);
+        req.setAttribute("maxDate", maxDate);
         req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);
     }
 

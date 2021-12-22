@@ -3,7 +3,6 @@ package services;
 import dao.DaoUser;
 import dao.jdbc.JdbcUserDaoImpl;
 import exception.FoundUserException;
-import model.Role;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +29,7 @@ public class UserService implements DaoUser {
     @Override
     public void create(User user) {
 
-        if (daoUser.findByEmail(user.getEmail()) == null || daoUser.findByLogin(user.getLogin()) == null) {
+        if (daoUser.findByLogin(user.getLogin()) == null && daoUser.findByEmail(user.getEmail()) == null) {
 
             daoUser.create(user);
         } else {
@@ -74,31 +73,5 @@ public class UserService implements DaoUser {
             LOG.error("such user does not exist");
             throw new FoundUserException("login or password is not correct");
         }
-    }
-
-    public boolean userIsExist(String login, String password) {
-
-        boolean result = false;
-
-        for (User user : daoUser.findAll()) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                result = true;
-                break;
-            }
-        }
-
-        return result;
-    }
-
-    public Role getRoleByLoginPassword(String login, String password) {
-        Role result = new Role();
-
-        for (User user : daoUser.findAll()) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                result = user.getRole();
-            }
-        }
-
-        return result;
     }
 }

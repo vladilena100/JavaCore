@@ -154,14 +154,14 @@
                             <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
                                    name="birthday" required data-class="invalid-input" tabindex="7"
-                                   min="1900-01-01" max="2021-12-12" value="${user.birthday}">
+                                   min="1900-01-01" max="${maxDate}" value="${user.birthday}">
                             <small id="invalidDate" class="output"></small>
                         </c:when>
                         <c:otherwise>
                             <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday"
                                    name="birthday" required data-class="invalid-input"
-                                   min="1900-01-01" tabindex="7">
+                                   min="1900-01-01" max="${maxDate}" tabindex="7">
                             <small id="invalidDate" class="output"></small>
                         </c:otherwise>
                     </c:choose>
