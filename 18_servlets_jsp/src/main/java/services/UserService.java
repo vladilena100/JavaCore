@@ -2,7 +2,6 @@ package services;
 
 import dao.DaoUser;
 import dao.jdbc.JdbcUserDaoImpl;
-import exception.FoundUserException;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,14 +27,7 @@ public class UserService implements DaoUser {
 
     @Override
     public void create(User user) {
-
-        if (daoUser.findByLogin(user.getLogin()) == null && daoUser.findByEmail(user.getEmail()) == null) {
-
-            daoUser.create(user);
-        } else {
-            LOG.info("user with this login or email already exists ");
-            throw new FoundUserException("user already exist");
-        }
+        daoUser.create(user);
     }
 
     @Override
@@ -67,11 +59,13 @@ public class UserService implements DaoUser {
 
         User byLogin = daoUser.findByLogin(login);
 
+        User result = null;
+
         if (byLogin != null && password.equals(byLogin.getPassword())) {
-            return byLogin;
+            return result = byLogin;
         } else {
             LOG.error("such user does not exist");
-            throw new FoundUserException("login or password is not correct");
         }
+        return result;
     }
 }

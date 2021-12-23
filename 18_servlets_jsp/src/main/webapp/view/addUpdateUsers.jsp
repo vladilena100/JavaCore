@@ -50,6 +50,7 @@
                             <input type="text" class="form-control" id="login" placeholder="user" name="login"
                                    min="2" maxlength="64" tabindex="1" required>
                             <small id="invalidLogin" class="output"></small>
+                            <p><span class="colortext">${error.loginError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -63,12 +64,14 @@
                             <input type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="password">
+                            <p><span class="colortext">${error.passwordError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                             <input type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="password" required>
+                            <p><span class="colortext">${error.passwordError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -99,13 +102,13 @@
                             <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="some@email.com"
                                    name="email" value="${user.email}" tabindex="4" required>
-                            <small id="invalidEmail" class="output"></small>
+                            <p><span class="colortext">${error.emailError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="some@email.com"
                                    name="email" tabindex="4" required>
-                            <small id="invalidEmail" class="output"></small>
+                            <p><span class="colortext">${error.emailError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -118,13 +121,13 @@
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="firstName"
                                    name="firstName" required value="${user.firstName}">
-                            <small id="invalidFname" class="output"></small>
+                            <p><span class="colortext">${error.firstNameError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="firstName" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                             <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
                                    placeholder="FirstName" name="firstName" required>
-                            <small id="invalidFname" class="output"></small>
+                            <p><span class="colortext">${error.firstNameError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -136,13 +139,13 @@
                             <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                             <input type="text" class="form-control" id="lastName" placeholder="LastName" name="lastName"
                                    required value="${user.lastName}" min="2" maxlength="64" tabindex="6" >
-                            <small id="invalidLname" class="output"></small>
+                            <p><span class="colortext">${error.lastNameError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                             <input type="text" class="form-control" id="lastName" placeholder="LastName"
                                    name="lastName" required min="2" maxlength="64" data-class="invalid-input">
-                            <small id="invalidLname" class="output"></small>
+                            <p><span class="colortext">${error.lastNameError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -155,14 +158,14 @@
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
                                    name="birthday" required data-class="invalid-input" tabindex="7"
                                    min="1900-01-01" max="${maxDate}" value="${user.birthday}">
-                            <small id="invalidDate" class="output"></small>
+                            <p><span class="colortext">${error.birthdayError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday"
                                    name="birthday" required data-class="invalid-input"
                                    min="1900-01-01" max="${maxDate}" tabindex="7">
-                            <small id="invalidDate" class="output"></small>
+                            <p><span class="colortext">${error.birthdayError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>

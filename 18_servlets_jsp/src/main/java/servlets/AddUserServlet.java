@@ -2,7 +2,6 @@ package servlets;
 
 import dao.jdbc.JdbcRoleDaoImpl;
 import dao.jdbc.JdbcUserDaoImpl;
-import exception.FoundUserException;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,12 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import static util.ParamFromUsersUtil.validateFields;
 
 
 @WebServlet("/users/add")
 public class AddUserServlet extends HttpServlet {
-
-    private static final Logger LOG = LogManager.getLogger(AddUserServlet.class);
 
     private final RoleService roleService = new RoleService(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
@@ -49,9 +49,17 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
-            LOG.error("Password and confirm password doesn't match");
-            throw new FoundUserException("Password and confirm password doesn't match");
+        Map<String, String> result = validateFields(req, "add");
+
+        if (!result.isEmpty()) {
+            req.setAttribute("action", "Add");
+            req.setAttribute("error", result);
+            req.setAttribute("roles", roleService.findAll());
+            Date bookingDate = new Date(new java.util.Date().getTime());
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+            String maxDate = sdf.format(bookingDate);
+            req.setAttribute("maxDate", maxDate);
+            req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);
         } else {
             User user = ParamFromUsersUtil.paramUser(req);
             userService.create(user);

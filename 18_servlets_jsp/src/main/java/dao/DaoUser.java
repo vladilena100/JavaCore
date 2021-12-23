@@ -2,7 +2,6 @@ package dao;
 
 import model.User;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 /**

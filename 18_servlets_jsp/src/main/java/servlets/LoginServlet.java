@@ -34,8 +34,13 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User user = userService.getUserByLoginPassword(login, password);
-        LOG.info("user from db {}", user);
-        req.getSession().setAttribute("user", user);
-        resp.sendRedirect("/users");
+        if (user == null) {
+            req.setAttribute("error", "login or password is not correct");
+            req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
+        } else {
+            LOG.info("user from db {}", user);
+            req.getSession().setAttribute("user", user);
+            resp.sendRedirect("/users");
+        }
     }
 }

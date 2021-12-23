@@ -1,7 +1,7 @@
 package dao.jdbc;
 
 import dao.DaoUser;
-//import exception.DataDaoException;
+import exception.DataDaoException;
 import model.Role;
 import model.User;
 import org.apache.logging.log4j.LogManager;
@@ -70,9 +70,8 @@ public class JdbcUserDao implements DaoUser {
             return null;
         } catch (SQLException e) {
             LOG.error("Can`t find user by id", e);
-            //throw new DataDaoException("Error find user by id");
+            throw new DataDaoException("Error find user by id");
         }
-        return null;
     }
 
     /**
@@ -101,7 +100,7 @@ public class JdbcUserDao implements DaoUser {
             statement.execute();
         } catch (SQLException e) {
             LOG.error("Can`t created user", e);
-            //throw new DataDaoException("Error created user");
+            throw new DataDaoException("Error created user");
         }
     }
 
@@ -131,7 +130,7 @@ public class JdbcUserDao implements DaoUser {
             statement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("Can`t update user", e);
-            //throw new DataDaoException("Error update user");
+            throw new DataDaoException("Error update user");
         }
     }
 
@@ -152,7 +151,7 @@ public class JdbcUserDao implements DaoUser {
                 connection.commit();
         } catch (SQLException e) {
             LOG.error("Can`t get connection to DB", e);
-            //throw new DataDaoException("Error get connection to DB");
+            throw new DataDaoException("Error get connection to DB");
         }
 
     }
@@ -190,9 +189,8 @@ public class JdbcUserDao implements DaoUser {
             return users;
         } catch (SQLException e) {
             LOG.error("Can`t find all users", e);
-            //throw new DataDaoException("Error find all users");
+            throw new DataDaoException("Error find all users");
         }
-        return null;
     }
 
     /**
@@ -228,7 +226,7 @@ public class JdbcUserDao implements DaoUser {
             }
         } catch (SQLException e) {
             LOG.error("Can`t find users by login", e);
-            //throw new DataDaoException("Error find user by login");
+            throw new DataDaoException("Error find user by login");
         }
         return null;
     }
@@ -265,7 +263,7 @@ public class JdbcUserDao implements DaoUser {
             }
         } catch (SQLException e) {
             LOG.error("Can`t find user by email", e);
-            //throw new DataDaoException("Error find user by email");
+            throw new DataDaoException("Error find user by email");
         }
         return null;
     }
