@@ -1,6 +1,5 @@
 package support;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -19,14 +18,10 @@ public final class ConnectionManager {
         this.dbConfig = dbConfig;
     }
 
-    public static ConnectionManager getInstance(AbstractDBConfig dbConfig) {
+    public static synchronized ConnectionManager getInstance(AbstractDBConfig dbConfig) {
 
         if (connectionManager == null) {
-            synchronized (ConnectionManager.class) {
-                if (connectionManager == null) {
-                    connectionManager = new ConnectionManager(dbConfig);
-                }
-            }
+            connectionManager = new ConnectionManager(dbConfig);
         }
         return connectionManager;
     }
@@ -40,10 +35,4 @@ public final class ConnectionManager {
         connection.setAutoCommit(false);
         return connection;
     }
-
-
-    public DataSource getDataSource() {
-        return dbConfig.getDataSource();
-    }
-
 }

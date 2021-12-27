@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -92,7 +92,7 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
-            statement.setDate(6, user.getBirthday());
+            statement.setDate(6, (java.sql.Date) user.getBirthday());
             statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
@@ -120,7 +120,7 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
-            statement.setDate(6, user.getBirthday());
+            statement.setDate(6, (java.sql.Date) user.getBirthday());
             statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));

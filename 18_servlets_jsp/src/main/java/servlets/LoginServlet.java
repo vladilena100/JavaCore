@@ -1,10 +1,9 @@
 package servlets;
 
-import dao.jdbc.JdbcUserDaoImpl;
+import dao.DaoUser;
 import model.User;
 import services.UserService;
-import support.ConnectionManager;
-import support.DBPoolConfig;
+import support.UserDAOFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
+    private final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         User user = userService.getUserByLoginPassword(login, password);
         if (user == null) {
             req.setAttribute("error", "login or password is not correct");
-            req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
+            doGet(req, resp);
         } else {
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("/users");

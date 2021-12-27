@@ -1,10 +1,9 @@
 package servlets;
 
-import dao.jdbc.JdbcUserDaoImpl;
+import dao.DaoUser;
 import model.User;
 import services.UserService;
-import support.ConnectionManager;
-import support.DBPoolConfig;
+import support.UserDAOFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +16,7 @@ import java.io.IOException;
 @WebServlet(value = "/users", loadOnStartup = 1)
 public class UsersServlet extends HttpServlet {
 
-    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
+    private final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,6 +33,6 @@ public class UsersServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
     }
 }

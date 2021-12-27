@@ -1,8 +1,9 @@
 package util;
 
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserTag implements Tag {
+
+    private static final Logger LOG = LogManager.getLogger(UserTag.class);
 
     private List<User> users;
 
@@ -51,17 +54,17 @@ public class UserTag implements Tag {
     }
 
     @Override
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         try {
             doTag();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Message: ", e);
         }
         return SKIP_BODY;
     }
 
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         return EVAL_PAGE;
     }
 

@@ -31,17 +31,19 @@ public class RequestFilter implements Filter {
             return;
         }
         if (req.getRequestURI().contains(USERS_EDIT)) {
-            String requestURI = req.getRequestURI();
-            String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-            req.setAttribute("id", userId);
-            req.getRequestDispatcher(USERS_EDIT).forward(servletRequest, servletResponse);
+            forwardUser(req, resp, USERS_EDIT);
         } else if (req.getRequestURI().contains(USERS_DELETE)) {
-            String requestURI = req.getRequestURI();
-            String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-            req.setAttribute("id", userId);
-            req.getRequestDispatcher(USERS_DELETE).forward(servletRequest, servletResponse);
+            forwardUser(req, resp, USERS_DELETE);
         } else {
             filterChain.doFilter(req, resp);
         }
+    }
+
+    private void forwardUser(HttpServletRequest req, HttpServletResponse resp, String uri) throws IOException, ServletException {
+
+        String requestURI = req.getRequestURI();
+        String userId = requestURI.substring(requestURI.lastIndexOf("/") + 1);
+        req.setAttribute("id", userId);
+        req.getRequestDispatcher(uri).forward(req, resp);
     }
 }

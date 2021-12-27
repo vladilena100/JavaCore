@@ -1,12 +1,10 @@
 package servlets;
 
-import dao.jdbc.JdbcUserDaoImpl;
+import dao.DaoUser;
 import model.User;
 import services.UserService;
-import support.ConnectionManager;
-import support.DBPoolConfig;
+import support.UserDAOFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,14 +15,14 @@ import java.io.IOException;
 @WebServlet("/users/delete")
 public class RemoveUserServlet extends HttpServlet {
 
-    private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
+    private final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = (String) req.getAttribute("id");
         long userId = Long.parseLong(id);
         User userById = userService.findById(userId);

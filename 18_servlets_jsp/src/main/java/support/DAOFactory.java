@@ -6,5 +6,5 @@ public interface DAOFactory<E> {
 
     String JDBC_PROPERTIES = "jdbc.properties";
 
-    public Dao<E> getDao();
+    Dao<E> getDao();
 }

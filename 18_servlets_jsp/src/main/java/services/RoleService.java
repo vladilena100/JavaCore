@@ -8,12 +8,12 @@ import java.util.List;
 
 public class RoleService {
 
-    private static volatile RoleService roleService;
+    private static RoleService roleService;
 
     private final DaoRole roleDao;
 
     private RoleService(Dao<Role> roleDao) {
-        this.roleDao = (DaoRole)roleDao;
+        this.roleDao = (DaoRole) roleDao;
     }
 
     public List<Role> findAll() {
@@ -24,13 +24,9 @@ public class RoleService {
         return roleDao.findByName(name);
     }
 
-    public static RoleService getInstance(DaoRole roleDao) {
+    public static synchronized RoleService getInstance(DaoRole roleDao) {
         if (roleService == null) {
-            synchronized (RoleService.class) {
-                if (roleService == null) {
-                    roleService = new RoleService(roleDao);
-                }
-            }
+            roleService = new RoleService(roleDao);
         }
         return roleService;
     }

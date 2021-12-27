@@ -4,7 +4,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.ZoneId;
+import java.util.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -46,7 +47,6 @@ public class User implements Serializable {
         this.birthday = birthday;
         this.role = role;
     }
-
 
 
     public Long getId() {
@@ -110,7 +110,7 @@ public class User implements Serializable {
     }
 
     public void setAge(Date birthday) {
-        this.age = (int) ChronoUnit.YEARS.between(birthday.toLocalDate(), LocalDate.now());
+        this.age = (int) ChronoUnit.YEARS.between(birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now());
     }
 
     public Role getRole() {

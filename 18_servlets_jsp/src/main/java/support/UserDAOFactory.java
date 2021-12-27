@@ -1,9 +1,8 @@
 package support;
 
-import dao.DaoUser;
+import dao.Dao;
 import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
-
 
 /**
  * DaoFactory
@@ -13,7 +12,8 @@ import model.User;
 
 public class UserDAOFactory implements DAOFactory<User> {
 
-    public DaoUser getDao() {
+    @Override
+    public Dao<User> getDao() {
         return new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance(JDBC_PROPERTIES)));
     }
 }

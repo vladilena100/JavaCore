@@ -1,7 +1,5 @@
 package filter;
 
-import model.User;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +25,7 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession();
 
-        boolean isLoggedIn = session != null && session.getAttribute("user") != null;
+        boolean isLoggedIn = session.getAttribute("user") != null;
 
         if (isLoggedIn || (req.getMethod().equals("POST") && req.getRequestURI().equals("/login"))) {
             filterChain.doFilter(req, resp);
