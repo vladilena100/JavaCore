@@ -5,5 +5,4 @@ WORKDIR /tmp/
 RUN mvn clean package
 
 FROM tomcat:9.0
-COPY --from=servlet /tmp/target/servlets*.war $CATALINA_HOME/webapps/servlets.war
-COPY server.xml $CATALINA_HOME/conf/server.xml
+COPY --from=servlet /tmp/target/servlets*.war $CATALINA_HOME/webapps/ROOT.war

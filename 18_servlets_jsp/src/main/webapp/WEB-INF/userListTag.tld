@@ -19,5 +19,11 @@
             <type>java.util.List</type>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <type>java.lang.Long</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
 </taglib>

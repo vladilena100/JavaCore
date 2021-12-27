@@ -17,6 +17,16 @@ public class UserTag implements Tag {
 
     private Tag parent;
 
+    private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public List<User> getUsers() {
         return users;
     }
@@ -80,12 +90,17 @@ public class UserTag implements Tag {
                                 + user.getAge() + "</td>" + "<td>"
                                 + user.getRole().getName() + "</td><td>");
 
-                output.append("<a href=\"users/delete/" + user.getId()
-                        + "\" onclick=\"return confirm"
-                        + "('Are you sure?')\">delete</a><span>,</span>");
+                if (!user.getId().equals(id)) {
+                    output.append("<form action=\"users/delete/" + user.getId() + "\" method=\"post\""
+                            + "\" onclick=\"return confirm"
+                            + "('Are you sure?')\"><input type=\"submit\" value=\"delete\"/></form>");
+                }
 
-                output.append("<a href= \"users/edit/" + user.getId()
-                        + "\"> update</a></td></tr></tbody>");
+                output.append("<form action=\"users/edit/" + user.getId() + "\" method=\"get\""
+                        + "><input type=\"submit\" value=\"update\"/></form>");
+
+
+                output.append("</td></tr></tbody>");
             }
             output.append("</table>");
             out.println(output.toString());

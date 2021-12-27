@@ -25,7 +25,7 @@ services:
     networks:
       - nix-network
     volumes:
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - ./postgres_init_sql/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
 
 networks:
   nix-network:

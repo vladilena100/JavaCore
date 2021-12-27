@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ParamFromUsersUtil {
 
-    private static final RoleService roleService = new RoleService(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
+    private static final RoleService roleService = RoleService.getInstance(new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
     private static final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
@@ -45,43 +45,38 @@ public class ParamFromUsersUtil {
         return new User(userId, login, password, email, firstName, lastName, birthday, new Role(roleId.getId(), roleId.getName()));
     }
 
-    public static Map<String, String> validateFields(HttpServletRequest req, String method) {
+    public static Map<String, String> validateFields(HttpServletRequest req) {
 
         Map<String, String> error = new HashMap<>();
 
         User userForUpdate = ParamFromUsersUtil.paramUser(req);
         Long userId = userForUpdate.getId();
         User userEmail = userService.findByEmail(userForUpdate.getEmail());
+        User userByLogin = userService.findByLogin(userForUpdate.getLogin());
 
-        if (method.equals("add")) {
-            if (userService.findByLogin(req.getParameter("login")) != null) {
+        if (req.getRequestURI().contains("add")) {
+            if (userByLogin != null) {
                 error.put("loginError", "User with this login is exist");
             }
-        }
-
-        if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
-            error.put("passwordError", "Password and confirm password do not match");
-        }
-
-        if (method.equals("add")) {
-            if (userService.findByEmail(req.getParameter("email")) != null) {
+            if (userEmail != null) {
                 error.put("emailError", "User vih this email is exist");
             }
-        } else if (userEmail != null && !userId.equals(userEmail.getId())) {
+        } else if (userId != null && userEmail != null && !userEmail.getId().equals(userId)) {
             error.put("emailError", "User vih this email is exist");
         }
 
+        if (!userForUpdate.getPassword().equals(req.getParameter("passwordAgain"))) {
+            error.put("passwordError", "Password and confirm password do not match");
+        }
 
-        if (req.getParameter("firstName") == null || req.getParameter("firstName").isEmpty()) {
+        String firstName = userForUpdate.getFirstName();
+        if (firstName == null || firstName.isEmpty() || firstName.length() < 2) {
             error.put("firstNameError", "Enter first name");
         }
 
-        if (req.getParameter("lastName") == null || req.getParameter("lastName").isEmpty()) {
+        String lastName = userForUpdate.getLastName();
+        if (lastName == null || lastName.isEmpty()) {
             error.put("lastNameError", "Enter last name");
-        }
-
-        if (req.getParameter("birthday") == null) {
-            error.put("birthdayError", "Enter birthday");
         }
 
         return error;

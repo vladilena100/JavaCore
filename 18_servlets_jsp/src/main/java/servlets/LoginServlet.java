@@ -2,8 +2,6 @@ package servlets;
 
 import dao.jdbc.JdbcUserDaoImpl;
 import model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import services.UserService;
 import support.ConnectionManager;
 import support.DBPoolConfig;
@@ -17,8 +15,6 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
-    private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
 
     private final UserService userService = new UserService(new JdbcUserDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties"))));
 
@@ -38,7 +34,6 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("error", "login or password is not correct");
             req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
         } else {
-            LOG.info("user from db {}", user);
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("/users");
         }

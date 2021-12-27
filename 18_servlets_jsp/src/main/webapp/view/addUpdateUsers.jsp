@@ -107,7 +107,7 @@
                         <c:otherwise>
                             <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="some@email.com"
-                                   name="email" tabindex="4" required>
+                                   name="email" value="${param.email}" tabindex="4" required>
                             <p><span class="colortext">${error.emailError}</span></p>
                         </c:otherwise>
                     </c:choose>

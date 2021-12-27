@@ -1,49 +1,38 @@
 package services;
 
+import dao.Dao;
 import dao.DaoRole;
-import dao.jdbc.JdbcRoleDaoImpl;
 import model.Role;
-import support.ConnectionManager;
-import support.DBPoolConfig;
 
 import java.util.List;
 
-public class RoleService implements DaoRole {
+public class RoleService {
+
+    private static volatile RoleService roleService;
 
     private final DaoRole roleDao;
 
-    public RoleService(DaoRole roleDao) {
-        this.roleDao = new JdbcRoleDaoImpl(ConnectionManager.getInstance(DBPoolConfig.getInstance("jdbc.properties")));
+    private RoleService(Dao<Role> roleDao) {
+        this.roleDao = (DaoRole)roleDao;
     }
 
-    @Override
     public List<Role> findAll() {
         return roleDao.findAll();
     }
 
-    @Override
-    public Role findById(Long id) {
-        return roleDao.findById(id);
-    }
-
-    @Override
-    public void create(Role role) {
-        roleDao.create(role);
-    }
-
-    @Override
-    public void update(Role role) {
-        roleDao.update(role);
-    }
-
-    @Override
-    public void remove(Role role) {
-        roleDao.remove(role);
-    }
-
-    @Override
     public Role findByName(String name) {
         return roleDao.findByName(name);
+    }
+
+    public static RoleService getInstance(DaoRole roleDao) {
+        if (roleService == null) {
+            synchronized (RoleService.class) {
+                if (roleService == null) {
+                    roleService = new RoleService(roleDao);
+                }
+            }
+        }
+        return roleService;
     }
 
 }
