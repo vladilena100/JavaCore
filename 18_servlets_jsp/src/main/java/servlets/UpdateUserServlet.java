@@ -2,6 +2,7 @@ package servlets;
 
 import dao.DaoRole;
 import dao.DaoUser;
+import exception.ParseException;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Map;
 
 import static util.ValidateFields.validateFields;
@@ -52,6 +52,7 @@ public class UpdateUserServlet extends HttpServlet {
             userForUpdate = RequestUtils.getUser(req);
         } catch (ParseException e) {
             LOG.error("Message: ", e);
+            throw new ParseException("do not parse birthday");
         }
         String password = req.getParameter("password");
 
@@ -61,8 +62,9 @@ public class UpdateUserServlet extends HttpServlet {
         Map<String, String> result = null;
         try {
             result = validateFields(req);
-        } catch (ParseException e) {
+        } catch (ParseException | java.text.ParseException e) {
             LOG.error("Message: ", e);
+            throw new ParseException("do not parse birthday");
         }
         if (userForUpdate.getPassword() == null || userForUpdate.getPassword().isEmpty()) {
             userForUpdate.setPassword(userById.getPassword());

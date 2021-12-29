@@ -64,14 +64,14 @@
                             <input type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="password">
-                            <p><span class="colortext">${error.passwordError}</span></p>
+                            <p><span class="colortext">${error.passwordLengthError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                             <input type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="password" required>
-                            <p><span class="colortext">${error.passwordError}</span></p>
+                            <p><span class="colortext">${error.passwordLengthError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -86,6 +86,7 @@
                                    aria-describedby="passwordAgain"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="passwordAgain">
+                            <p><span class="colortext">${error.passwordError}</span></p>
                         </c:when>
                         <c:otherwise>
                             <label for="passwordAgain">Confirm password</label>
@@ -93,6 +94,7 @@
                                    aria-describedby="passwordAgain"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
                                    name="passwordAgain" required>
+                            <p><span class="colortext">${error.passwordError}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>

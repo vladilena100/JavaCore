@@ -3,6 +3,8 @@ package util;
 import dao.DaoRole;
 import model.Role;
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import services.RoleService;
 import support.RoleDAOFactory;
 
@@ -14,8 +16,10 @@ import java.util.Date;
 
 public class RequestUtils {
 
+    private static final Logger LOG = LogManager.getLogger(RequestUtils.class);
+
     private static final RoleService roleService = RoleService.getInstance((DaoRole) new RoleDAOFactory().getDao());
-    private static final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
 
 
     private RequestUtils() {
@@ -33,11 +37,11 @@ public class RequestUtils {
         final String email = req.getParameter("email");
         final String firstName = req.getParameter("firstName");
         final String lastName = req.getParameter("lastName");
-        Date birthday= null;
+        Date birthday = null;
         try {
             birthday = format.parse(req.getParameter("birthday"));
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error("do not parse birthday: ", e);
         }
         final String role = req.getParameter("role");
 

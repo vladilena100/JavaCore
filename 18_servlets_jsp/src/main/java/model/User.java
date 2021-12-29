@@ -4,10 +4,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.ZoneId;
 import java.util.Date;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 /**
  * Модель пользователя с характерными полями
@@ -32,8 +29,6 @@ public class User implements Serializable {
     private String lastName;
 
     private Date birthday;
-
-    private Integer age;
 
     private Role role;
 
@@ -103,14 +98,6 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Date birthday) {
-        this.age = (int) ChronoUnit.YEARS.between(birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now());
     }
 
     public Role getRole() {

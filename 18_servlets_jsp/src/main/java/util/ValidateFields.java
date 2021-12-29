@@ -28,24 +28,29 @@ public class ValidateFields {
             if (userByEmail != null) {
                 error.put("emailError", "User vih this email is exist");
             }
-        } else if (userByEmail != null && !userByEmail.getId().equals(userByEmail.getId())) { //TODO
+        } else if (userByEmail != null && !userByEmail.getId().equals(Long.valueOf(req.getParameter("id")))) {
             error.put("emailError", "User vih this email is exist");
         }
 
-        if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
-            error.put("passwordError", "Password and confirm password do not match");
-        }
+            String regexp = "^(?=.*[a-z]).{4,64}$";
+            if (!req.getParameter("password").matches(regexp)) {
+                error.put("passwordLengthError", "password must contain at least 4 characters");
+            }
 
-        String firstName = req.getParameter("firstName");
-        if (firstName == null || firstName.isEmpty() || firstName.length() < 2) {
-            error.put("firstNameError", "Enter first name");
-        }
+            if (!req.getParameter("password").equals(req.getParameter("passwordAgain"))) {
+                error.put("passwordError", "Password and confirm password do not match");
+            }
 
-        String lastName = req.getParameter("lastName");
-        if (lastName == null || lastName.isEmpty() || lastName.length() < 2) {
-            error.put("lastNameError", "Enter last name");
-        }
+            String firstName = req.getParameter("firstName");
+            if (firstName == null || firstName.isEmpty() || firstName.length() < 2) {
+                error.put("firstNameError", "Enter first name");
+            }
 
-        return error;
-    }
+            String lastName = req.getParameter("lastName");
+            if (lastName == null || lastName.isEmpty() || lastName.length() < 2) {
+                error.put("lastNameError", "Enter last name");
+            }
+
+            return error;
+        }
 }

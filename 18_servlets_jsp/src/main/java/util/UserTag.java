@@ -8,6 +8,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 public class UserTag implements Tag {
@@ -86,11 +87,16 @@ public class UserTag implements Tag {
                     + "<th>Role Name</th>" + "<th>Actions</th></tr></thead>");
             for (User user : users) {
 
+                Calendar firstCalendar = Calendar.getInstance();
+
+                Calendar secondCalendar = Calendar.getInstance();
+                secondCalendar.setTime(user.getBirthday());
+
                 output.append(
                         "<tbody><tr><td>" + user.getLogin() + "</td>" + "<td>"
                                 + user.getFirstName() + "</td>" + "<td>"
                                 + user.getLastName() + "</td>" + "<td>"
-                                + user.getAge() + "</td>" + "<td>"
+                                + (firstCalendar.get(Calendar.YEAR) - secondCalendar.get(Calendar.YEAR)) + "</td>" + "<td>"
                                 + user.getRole().getName() + "</td><td>");
 
                 if (!user.getId().equals(id)) {

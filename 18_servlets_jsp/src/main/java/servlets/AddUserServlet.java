@@ -2,6 +2,7 @@ package servlets;
 
 import dao.DaoRole;
 import dao.DaoUser;
+import exception.ParseException;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Map;
 
 import static util.ValidateFields.validateFields;
@@ -45,7 +45,7 @@ public class AddUserServlet extends HttpServlet {
         Map<String, String> result = null;
         try {
             result = validateFields(req);
-        } catch (ParseException e) {
+        } catch (ParseException | java.text.ParseException e) {
             LOG.error("Message: ", e);
         }
 
@@ -54,12 +54,12 @@ public class AddUserServlet extends HttpServlet {
             doGet(req, resp);
         } else {
             User user = null;
-//            try {
-//                user = RequestUtils.getUser(req);
-//            } catch (ParseException e) {
-//                LOG.error("Message: ", e);
-//                //throw
-//            }
+            try {
+                user = RequestUtils.getUser(req);
+            } catch (ParseException e) {
+                LOG.error("Message: ", e);
+                throw new ParseException("do not parse birthday");
+            }
             userService.create(user);
             resp.sendRedirect("/users");
         }
