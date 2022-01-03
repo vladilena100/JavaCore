@@ -53,7 +53,7 @@ public class AddUserServlet extends HttpServlet {
             req.setAttribute("error", result);
             doGet(req, resp);
         } else {
-            User user = null;
+            User user;
             try {
                 user = RequestUtils.getUser(req);
             } catch (ParseException e) {

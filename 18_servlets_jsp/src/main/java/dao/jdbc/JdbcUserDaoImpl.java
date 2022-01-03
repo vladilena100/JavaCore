@@ -8,11 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import support.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Date;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +45,7 @@ public class JdbcUserDaoImpl implements DaoUser {
              PreparedStatement statement = connection.prepareStatement(
                      "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u INNER JOIN role AS r ON r.role_id = u.role_id WHERE u.id = ?")
-             ) {
+        ) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -92,7 +88,7 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
-            statement.setDate(6, new Date(user.getBirthday().getTime()) );
+            statement.setDate(6, new Date(user.getBirthday().getTime()));
             statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
@@ -120,7 +116,7 @@ public class JdbcUserDaoImpl implements DaoUser {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getFirstName());
             statement.setString(5, user.getLastName());
-            statement.setDate(6, new Date(user.getBirthday().getTime()) );
+            statement.setDate(6, new Date(user.getBirthday().getTime()));
             statement.setLong(7, Optional.ofNullable(user.getRole())
                     .map(Role::getId)
                     .orElse(DEFAULT_ROLE));
@@ -144,9 +140,9 @@ public class JdbcUserDaoImpl implements DaoUser {
              PreparedStatement statement = connection.prepareStatement(
                      "DELETE FROM \"user\" WHERE id = ?;"
              )) {
-                statement.setLong(1, user.getId());
-                statement.executeUpdate();
-                connection.commit();
+            statement.setLong(1, user.getId());
+            statement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             LOG.error("Can`t get connection to DB", e);
             throw new DataDaoException("Error get connection to DB");
@@ -207,7 +203,7 @@ public class JdbcUserDaoImpl implements DaoUser {
                              "FROM \"user\" AS u " +
                              "INNER JOIN role AS r ON r.role_id = u.role_id " +
                              "WHERE u.login = ? ")
-             ) {
+        ) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -243,7 +239,7 @@ public class JdbcUserDaoImpl implements DaoUser {
              PreparedStatement statement = connection.prepareStatement(
                      "SELECT u.id, u.login, u.password, u.email, u.first_name, u.last_name, u.birthday, r.role_id, r.role_name " +
                              "FROM \"user\" AS u INNER JOIN role AS r ON r.role_id = u.role_id WHERE u.email = ? ")
-             ) {
+        ) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {

@@ -59,7 +59,7 @@ public class UpdateUserServlet extends HttpServlet {
         Long userId = userForUpdate.getId();
         User userById = userService.findById(userId);
 
-        Map<String, String> result = null;
+        Map<String, String> result;
         try {
             result = validateFields(req);
         } catch (ParseException | java.text.ParseException e) {

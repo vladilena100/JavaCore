@@ -42,12 +42,12 @@ public class ValidateFields {
         }
 
         String firstName = req.getParameter("firstName");
-        if (firstName == null || firstName.isEmpty() || firstName.length() < 2) {
+        if (firstName == null || firstName.length() < 2) {
             error.put("firstNameError", "Enter first name");
         }
 
         String lastName = req.getParameter("lastName");
-        if (lastName == null || lastName.isEmpty() || lastName.length() < 2) {
+        if (lastName == null || lastName.length() < 2) {
             error.put("lastNameError", "Enter last name");
         }
 

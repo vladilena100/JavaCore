@@ -18,7 +18,7 @@ public class AuthFilter implements Filter {
                          FilterChain filterChain)
             throws IOException, ServletException {
 
-
+        servletRequest.setCharacterEncoding("UTF-8");
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp =
                 (HttpServletResponse) servletResponse;
