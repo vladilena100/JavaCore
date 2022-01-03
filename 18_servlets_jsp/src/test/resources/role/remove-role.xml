@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <ROLE id='2' name="ADMIN"/>
+    <ROLE role_id='2' role_name="ADMIN"/>
 </dataset>

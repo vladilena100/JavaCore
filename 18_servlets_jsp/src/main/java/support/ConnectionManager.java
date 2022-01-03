@@ -1,5 +1,6 @@
 package support;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -34,5 +35,9 @@ public final class ConnectionManager {
         Connection connection = dbConfig.getDataSource().getConnection();
         connection.setAutoCommit(false);
         return connection;
+    }
+
+    public DataSource getDataSource() {
+        return dbConfig.getDataSource();
     }
 }
