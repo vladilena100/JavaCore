@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import javax.sql.DataSource;
+
 public class HibernateSession {
 
     private static HibernateSession hibernateSession;
@@ -31,5 +33,10 @@ public class HibernateSession {
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Role.class);
         sessionFactory = configuration.buildSessionFactory();
+    }
+
+    public DataSource getDataSource() {
+        DataSource dataSource;
+        return getDataSource();
     }
 }

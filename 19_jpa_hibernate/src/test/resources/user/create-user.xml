@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <USER id="1" login="andrey" password="11111" email="andrey@gmail.com" first_name="Andrey" last_name="Zhitar" birthday="1990-02-09" role_id="1"/>
+    <USER id="2" login="bob" password="22222" email="bob@gmail.com" first_name="Bob" last_name="Johnson" birthday="1993-02-09" role_id="1"/>
+    <USER id="3" login="rob" password="33333" email="rob@gmail.com" first_name="Rob" last_name="Marlie" birthday="1992-02-09" role_id="1"/>
+    <USER id="4" login="john" password="44444" email="john@gmail.com" first_name="John" last_name="Catusso" birthday="1994-02-09" role_id="2"/>
+    <USER id="5" login="max" password="55555" email="max@gmail.com" first_name="Max" last_name="Connor" birthday="1985-08-24" role_id="2"/>
+</dataset>
