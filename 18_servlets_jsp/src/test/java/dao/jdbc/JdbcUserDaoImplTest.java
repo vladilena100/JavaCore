@@ -65,7 +65,7 @@ public class JdbcUserDaoImplTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected DatabaseOperation getTearDownOperation() {
-        return DatabaseOperation.DELETE;
+        return DatabaseOperation.NONE;
     }
 
     @Before
@@ -80,14 +80,11 @@ public class JdbcUserDaoImplTest extends DataSourceBasedDBTestCase {
 
     @Test
     public void testFindById() throws Exception {
-        User byId = jdbcUserDao.findById(3L);
+        User byId = jdbcUserDao.findById(4L);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("user/user-by-id.xml")) {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("user");
             assertEquals(expectedTable.getValue(0, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(1, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(2, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(3, "id"), byId.getId().toString());
         }
     }
 

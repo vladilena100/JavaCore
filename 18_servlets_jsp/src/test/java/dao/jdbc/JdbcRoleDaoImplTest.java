@@ -63,7 +63,7 @@ public class JdbcRoleDaoImplTest extends DataSourceBasedDBTestCase{
 
     @Override
     protected DatabaseOperation getTearDownOperation() {
-        return DatabaseOperation.DELETE;
+        return DatabaseOperation.NONE;
     }
 
     @Before
