@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <ROLE id='1' name="USER"/>
-    <ROLE id='2' name="SUPER_ADMIN"/>
+    <ROLE role_id='1' role_name="USER"/>
+    <ROLE role_id='2' role_name="SUPER_ADMIN"/>
 </dataset>

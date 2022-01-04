@@ -5,6 +5,8 @@ import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.internal.SessionFactoryImpl;
 
 import javax.sql.DataSource;
 
@@ -36,7 +38,7 @@ public class HibernateSession {
     }
 
     public DataSource getDataSource() {
-        DataSource dataSource;
-        return getDataSource();
+        ConnectionProvider service = ((SessionFactoryImpl) sessionFactory).getServiceRegistry().getService(ConnectionProvider.class);
+        return service.unwrap(DataSource.class);
     }
 }

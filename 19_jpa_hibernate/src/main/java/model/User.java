@@ -3,6 +3,7 @@ package model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class User {
     private String login;
 
     @NotNull
+    @Size(min = 4, max = 64)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -39,7 +41,7 @@ public class User {
     @Column(name = "email", nullable = false, length = 64)
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "first name can not be blank")
     @Column(name = "first_name", nullable = false, length = 64)
     private String firstName;
 

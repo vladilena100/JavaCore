@@ -1,11 +1,11 @@
 package dao.hibernate;
 
-import com.github.database.rider.core.api.dataset.DataSet;
 import model.Role;
 import model.User;
 import org.dbunit.Assertion;
 import org.dbunit.DataSourceBasedDBTestCase;
 import org.dbunit.database.DatabaseConfig;
+import org.dbunit.database.DefaultMetadataHandler;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
@@ -17,6 +17,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import support.HibernateSession;
 
 import javax.sql.DataSource;
@@ -24,7 +26,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
 
-
+@RunWith(JUnit4.class)
 public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
 
     private static HibernateUserDaoImpl hibernateUserDao;
@@ -47,6 +49,7 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
     protected void setUpDatabaseConfig(DatabaseConfig config) {
         config.setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN, "\"?\"");
         config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new PostgresqlDataTypeFactory());
+        config.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new DefaultMetadataHandler());
     }
 
     @Override
@@ -61,7 +64,7 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected DatabaseOperation getTearDownOperation() {
-        return DatabaseOperation.DELETE_ALL;
+        return DatabaseOperation.NONE;
     }
 
     @Before
@@ -75,38 +78,36 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testFindById() throws Exception {
-        User byId = hibernateUserDao.findById(3L);
+        User byId = hibernateUserDao.findById(4L);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("user/user-by-id.xml")) {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("user");
             assertEquals(expectedTable.getValue(0, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(1, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(2, "id"), byId.getId().toString());
-            assertEquals(expectedTable.getValue(3, "id"), byId.getId().toString());
+            assertEquals(expectedTable.getValue(0, "login"), byId.getLogin());
+            assertEquals(expectedTable.getValue(0, "password"), byId.getPassword());
+            assertEquals(expectedTable.getValue(0, "email"), byId.getEmail());
         }
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testCreate() throws Exception {
         hibernateUserDao.create(new User(5L, "max", "55555", "max@gmail.com", "Max", "Connor",
                 Date.valueOf("1985-08-24"), new Role(2L, "ADMIN")));
         try (InputStream is = getClass().getResourceAsStream("/user/create-user.xml")) {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("user");
+            ITable iTable1 = DefaultColumnFilter.includedColumnsTable(expectedTable, expectedTable.getTableMetaData().getColumns());
 
             IDatabaseConnection connection = getConnection();
             ITable actualTable = connection.createDataSet().getTable("user");
             connection.close();
-            ITable iTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable.getTableMetaData().getColumns());
-            Assertion.assertEquals(expectedTable, iTable);
+            ITable iTable2 = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable.getTableMetaData().getColumns());
+            Assertion.assertEquals(iTable1, iTable2);
         }
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testUpdate() throws Exception {
         hibernateUserDao.update(new User(3L, "max", "55555", "max@gmail.com", "Max", "Connor",
                 Date.valueOf("1985-08-24"), new Role(2L, "ADMIN")));
@@ -123,7 +124,6 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testRemove() throws Exception {
         hibernateUserDao.remove(new User(4L, "john", "44444", "john@gmail.com", "John", "Catusso",
                 Date.valueOf("1994-02-09"), new Role(2L, "ADMIN")));
@@ -140,7 +140,6 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testFindAll() throws Exception {
         List<User> all = hibernateUserDao.findAll();
         IDataSet expectedDataSet = getDataSet();
@@ -150,7 +149,6 @@ public class HibernateUserDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testFindByLogin() throws Exception {
         User vlada = hibernateUserDao.findByLogin("john");
         IDataSet expectedDataSet = getDataSet();

@@ -1,6 +1,5 @@
 package dao.hibernate;
 
-import com.github.database.rider.core.api.dataset.DataSet;
 import model.Role;
 import org.dbunit.Assertion;
 import org.dbunit.DataSourceBasedDBTestCase;
@@ -16,12 +15,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import support.HibernateSession;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
 import java.util.List;
 
+@RunWith(JUnit4.class)
 public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
 
     private static HibernateRoleDaoImpl hibernateRoleDao;
@@ -48,7 +50,7 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected IDataSet getDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(getClass().getClassLoader().getResourceAsStream("role/actual-role.xml"));
+        return new FlatXmlDataSetBuilder().build(getClass().getClassLoader().getResourceAsStream("role/actual_role.xml"));
     }
 
     @Override
@@ -58,7 +60,7 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
 
     @Override
     protected DatabaseOperation getTearDownOperation() {
-        return DatabaseOperation.DELETE_ALL;
+        return DatabaseOperation.NONE;
     }
 
     @Before
@@ -72,7 +74,6 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testFindAll() throws Exception {
         List<Role> all = hibernateRoleDao.findAll();
         IDataSet expectedDataSet = getDataSet();
@@ -82,7 +83,6 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testFindById() throws Exception {
         Role byId = hibernateRoleDao.findById(1L);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("role/role-by-id.xml")) {
@@ -93,23 +93,23 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testCreate() throws Exception {
         hibernateRoleDao.create(new Role("SUPER_ADMIN"));
         try (InputStream is = getClass().getResourceAsStream("/role/expected-role.xml")) {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("role");
+            ITable iTable1 = DefaultColumnFilter.includedColumnsTable(expectedTable, expectedTable.getTableMetaData().getColumns());
+
 
             IDatabaseConnection connection = getConnection();
             ITable actualTable = connection.createDataSet().getTable("role");
             connection.close();
-            ITable iTable = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable.getTableMetaData().getColumns());
-            Assertion.assertEquals(expectedTable, iTable);
+            ITable iTable2 = DefaultColumnFilter.includedColumnsTable(actualTable, expectedTable.getTableMetaData().getColumns());
+            Assertion.assertEquals(iTable1, iTable2);
         }
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testUpdate() throws Exception {
         hibernateRoleDao.update(new Role(2L, "SUPER_ADMIN"));
         try (InputStream is = getClass().getResourceAsStream("/role/update-role.xml")) {
@@ -125,9 +125,8 @@ public class HibernateRoleDaoImplTest extends DataSourceBasedDBTestCase {
     }
 
     @Test
-    @DataSet(cleanAfter = true, cleanBefore = true)
     public void testRemove() throws Exception {
-        hibernateRoleDao.remove(new Role(2L, "ADMIN"));
+        hibernateRoleDao.remove(new Role(1L, "USER"));
         try (InputStream is = getClass().getResourceAsStream("/role/remove-role.xml")) {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(is);
             ITable expectedTable = expectedDataSet.getTable("role");
