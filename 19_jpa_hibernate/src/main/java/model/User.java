@@ -1,9 +1,6 @@
 package model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +26,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Size(min = 4, max = 64)
     @Column(name = "login", length = 64, unique = true, nullable = false)
     private String login;
 
@@ -41,14 +39,17 @@ public class User {
     @Column(name = "email", nullable = false, length = 64)
     private String email;
 
-    @NotBlank(message = "first name can not be blank")
+    @NotBlank
+    @Size(min = 4, max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
     private String firstName;
 
     @NotBlank
+    @Size(min = 4, max = 64)
     @Column(name = "last_name", nullable = false, length = 64)
     private String lastName;
 
+    @Past
     @Column(name = "birthday", nullable = false)
     private Date birthday;
 

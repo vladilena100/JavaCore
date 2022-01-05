@@ -15,7 +15,7 @@ public class HibernateSession {
     private static HibernateSession hibernateSession;
     private SessionFactory sessionFactory;
 
-    private HibernateSession () {
+    private HibernateSession() {
         initDBConfig();
     }
 
@@ -38,7 +38,8 @@ public class HibernateSession {
     }
 
     public DataSource getDataSource() {
-        ConnectionProvider service = ((SessionFactoryImpl) sessionFactory).getServiceRegistry().getService(ConnectionProvider.class);
+        ConnectionProvider service = ((SessionFactoryImpl) sessionFactory)
+                .getServiceRegistry().getService(ConnectionProvider.class);
         return service.unwrap(DataSource.class);
     }
 }
