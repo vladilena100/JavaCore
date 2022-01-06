@@ -2,11 +2,11 @@ package model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 @ToString(exclude = "users")
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements GrantedAuthority {
 
 
     @Id
@@ -36,7 +36,7 @@ public class Role {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> users;
 
     public Role(@NotBlank String name) {
@@ -46,5 +46,10 @@ public class Role {
     public Role(@NotNull Long id, @NotBlank String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getName();
     }
 }
