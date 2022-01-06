@@ -40,12 +40,12 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(min = 4, max = 64)
+    @Size(min = 2, max = 64)
     @Column(name = "first_name", nullable = false, length = 64)
     private String firstName;
 
     @NotBlank
-    @Size(min = 4, max = 64)
+    @Size(min = 2, max = 64)
     @Column(name = "last_name", nullable = false, length = 64)
     private String lastName;
 
