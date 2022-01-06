@@ -10,9 +10,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import support.HibernateSession;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -46,12 +43,9 @@ public class HibernateUserDaoImpl implements DaoUser {
         try (Session session = hibernateSession.getSession()) {
             transaction = session.beginTransaction();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> query = builder.createQuery(User.class);
-            Root<User> root = query.from(User.class);
-            query.where(builder.equal(root.get("id"), id));
-            Query<User> userQuery = session.createQuery(query);
-            User user = userQuery.uniqueResult();
+            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.id = :id");
+            query.setParameter("id", id);
+            User user = query.uniqueResult();
 
             transaction.commit();
             return user;
@@ -157,12 +151,8 @@ public class HibernateUserDaoImpl implements DaoUser {
         try (Session session = hibernateSession.getSession()) {
 
             transaction = session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> query = builder.createQuery(User.class);
-            Root<User> root = query.from(User.class);
-            query.select(root);
 
-            Query<User> userQuery = session.createQuery(query);
+            Query<User> userQuery = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r");
             List<User> users = userQuery.getResultList();
             transaction.commit();
 
@@ -190,7 +180,7 @@ public class HibernateUserDaoImpl implements DaoUser {
         try (Session session = hibernateSession.getSession()) {
 
             transaction = session.beginTransaction();
-            Query<User> query = session.createQuery("FROM User WHERE login = :login");
+            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.login = :login");
             query.setParameter("login", login);
             User user = query.uniqueResult();
 
@@ -219,7 +209,7 @@ public class HibernateUserDaoImpl implements DaoUser {
         try (Session session = hibernateSession.getSession()) {
 
             transaction = session.beginTransaction();
-            Query<User> query = session.createQuery("FROM User WHERE email = :email");
+            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.email = :email");
             query.setParameter("email", email);
             User user = query.uniqueResult();
 

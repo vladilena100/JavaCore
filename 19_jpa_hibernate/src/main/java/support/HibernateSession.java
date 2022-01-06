@@ -27,7 +27,7 @@ public class HibernateSession {
     }
 
     public Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return sessionFactory.openSession();
     }
 
     private void initDBConfig() {

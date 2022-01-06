@@ -53,9 +53,7 @@ public class User {
     @Column(name = "birthday", nullable = false)
     private Date birthday;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "user_role_id_key"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
     private Role role;
 }
