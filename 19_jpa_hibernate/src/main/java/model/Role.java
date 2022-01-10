@@ -17,9 +17,7 @@ import java.util.Set;
  */
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "users")
 @Entity
 @Table(name = "role")
 public class Role {
@@ -34,9 +32,6 @@ public class Role {
     @Column(name = "role_name", length = 64, nullable = false)
     @NotBlank
     private String name;
-
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private Set<User> users;
 
     public Role(@NotBlank String name) {
         this.name = name;
