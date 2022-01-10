@@ -43,9 +43,9 @@ public class RequestUtils {
         } catch (ParseException e) {
             LOG.error("do not parse birthday: ", e);
         }
-        final String role = req.getParameter("role");
+        final Long role = Long.parseLong(req.getParameter("role"));
 
-        Role roleId = roleService.findByName(role);
+        Role roleId = roleService.findById(role);
 
         return new User(userId, login, password, email, firstName, lastName, birthday, new Role(roleId.getId(), roleId.getName()));
     }
