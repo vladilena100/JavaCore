@@ -177,9 +177,12 @@
             <div class="form-group row">
                 <div class="col-sm-7 px-3 col-8 col-xl-9 required-field-block">
                     <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
-                    <select id="select" class="form-control" name="role" required>
+                    <select id="select" class="form-control" name="role" value="${user.role.name}" required>
                         <c:forEach var="role" items="${roles}">
-                            <option value="${role.name}">${role.name}</option>
+                            <option value="${role.id}"
+                                    <c:if test="${role.id eq selectedRoleId}">selected="selected"</c:if>>
+                                    ${role.name}
+                            </option>
                         </c:forEach>
                     </select>
                 </div>

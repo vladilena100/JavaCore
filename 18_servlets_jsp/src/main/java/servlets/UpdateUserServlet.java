@@ -38,7 +38,9 @@ public class UpdateUserServlet extends HttpServlet {
         String id = (String) req.getAttribute("id");
         long userId = Long.parseLong(id);
         req.setAttribute("action", "Edit");
-        req.setAttribute("user", userService.findById(userId));
+        User byId = userService.findById(userId);
+        req.setAttribute("user", byId);
+        req.setAttribute("selectedRoleId", byId.getRole().getId());
         req.setAttribute("roles", roleService.findAll());
 
         req.getRequestDispatcher("/view/addUpdateUsers.jsp").forward(req, resp);

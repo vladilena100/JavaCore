@@ -24,6 +24,10 @@ public class RoleService {
         return roleDao.findByName(name);
     }
 
+    public Role findById(Long id) {
+        return roleDao.findById(id);
+    }
+
     public static synchronized RoleService getInstance(DaoRole roleDao) {
         if (roleService == null) {
             roleService = new RoleService(roleDao);
