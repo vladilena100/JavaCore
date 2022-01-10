@@ -58,7 +58,7 @@ public class AddUserServlet extends HttpServlet {
                 user = RequestUtils.getUser(req);
             } catch (ParseException e) {
                 LOG.error("Message: ", e);
-                throw new ParseException("do not parse birthday");
+                throw new ParseException("failed to get user");
             }
             userService.create(user);
             resp.sendRedirect("/users");
