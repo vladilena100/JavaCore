@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import support.HibernateSession;
+import support.DBConfig;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ public class HibernateRoleDaoImpl implements DaoRole {
 
     private static final Logger LOG = LogManager.getLogger(HibernateRoleDaoImpl.class);
 
-    private final HibernateSession hibernateSession;
+    private final DBConfig hibernateSession;
 
-    public HibernateRoleDaoImpl(HibernateSession hibernateSession) {
+    public HibernateRoleDaoImpl(DBConfig hibernateSession) {
         this.hibernateSession = hibernateSession;
     }
 

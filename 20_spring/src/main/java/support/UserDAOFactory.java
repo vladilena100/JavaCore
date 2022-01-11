@@ -9,6 +9,6 @@ public class UserDAOFactory implements DAOFactory<User> {
 
     @Override
     public Dao<User> getDao() {
-        return new HibernateUserDaoImpl(HibernateSession.getInstance());
+        return new HibernateUserDaoImpl(DBConfig.getInstance());
     }
 }

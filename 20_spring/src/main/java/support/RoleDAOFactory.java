@@ -7,6 +7,6 @@ import model.Role;
 public class RoleDAOFactory implements DAOFactory<Role> {
     @Override
     public Dao<Role> getDao() {
-        return new HibernateRoleDaoImpl(HibernateSession.getInstance());
+        return new HibernateRoleDaoImpl(DBConfig.getInstance());
     }
 }
