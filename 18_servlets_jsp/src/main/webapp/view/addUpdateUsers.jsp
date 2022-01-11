@@ -161,7 +161,7 @@
                             <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                             <input type="date" class="form-control" id="birthday" placeholder="1999-01-01"
                                    name="birthday" required data-class="invalid-input" tabindex="7"
-                                   min="1900-01-01" value="${user.birthday}">
+                                   min="1900-01-01" value="${birthday}">
                             <p><span class="colortext">${error.birthdayError}</span></p>
                         </c:when>
                         <c:otherwise>

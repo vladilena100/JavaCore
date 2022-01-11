@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import static util.ValidateFields.validateFields;
@@ -40,6 +42,8 @@ public class UpdateUserServlet extends HttpServlet {
         req.setAttribute("action", "Edit");
         User byId = userService.findById(userId);
         req.setAttribute("user", byId);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        req.setAttribute("birthday", formatter.format(byId.getBirthday()));
         req.setAttribute("selectedRoleId", byId.getRole().getId());
         req.setAttribute("roles", roleService.findAll());
 

@@ -19,7 +19,7 @@ public class RequestUtils {
     private static final Logger LOG = LogManager.getLogger(RequestUtils.class);
 
     private static final RoleService roleService = RoleService.getInstance((DaoRole) new RoleDAOFactory().getDao());
-    private static final SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 
     private RequestUtils() {
