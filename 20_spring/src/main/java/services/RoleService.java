@@ -4,13 +4,17 @@ package services;
 import dao.Dao;
 import dao.DaoRole;
 import model.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class RoleService {
 
-    private static RoleService roleService;
-
+    @Autowired
     private final DaoRole roleDao;
 
     private RoleService(Dao<Role> roleDao) {
@@ -23,13 +27,5 @@ public class RoleService {
 
     public Role findById(Long id) {
         return roleDao.findById(id);
-    }
-
-
-    public static synchronized RoleService getInstance(DaoRole roleDao) {
-        if (roleService == null) {
-            roleService = new RoleService(roleDao);
-        }
-        return roleService;
     }
 }

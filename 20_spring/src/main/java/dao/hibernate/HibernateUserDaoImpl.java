@@ -1,14 +1,12 @@
 package dao.hibernate;
 
 import dao.DaoUser;
-import exception.HibernateDaoException;
 import model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import support.HibernateSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -18,14 +16,14 @@ import java.util.List;
  * @author Vladilena Vasilieva
  */
 
+@Repository
 public class HibernateUserDaoImpl implements DaoUser {
 
-    private static final Logger LOG = LogManager.getLogger(HibernateUserDaoImpl.class);
+    @Autowired
+    private final SessionFactory sessionFactory;
 
-    private final HibernateSession hibernateSession;
-
-    public HibernateUserDaoImpl(HibernateSession hibernateSession) {
-        this.hibernateSession = hibernateSession;
+    public HibernateUserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     /**
@@ -38,24 +36,12 @@ public class HibernateUserDaoImpl implements DaoUser {
     @Override
     public User findById(Long id) {
 
-        Transaction transaction = null;
+        Session session = sessionFactory.getCurrentSession();
 
-        try (Session session = hibernateSession.getSession()) {
-            transaction = session.beginTransaction();
+        Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.id = :id");
+        query.setParameter("id", id);
 
-            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.id = :id");
-            query.setParameter("id", id);
-            User user = query.uniqueResult();
-
-            transaction.commit();
-            return user;
-        } catch (Exception e) {
-            LOG.error("Error when finding user by id", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        return query.uniqueResult();
     }
 
     /**
@@ -66,21 +52,9 @@ public class HibernateUserDaoImpl implements DaoUser {
 
     @Override
     public void create(User user) {
-        Transaction transaction = null;
 
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-            session.save(user);
-
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.error("Error when creating new user", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.save(user);
     }
 
     /**
@@ -91,21 +65,9 @@ public class HibernateUserDaoImpl implements DaoUser {
 
     @Override
     public void update(User user) {
-        Transaction transaction = null;
 
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-            session.update(user);
-
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.error("Error when updating user", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.update(user);
     }
 
     /**
@@ -116,25 +78,11 @@ public class HibernateUserDaoImpl implements DaoUser {
 
     @Override
     public void remove(User user) {
-        Transaction transaction = null;
 
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-            Query query = session.createQuery("DELETE FROM User WHERE id = :id");
-            query.setParameter("id", user.getId());
-
-            query.executeUpdate();
-
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.error("Error when removing user", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
-
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("DELETE FROM User WHERE id = :id");
+        query.setParameter("id", user.getId());
+        query.executeUpdate();
     }
 
     /**
@@ -146,24 +94,9 @@ public class HibernateUserDaoImpl implements DaoUser {
     @Override
     public List<User> findAll() {
 
-        Transaction transaction = null;
-
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-
-            Query<User> userQuery = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r");
-            List<User> users = userQuery.getResultList();
-            transaction.commit();
-
-            return users;
-        } catch (Exception e) {
-            LOG.error("Error when finding all users", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> userQuery = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r");
+        return userQuery.getResultList();
     }
 
     /**
@@ -175,24 +108,11 @@ public class HibernateUserDaoImpl implements DaoUser {
 
     @Override
     public User findByLogin(String login) {
-        Transaction transaction = null;
 
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.login = :login");
-            query.setParameter("login", login);
-            User user = query.uniqueResult();
-
-            transaction.commit();
-            return user;
-        } catch (Exception e) {
-            LOG.error("Error when finding user by login", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.login = :login");
+        query.setParameter("login", login);
+        return query.uniqueResult();
     }
 
     /**
@@ -204,23 +124,10 @@ public class HibernateUserDaoImpl implements DaoUser {
 
     @Override
     public User findByEmail(String email) {
-        Transaction transaction = null;
 
-        try (Session session = hibernateSession.getSession()) {
-
-            transaction = session.beginTransaction();
-            Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.email = :email");
-            query.setParameter("email", email);
-            User user = query.uniqueResult();
-
-            transaction.commit();
-            return user;
-        } catch (Exception e) {
-            LOG.error("Error when finding user by email", e);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new HibernateDaoException(e.getMessage(), e);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createQuery("SELECT u FROM User u JOIN FETCH u.role r WHERE u.email = :email");
+        query.setParameter("email", email);
+        return query.uniqueResult();
     }
 }

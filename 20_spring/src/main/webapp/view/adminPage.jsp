@@ -18,7 +18,8 @@
             href="${pageContext.request.contextPath}/logout">Logout</a>)
     </div>
     <div class="mt-5 text-left ml-2">
-        <a href="${pageContext.request.contextPath}/users/add">Add new user</a>
+<%--        <a href="${pageContext.request.contextPath}/users/add">Add new user</a>--%>
+        <input type="button" value="Add" onclick="window.location.href = '/add'"/>
     </div>
     <div>
         <ex:users_list users="${users}" id="${sessionScope.user.id}"/>

@@ -1,31 +1,31 @@
 package util;
 
-import dao.DaoRole;
+import lombok.AllArgsConstructor;
 import model.Role;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import services.RoleService;
-import support.RoleDAOFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@Component
+@AllArgsConstructor
 public class RequestUtils {
 
     private static final Logger LOG = LogManager.getLogger(RequestUtils.class);
 
-    private static final RoleService roleService = RoleService.getInstance((DaoRole) new RoleDAOFactory().getDao());
+    @Autowired
+    private final RoleService roleService;
+
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-
-    private RequestUtils() {
-    }
-
-    public static User getUser(HttpServletRequest req) {
+    public User getUser(HttpServletRequest req) {
 
         final String id = req.getParameter("id");
         Long userId = null;

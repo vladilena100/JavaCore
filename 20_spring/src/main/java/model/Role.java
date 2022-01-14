@@ -16,7 +16,6 @@ import java.util.Set;
  * @author Vladilena Vasilieva
  */
 
-@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "role")
@@ -40,5 +39,13 @@ public class Role {
     public Role(@NotNull Long id, @NotBlank String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

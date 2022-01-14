@@ -1,6 +1,8 @@
 package servlets;
 
-import javax.servlet.annotation.WebServlet;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +13,8 @@ import java.io.IOException;
  * Delete session.
  */
 
-@WebServlet("/logout")
+@Controller
+@RequestMapping("/logout")
 public class LogoutServlet extends HttpServlet {
 
     @Override

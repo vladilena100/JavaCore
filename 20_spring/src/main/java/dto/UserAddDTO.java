@@ -1,67 +1,31 @@
-package model;
+package dto;
 
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import model.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Модель пользователя с характерными полями
- *
- * @author Vladilena Vasilieva
- */
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "\"user\"")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Size(min = 4, max = 64)
-    @Column(name = "login", length = 64, unique = true, nullable = false)
+public class UserAddDTO {
+    @Size(min = 4, max = 64, message = "Login length must be from 4 to 64 characters")
     private String login;
-
-    @NotNull
-    @Size(min = 4, max = 64)
-    @Column(name = "password", nullable = false)
+    @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
     private String password;
-
+    @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
+    private String confirmPassword;
     @Email
-    @Column(name = "email", nullable = false, length = 64)
     private String email;
-
-    @NotBlank
-//    @Size(min = 4, message = "name must be min 2 symbols")
-    @Column(name = "first_name", nullable = false, length = 64)
+    @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
     private String firstName;
-
-    @NotBlank
-    @Size(min = 4, max = 64)
-    @Column(name = "last_name", nullable = false, length = 64)
+    @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
     private String lastName;
-
-    @Past
-    @Column(name = "birthday", nullable = false)
+    @NotNull(message = "Birthday is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
+    @NotNull(message = "role is required")
     private Role role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;
@@ -77,6 +41,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {

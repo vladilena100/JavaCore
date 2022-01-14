@@ -1,35 +1,43 @@
 package servlets;
 
-import dao.DaoRole;
-import dao.DaoUser;
 import exception.ParseException;
+import lombok.AllArgsConstructor;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import services.RoleService;
 import services.UserService;
-import support.RoleDAOFactory;
-import support.UserDAOFactory;
 import util.RequestUtils;
+import util.ValidateFields;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static util.ValidateFields.validateFields;
-
-@WebServlet("/users/add")
+@Controller
+@RequestMapping("/users/add")
+@AllArgsConstructor
 public class AddUserServlet extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(AddUserServlet.class);
 
-    private final RoleService roleService = RoleService.getInstance((DaoRole) new RoleDAOFactory().getDao());
+    @Autowired
+    private final RoleService roleService;
 
-    private final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
+    @Autowired
+    private final UserService userService;
+
+    @Autowired
+    private final RequestUtils requestUtils;
+
+    @Autowired
+    private ValidateFields validateFields;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +52,7 @@ public class AddUserServlet extends HttpServlet {
 
         Map<String, String> result = null;
         try {
-            result = validateFields(req);
+            result = validateFields.validateFields(req);
         } catch (ParseException | java.text.ParseException e) {
             LOG.error("Message: ", e);
         }
@@ -55,7 +63,7 @@ public class AddUserServlet extends HttpServlet {
         } else {
             User user;
             try {
-                user = RequestUtils.getUser(req);
+                user = requestUtils.getUser(req);
             } catch (ParseException e) {
                 LOG.error("Message: ", e);
                 throw new ParseException("failed to get user");

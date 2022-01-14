@@ -1,7 +1,10 @@
 package util;
 
 import dao.DaoUser;
+import lombok.AllArgsConstructor;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import services.UserService;
 import support.UserDAOFactory;
 
@@ -10,11 +13,14 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
+@AllArgsConstructor
 public class ValidateFields {
 
-    private static final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
+    @Autowired
+    private final UserService userService;
 
-    public static Map<String, String> validateFields(HttpServletRequest req) throws ParseException {
+    public Map<String, String> validateFields(HttpServletRequest req) throws ParseException {
 
         Map<String, String> error = new HashMap<>();
 

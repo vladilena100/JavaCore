@@ -1,19 +1,19 @@
 package servlets;
 
-import dao.DaoRole;
-import dao.DaoUser;
 import exception.ParseException;
+import lombok.AllArgsConstructor;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import services.RoleService;
 import services.UserService;
-import support.RoleDAOFactory;
-import support.UserDAOFactory;
 import util.RequestUtils;
+import util.ValidateFields;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,17 +22,24 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import static util.ValidateFields.validateFields;
-
-@WebServlet("/users/edit")
+@Controller
+@RequestMapping("/users/edit")
+@AllArgsConstructor
 public class UpdateUserServlet extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(UpdateUserServlet.class);
 
+    @Autowired
+    private final RoleService roleService;
 
-    private final RoleService roleService = RoleService.getInstance((DaoRole) new RoleDAOFactory().getDao());
+    @Autowired
+    private final UserService userService;
 
-    private final UserService userService = UserService.getInstance((DaoUser) new UserDAOFactory().getDao());
+    @Autowired
+    private final RequestUtils requestUtils;
+
+    @Autowired
+    private ValidateFields validateFields;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,7 +65,7 @@ public class UpdateUserServlet extends HttpServlet {
 
         User userForUpdate;
         try {
-            userForUpdate = RequestUtils.getUser(req);
+            userForUpdate = requestUtils.getUser(req);
         } catch (ParseException e) {
             LOG.error("Message: ", e);
             throw new ParseException("do not parse birthday");
@@ -70,7 +77,7 @@ public class UpdateUserServlet extends HttpServlet {
 
         Map<String, String> result;
         try {
-            result = validateFields(req);
+            result = validateFields.validateFields(req);
         } catch (ParseException | java.text.ParseException e) {
             LOG.error("Message: ", e);
             throw new ParseException("do not parse birthday");

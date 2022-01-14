@@ -4,13 +4,17 @@ package services;
 import dao.Dao;
 import dao.DaoUser;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class UserService {
 
-    private static UserService userService;
-
+    @Autowired
     private final DaoUser userDao;
 
     private UserService(Dao<User> userDao) {
@@ -53,12 +57,5 @@ public class UserService {
             return byLogin;
         }
         return null;
-    }
-
-    public static synchronized UserService getInstance(DaoUser userDao) {
-        if (userService == null) {
-            userService = new UserService(userDao);
-        }
-        return userService;
     }
 }
