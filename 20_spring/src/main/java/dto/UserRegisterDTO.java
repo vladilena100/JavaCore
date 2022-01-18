@@ -13,8 +13,8 @@ public class UserRegisterDTO {
     @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
     private String password;
     @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
-    private String confirmPassword;
-    @Email
+    private String passwordAgain;
+    @Email(message = "email is not correct")
     private String email;
     @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
     private String firstName;
@@ -40,12 +40,12 @@ public class UserRegisterDTO {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
+    public String getPasswordAgain() {
+        return passwordAgain;
     }
 
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    public void setPasswordAgain(String passwordAgain) {
+        this.passwordAgain = passwordAgain;
     }
 
     public String getEmail() {

@@ -1,18 +1,18 @@
 package controller;
 
-import dao.DaoUser;
 import dto.UserAddDTO;
+import dto.UserEditDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import services.UserService;
+import util.UserUtil;
 
 import java.util.List;
 
@@ -22,85 +22,86 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
-    @Autowired
     private final UserService userService;
 
-    @RequestMapping("/users")
-    public String allUsers(Model model) {
+    @GetMapping
+    public String users(Model model, @AuthenticationPrincipal User user) {
 
-        List<User> allUsers = userService.findAll();
-        model.addAttribute("users", allUsers);
+        if (user.getRole().getName().equals("ADMIN")) {
+            List<User> users = userService.findAll();
+            model.addAttribute("auth_user", user);
+            model.addAttribute("user", users);
+            return "adminPage";
+        } else {
+            List<User> users = userService.findAll();
+            model.addAttribute("auth_user", user);
+            model.addAttribute("user", users);
+            return "userPage";
+        }
 
-        return "adminPage.jsp";
     }
 
-    @RequestMapping("/add")
-    public String addUser(Model model) {
+    @GetMapping("add")
+    public String addUserForm(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("action", "Add");
+        model.addAttribute("auth_user", user);
+        model.addAttribute("user", new UserAddDTO());
+        return "addUpdateUsers";
+    }
 
-        User user = new User();
+    @PostMapping("add")
+    public String addUser(@ModelAttribute(name = "user") @Valid UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
+        if (!user.getPassword().equals(user.getPasswordAgain())) {
+            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
+        }
+        model.addAttribute("action", "Add");
+        model.addAttribute("auth_user", principal);
         model.addAttribute("user", user);
-
-        return "addUsers.jsp";
-    }
-
-    @RequestMapping("/addUser")
-    public String saveUser(@ModelAttribute("user") User user) {
-        userService.create(user);
+        if (result.hasErrors()) {
+            return "addUpdateUsers";
+        }
+        boolean created = userService.create(user);
+        if (!created) {
+            result.rejectValue("login", "error.user", "User with this login already exists");
+            return "addUpdateUsers";
+        }
         return "redirect:/users";
     }
 
-    @RequestMapping("/edit")
-    public String updateUser(@RequestParam("id") Long id, Model model) {
+    @GetMapping("edit/{id}")
+    public String editUserForm(@PathVariable Long id, Model model, @AuthenticationPrincipal User principal) {
 
+        model.addAttribute("action", "Edit");
+        model.addAttribute("id", id);
+        model.addAttribute("auth_user", principal);
         User user = userService.findById(id);
-        model.addAttribute("user", user);
-
-        return "addUsers.jsp";
+        model.addAttribute("user", UserUtil.toUserEdit(user));
+        return "redirect:/users";
     }
 
+    @PostMapping("edit/{id}")
+    public String editUser(@PathVariable Long id, @ModelAttribute(name = "user") @Valid UserEditDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
+        if (!user.getPassword().equals(user.getPasswordAgain())) {
+            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
+        }
+        if (!user.getPassword().isEmpty() && user.getPassword().length() < 4 || user.getPassword().length() > 64) {
+            result.rejectValue("password", "error.user", "Password length must be from 4 to 64 characters");
+        }
+        model.addAttribute("action", "Edit");
+        model.addAttribute("id", id);
+        model.addAttribute("auth_user", principal);
+        if (result.hasErrors()) {
+            return "addUpdateUsers";
+        }
+        userService.update(UserUtil.toUser(user, id));
+        return "redirect:/users";
+    }
 
-
-//    @RequestMapping("/edit")
-//    public String updateUser(@ModelAttribute("users") User user) {
-//
-//        userService.update(user);
-//
-//        return "redirect:/users";
-//    }
-
-//    @GetMapping
-//    public String users(Model model, @AuthenticationPrincipal User user) {
-//        List<User> users = userService.findAll();
-//        model.addAttribute("auth_user", user);
-//        model.addAttribute("users", users);
-//        return "users";
-//    }
-//
-//    @GetMapping("add")
-//    public String addUserForm(Model model, @AuthenticationPrincipal User user) {
-//        model.addAttribute("action", "Add");
-//        model.addAttribute("auth_user", user);
-//        model.addAttribute("user", new UserAddDTO());
-//        return "addUser";
-//    }
-
-//    @PostMapping("add")
-//    public String addUser(@ModelAttribute(name = "user") @Valid UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
-//        if (!user.getPassword().equals(user.getConfirmPassword())) {
-//            result.rejectValue("confirmPassword", "error.user", "Password and confirm password are different");
-//        }
-//        model.addAttribute("action", "Add");
-//        model.addAttribute("auth_user", principal);
-//        model.addAttribute("user", user);
-//        if (result.hasErrors()) {
-//            return "addUser";
-//        }
-//        boolean created = userService.create(user);
-//        if (!created) {
-//            result.rejectValue("login", "error.user", "User with this login already exists");
-//            return "addUser";
-//        }
-//        return "redirect:/users";
-//    }
-
+    @GetMapping("delete/{id}")
+    public String deleteUser(@PathVariable Long id, @AuthenticationPrincipal User user) {
+        if (!user.getId().equals(id)) {
+            userService.remove(user);
+        }
+        return "redirect:/users";
+    }
 }

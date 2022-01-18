@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -13,16 +14,14 @@
 </head>
 <body>
 <div class="container">
-    <div style="text-align: right">
-        ${sessionScope.user.firstName} ${sessionScope.user.lastName}(<a
-            href="${pageContext.request.contextPath}/logout">Logout</a>)
+    <div class="text-right mt-3">
+        ${auth_user.firstName} ${auth_user.lastName}(<a href="/logout">Logout</a>)
     </div>
     <div class="mt-5 text-left ml-2">
-<%--        <a href="${pageContext.request.contextPath}/users/add">Add new user</a>--%>
-        <input type="button" value="Add" onclick="window.location.href = '/add'"/>
+        <a href="${pageContext.request.contextPath}/users/add">Add new user</a>
     </div>
     <div>
-        <ex:users_list users="${users}" id="${sessionScope.user.id}"/>
+        <ex:users_list users="${user}" id="${sessionScope.user.id}"/>
     </div>
     <style>
         #users {
@@ -30,6 +29,7 @@
             margin: 0 auto;
         }
     </style>
+
 </div>
 </body>
 </html>

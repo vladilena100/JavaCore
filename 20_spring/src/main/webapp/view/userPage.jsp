@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -14,10 +15,10 @@
 <div class="container">
     <div class="justify-content-center">
         <div class="mt-5 font-weight-bold">
-            <h1 class="text-center">Hello, ${sessionScope.user.firstName}!</h1>
+            <h1 class="text-center">Hello, ${auth_user.firstName}!</h1>
         </div>
         <div class="mt-3">
-            <p class="text-center">Click <a href="${pageContext.request.contextPath}/logout">here</a> to logout</p>
+            <p class="text-center">Click <a href="/logout">here</a> to logout</p>
         </div>
     </div>
 </div>

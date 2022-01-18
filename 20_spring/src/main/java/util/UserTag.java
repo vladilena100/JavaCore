@@ -78,7 +78,6 @@ public class UserTag implements Tag {
 
         JspWriter out = pageContext.getOut();
 
-
         if (users.size() > 0) {
             StringBuilder output = new StringBuilder();
             output.append("<table class=\"table table-bordered\" id=\"users\">"

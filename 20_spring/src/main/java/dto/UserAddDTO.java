@@ -2,6 +2,7 @@ package dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import model.Role;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,10 +13,11 @@ public class UserAddDTO {
     @Size(min = 4, max = 64, message = "Login length must be from 4 to 64 characters")
     private String login;
     @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
+    @Pattern(regexp ="^(?=.*[0-9])(?=.*[a-z]).{4,64}$", message = "password must contain at least 4 characters and 1 letter and 1 number")
     private String password;
     @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
-    private String confirmPassword;
-    @Email
+    private String passwordAgain;
+    @Email(message = "email is not correct")
     private String email;
     @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
     private String firstName;
@@ -43,12 +45,12 @@ public class UserAddDTO {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
+    public String getPasswordAgain() {
+        return passwordAgain;
     }
 
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    public void setPasswordAgain(String passwordAgain) {
+        this.passwordAgain = passwordAgain;
     }
 
     public String getEmail() {

@@ -1,12 +1,17 @@
 package services;
 
 
-import dao.Dao;
+import dao.DaoRole;
 import dao.DaoUser;
+import dto.UserDTO;
+import dto.UserAddDTO;
+import model.Role;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import util.UserUtil;
 
 import java.util.List;
 
@@ -15,18 +20,30 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private final DaoUser userDao;
+    private DaoRole roleDao;
 
-    private UserService(Dao<User> userDao) {
-        this.userDao = (DaoUser) userDao;
-    }
+    @Autowired
+    private DaoUser userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Transactional(readOnly = true)
     public User findById(Long id) {
         return userDao.findById(id);
     }
 
-    public void create(User user) {
-        userDao.create(user);
+    public boolean create(UserAddDTO user) {
+        User userToAdd = UserUtil.toUser(user);
+        boolean exists = checkExistingUser(userToAdd);
+        if (exists) {
+            return false;
+        }
+        Role role = roleDao.findByName(user.getRole().getName());
+        userToAdd.setRole(role);
+        userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.create(userToAdd);
+        return true;
     }
 
     public void update(User user) {
@@ -37,25 +54,29 @@ public class UserService {
         userDao.remove(user);
     }
 
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userDao.findAll();
     }
 
-    public User findByLogin(String login) {
-        return userDao.findByLogin(login);
-    }
-
-    public User findByEmail(String email) {
-        return userDao.findByEmail(email);
-    }
-
-    public User getUserByLoginPassword(String login, String password) {
-
-        User byLogin = userDao.findByLogin(login);
-
-        if (byLogin != null && byLogin.getPassword().equals(password)) {
-            return byLogin;
+    public boolean registerUser(User user) {
+        boolean exists = checkExistingUser(user);
+        if (exists) {
+            return false;
         }
-        return null;
+        Role role = roleDao.findByName("USER");
+        user.setRole(role);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.create(user);
+        return true;
+    }
+
+    public boolean checkCorrectData(User user, UserDTO loginDTO) {
+        return user.getPassword().equals(passwordEncoder.encode(loginDTO.getPassword()));
+    }
+
+    public boolean checkExistingUser(User user) {
+        User userByLogin = userDao.findByLogin(user.getLogin());
+        return userByLogin != null;
     }
 }
