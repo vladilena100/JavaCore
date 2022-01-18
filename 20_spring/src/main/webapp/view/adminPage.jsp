@@ -21,7 +21,7 @@
         <a href="${pageContext.request.contextPath}/users/add">Add new user</a>
     </div>
     <div>
-        <ex:users_list users="${user}" id="${sessionScope.user.id}"/>
+        <ex:users_list users="${user}" id="${auth_user.id}"/>
     </div>
     <style>
         #users {

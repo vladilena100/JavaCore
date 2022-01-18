@@ -6,23 +6,34 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import services.RoleService;
 import services.UserService;
 import util.UserUtil;
+import util.ValidateFields;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 @RequestMapping("/users")
-@AllArgsConstructor
+
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private ValidateFields validateFields;
 
     @GetMapping
     public String users(Model model, @AuthenticationPrincipal User user) {
@@ -46,14 +57,16 @@ public class UserController {
         model.addAttribute("action", "Add");
         model.addAttribute("auth_user", user);
         model.addAttribute("user", new UserAddDTO());
+        model.addAttribute("roles", roleService.findAll());
         return "addUpdateUsers";
     }
 
     @PostMapping("add")
-    public String addUser(@ModelAttribute(name = "user") @Valid UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
-        if (!user.getPassword().equals(user.getPasswordAgain())) {
-            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
-        }
+    public String addUser(@ModelAttribute(name = "user") @Valid UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
+//        if (!user.getPassword().equals(user.getPasswordAgain())) {
+//            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
+//        }
+        result = validateFields.validateFields(user, result, req);
         model.addAttribute("action", "Add");
         model.addAttribute("auth_user", principal);
         model.addAttribute("user", user);
@@ -71,12 +84,17 @@ public class UserController {
     @GetMapping("edit/{id}")
     public String editUserForm(@PathVariable Long id, Model model, @AuthenticationPrincipal User principal) {
 
-        model.addAttribute("action", "Edit");
-        model.addAttribute("id", id);
-        model.addAttribute("auth_user", principal);
-        User user = userService.findById(id);
-        model.addAttribute("user", UserUtil.toUserEdit(user));
+        if (!principal.getId().equals(id)) {
+            model.addAttribute("action", "Edit");
+            model.addAttribute("id", id);
+            model.addAttribute("auth_user", principal);
+            User user = userService.findById(id);
+            model.addAttribute("user", UserUtil.toUserEdit(user));
+            model.addAttribute("roles", roleService.findAll());
+            return "addUpdateUsers";
+        }
         return "redirect:/users";
+
     }
 
     @PostMapping("edit/{id}")

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"services", "dao", "support"})
+@ComponentScan({"services", "dao", "support", "util"})
 public class DBConfig {
     @Bean
     public TransactionManager transactionManager() {

@@ -24,7 +24,7 @@
                     <form:input path="login" type="text" class="form-control" id="login" placeholder="user" name="login"
                                 min="4" maxlength="64" tabindex="1"
                                 data-invalid-message="Login is not correct" data-valid-message="Login is correct"
-                                data-id="invalidLogin" data-class="invalid-input"/>
+                                data-id="invalidLogin" data-class="invalid-input" required="required"/>
                     <small id="invalidLogin" class="output"></small>
                     <form:errors path="login" cssClass="alert-warning"/>
                 </div>
@@ -37,10 +37,7 @@
                                 placeholder="4657512" min="4" maxlength="64" tabindex="2"
                                 name="password" data-invalid-message="Password length must be greater than 4"
                                 data-valid-message="Password is correct" data-id="invalidPassword"
-                                data-class="invalid-input"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-class="invalid-input" required="required"/>
                     <small id="invalidPassword" class="output"></small>
                     <form:errors path="password" cssClass="alert-warning"/>
                 </div>
@@ -53,10 +50,7 @@
                                 placeholder="password" name="passwordRepeat" min="4" maxlength="64"
                                 data-invalid-message="Password doesn't match"
                                 data-valid-message="Passwords match" tabindex="3"
-                                data-class="invalid-input" data-id="invalidRPassword"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-class="invalid-input" data-id="invalidRPassword" required="required"/>
                     <small id="invalidRPassword" class="output"></small>
                     <form:errors path="passwordAgain" cssClass="alert-warning"/>
                 </div>
@@ -68,10 +62,7 @@
                                 name="email" tabindex="4"
                                 data-invalid-message="Email is not correct"
                                 data-valid-message="Email is correct"
-                                data-class="invalid-input" data-id="invalidEmail"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-class="invalid-input" data-id="invalidEmail" required="required"/>
                     <small id="invalidEmail" class="output"></small>
                     <form:errors path="email" cssClass="alert-warning"/>
                 </div>
@@ -83,10 +74,7 @@
                                 tabindex="5"
                                 placeholder="FirstName" data-class="invalid-input"
                                 name="firstName" data-invalid-message="First name is not correct"
-                                data-valid-message="First name is correct" data-id="invalidFname"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-valid-message="First name is correct" data-id="invalidFname" required="required"/>
                     <small id="invalidFname" class="output"></small>
                     <form:errors path="firstName" cssClass="alert-warning"/>
                 </div>
@@ -97,10 +85,7 @@
                     <form:input path="lastName" type="text" class="form-control" id="lastname" placeholder="LastName"
                                 name="lastName" min="2" maxlength="64" data-class="invalid-input"
                                 data-invalid-message="Last name is not correct" tabindex="6"
-                                data-valid-message="Last name is correct" data-id="invalidLname"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-valid-message="Last name is correct" data-id="invalidLname" required="required"/>
                     <small id="invalidLname" class="output"></small>
                     <form:errors path="lastName" cssClass="alert-warning"/>
                 </div>
@@ -112,10 +97,7 @@
                                 name="birthday" data-class="invalid-input"
                                 min="1900-01-01" tabindex="7"
                                 data-invalid-message="Date is not correct"
-                                data-valid-message="Date is correct" data-id="invalidDate"/>
-                    <div class="required-icon mr-2">
-                        <div class="text">*</div>
-                    </div>
+                                data-valid-message="Date is correct" data-id="invalidDate" required="required"/>
                     <small id="invalidDate" class="output"></small>
                     <form:errors path="birthday" cssClass="alert-warning"/>
                 </div>

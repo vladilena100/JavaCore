@@ -19,16 +19,16 @@ import java.net.URI;
 
 @Controller
 @RequestMapping("registration")
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:application.properties")
 public class RegistrationController {
 
     private final UserService userService;
 
-    @Value("${recaptcha.secret}")
-    private String recaptchaSecret;
-
-    @Value("${recaptcha.url}")
-    private String verificationUrl;
+//    @Value("${recaptcha.secret}")
+//    private String recaptchaSecret;
+//
+//    @Value("${recaptcha.url}")
+//    private String verificationUrl;
 
     private final RestTemplate restTemplate;
 
@@ -47,20 +47,20 @@ public class RegistrationController {
     public String registration(
             @ModelAttribute(name = "user")
             @Valid UserRegisterDTO user,
-            BindingResult result, Model model,
-            @RequestParam("g-recaptcha-response") String captchaResponse
+            BindingResult result, Model model
+//            @RequestParam("g-recaptcha-response") String captchaResponse
     ) {
-        CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
-        if (response == null || !response.isSuccess()) {
-            model.addAttribute("captchaError", "Captcha is required");
-        }
+//        CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
+//        if (response == null || !response.isSuccess()) {
+//            model.addAttribute("captchaError", "Captcha is required");
+//        }
         if (!user.getPassword().equals(user.getPasswordAgain())) {
             result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
         }
         model.addAttribute("user", user);
-        if (result.hasErrors() || !response.isSuccess()) {
-            return "registration";
-        }
+//        if (result.hasErrors() || !response.isSuccess()) {
+//            return "registration";
+//        }
         boolean registered = userService.registerUser(UserUtil.toUser(user));
         if (!registered) {
             result.rejectValue("login", "error.user", "User with this login already exists");
@@ -69,10 +69,10 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-    private CaptchaResponseDTO captchaVerificationRequest(String captchaResponse) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(verificationUrl)
-                .queryParam("secret", recaptchaSecret)
-                .queryParam("response", captchaResponse).build().toUri();
-        return restTemplate.postForObject(uri, null, CaptchaResponseDTO.class);
-    }
+//    private CaptchaResponseDTO captchaVerificationRequest(String captchaResponse) {
+//        URI uri = UriComponentsBuilder.fromHttpUrl(verificationUrl)
+//                .queryParam("secret", recaptchaSecret)
+//                .queryParam("response", captchaResponse).build().toUri();
+//        return restTemplate.postForObject(uri, null, CaptchaResponseDTO.class);
+//    }
 }
