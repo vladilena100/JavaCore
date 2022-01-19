@@ -20,5 +20,7 @@ public interface DaoRole extends Dao<Role> {
     @Override
     void remove(Role entity);
 
-    Role findById(String name);
+    Role findById(Long id);
+
+    Role findByName(String name);
 }

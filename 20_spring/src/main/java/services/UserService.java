@@ -39,7 +39,7 @@ public class UserService {
         if (exists) {
             return false;
         }
-        Role role = roleDao.findById(Long.parseLong(user.getRole().getName()));
+        Role role = roleDao.findByName(user.getRole().getName());
         userToAdd.setRole(role);
         userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(userToAdd);
@@ -83,7 +83,7 @@ public class UserService {
         if (exists) {
             return false;
         }
-        Role role = roleDao.findById("USER");
+        Role role = roleDao.findByName("USER");
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(user);

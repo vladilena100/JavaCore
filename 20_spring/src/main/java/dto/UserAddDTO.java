@@ -1,9 +1,9 @@
 package dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import model.Role;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,7 +21,7 @@ public class UserAddDTO {
     private String email;
     @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
     private String firstName;
-    @Size(min = 2, max = 64, message = "First name must be from 2 to 64 characters")
+    @Size(min = 2, max = 64, message = "Last name must be from 2 to 64 characters")
     private String lastName;
     @NotNull(message = "Birthday is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

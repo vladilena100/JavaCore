@@ -15,16 +15,4 @@ public class CaptchaResponseDTO {
     public boolean isSuccess() {
         return success;
     }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public Set<String> getErrorCodes() {
-        return errorCodes;
-    }
-
-    public void setErrorCodes(Set<String> errorCodes) {
-        this.errorCodes = errorCodes;
-    }
 }

@@ -2,8 +2,6 @@ package controller;
 
 import dto.UserAddDTO;
 import dto.UserEditDTO;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import util.UserUtil;
 import util.ValidateFields;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -64,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("add")
-    public String addUser(@Valid @ModelAttribute(name = "userAddDTO") UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
+    public String addUser(@Valid @ModelAttribute(name = "user") UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
 //        if (!user.getPassword().equals(user.getPasswordAgain())) {
 //            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
 //        }
@@ -88,13 +87,8 @@ public class UserController {
         model.addAttribute("action", "Add");
         model.addAttribute("auth_user", principal);
         model.addAttribute("user", user);
+        validateFields.validateFields(user, result, req);
         if (result.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("roles", roleService.findAll());
-            return "addUpdateUsers";
-        }
-
-        if (validateFields.validateFields(user, result, req).hasErrors()) {
             model.addAttribute("user", user);
             model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";

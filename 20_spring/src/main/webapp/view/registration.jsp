@@ -9,7 +9,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body style="min-width: 100px">
 <div class="container col-xl-11">
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div>
-                <div class="g-recaptcha" data-sitekey="6LemaDgcAAAAAOxRzCahX9B2iL2xOWuPuOY63XoD"></div>
+                <div class="g-recaptcha" data-sitekey="6LdskCMeAAAAAJ_Peg-sZzzC8z3JsD6JaK0Oj1lD"></div>
                 <c:if test="${captchaError != null}">
                     <small class="text-danger">${captchaError}</small>
                 </c:if>

@@ -3,7 +3,6 @@ package util;
 import dto.UserAddDTO;
 import dto.UserEditDTO;
 import dto.UserRegisterDTO;
-import jakarta.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Component
 public class ValidateFields {
@@ -20,7 +20,7 @@ public class ValidateFields {
 
     final String REGEXP = "^(?=.*[0-9])(?=.*[a-z]).{4,64}$";
 
-    public BindingResult validateFields(@Valid UserAddDTO user, BindingResult result, HttpServletRequest req) {
+    public void validateFields(UserAddDTO user, BindingResult result, HttpServletRequest req) {
 
         User userByEmail = userService.findByEmail(user.getEmail());
         User userByLogin = userService.findByLogin(user.getLogin());
@@ -48,7 +48,7 @@ public class ValidateFields {
                 result.rejectValue("password", "error.user", "password must contain at least 4 characters and 1 letter and 1 number");
             }
         }
-        return result;
+
     }
 
     public BindingResult validateFields(@Valid UserEditDTO user, BindingResult result, HttpServletRequest req) {

@@ -2,7 +2,7 @@ package controller;
 
 import dto.CaptchaResponseDTO;
 import dto.UserRegisterDTO;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -19,16 +19,16 @@ import java.net.URI;
 
 @Controller
 @RequestMapping("registration")
-//@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.properties")
 public class RegistrationController {
 
     private final UserService userService;
 
-//    @Value("${recaptcha.secret}")
-//    private String recaptchaSecret;
-//
-//    @Value("${recaptcha.url}")
-//    private String verificationUrl;
+    @Value("${recaptcha.secret}")
+    private String recaptchaSecret;
+
+    @Value("${recaptcha.url}")
+    private String verificationUrl;
 
     private final RestTemplate restTemplate;
 
@@ -44,18 +44,18 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registration(@Valid @ModelAttribute(name = "user") UserRegisterDTO user, BindingResult result, Model model
-//            @RequestParam("g-recaptcha-response") String captchaResponse
+    public String registration(@Valid @ModelAttribute(name = "user") UserRegisterDTO user, BindingResult result, Model model,
+            @RequestParam("g-recaptcha-response") String captchaResponse
     ) {
-//        CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
-//        if (response == null || !response.isSuccess()) {
-//            model.addAttribute("captchaError", "Captcha is required");
-//        }
+        CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
+        if (response == null || !response.isSuccess()) {
+            model.addAttribute("captchaError", "Captcha is required");
+        }
         if (!user.getPassword().equals(user.getPasswordAgain())) {
             result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
         }
         model.addAttribute("user", user);
-        if (result.hasErrors()) {
+        if (result.hasErrors() || !response.isSuccess()) {
             return "registration";
         }
         boolean registered = userService.registerUser(UserUtil.toUser(user));
@@ -66,10 +66,10 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-//    private CaptchaResponseDTO captchaVerificationRequest(String captchaResponse) {
-//        URI uri = UriComponentsBuilder.fromHttpUrl(verificationUrl)
-//                .queryParam("secret", recaptchaSecret)
-//                .queryParam("response", captchaResponse).build().toUri();
-//        return restTemplate.postForObject(uri, null, CaptchaResponseDTO.class);
-//    }
+    private CaptchaResponseDTO captchaVerificationRequest(String captchaResponse) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(verificationUrl)
+                .queryParam("secret", recaptchaSecret)
+                .queryParam("response", captchaResponse).build().toUri();
+        return restTemplate.postForObject(uri, null, CaptchaResponseDTO.class);
+    }
 }

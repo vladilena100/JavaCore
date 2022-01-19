@@ -68,10 +68,10 @@
                         </c:when>
                         <c:otherwise>
                             <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
-                            <input type="password" class="form-control" id="password" aria-describedby="pass"
+                            <form:input path="password" type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                                   name="password" required>
-                            <form:errors path="password" cssClass="alert-warning"/>
+                                   name="password" required="required"></form:input>
+                            <form:errors path="password" cssClass="alert-warning"></form:errors>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -82,18 +82,18 @@
                     <c:choose>
                         <c:when test="${action == 'Edit'}">
                             <label for="passwordAgain">Confirm password</label>
-                            <input type="password" class="form-control" id="passwordAgain"
+                            <input  type="password" class="form-control" id="passwordAgain"
                                    aria-describedby="passwordAgain"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                                   name="passwordAgain">
+                                   name="passwordAgain"/>
                             <form:errors path="passwordAgain" cssClass="alert-warning"/>
                         </c:when>
                         <c:otherwise>
                             <label for="passwordAgain">Confirm password</label>
-                            <input type="password" class="form-control" id="passwordAgain"
+                            <form:input path="passwordAgain" type="password" class="form-control" id="passwordAgain"
                                    aria-describedby="passwordAgain"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                                   name="passwordAgain" required>
+                                   name="passwordAgain" required="required"/>
                             <form:errors path="passwordAgain" cssClass="alert-warning"/>
                         </c:otherwise>
                     </c:choose>
@@ -129,8 +129,8 @@
                         </c:when>
                         <c:otherwise>
                             <label for="firstName" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
-                            <input type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
-                                   placeholder="FirstName" name="firstName" value="${param.firstName}" required>
+                            <form:input path="firstName" type="text" class="form-control" min="2" maxlength="64" id="firstName" tabindex="5"
+                                   placeholder="FirstName" name="firstName" value="${param.firstName}" required="required"/>
                             <form:errors path="firstName" cssClass="alert-warning"/>
                         </c:otherwise>
                     </c:choose>
@@ -179,7 +179,7 @@
                     <label for="select" class="col-xl-3 col-4 col-form-label-sm">Role</label>
                     <select id="select" class="form-control" name="role" value="${user.role.name}" required>
                         <c:forEach var="role" items="${roles}">
-                            <option value="${role.id}"
+                            <option value="${role.name}"
                                     <c:if test="${role.id eq selectedRoleId}">selected="selected"</c:if>>
                                     ${role.name}
                             </option>

@@ -103,11 +103,10 @@ public class HibernateRoleDaoImpl implements DaoRole {
         query.executeUpdate();
     }
 
-    @Override
-    public Role findById(String id) {
+    public Role findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Role> query = session.createQuery("FROM Role WHERE id = :role_id");
-        query.setParameter("role_id", id);
+        Query<Role> query = session.createQuery("FROM Role WHERE name = :role_name");
+        query.setParameter("role_name", name);
         return query.getSingleResult();
     }
 }
