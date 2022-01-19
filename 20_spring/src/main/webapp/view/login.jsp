@@ -21,17 +21,21 @@
         <label for="login" class="col-md-4 col-lg-3 col-xl-2 col-form-label-sm">Login</label>
         <div class="col-md-8 col-lg-9 col-xl-10">
           <input type="text" class="form-control" id="login" placeholder="user" value="${userDTO.login}" name="login"/>
+          <form:errors path="login" cssClass="alert-warning"/>
         </div>
       </div>
+      <br>
       <div class="form-group row">
         <label for="password" class="col-md-4 col-lg-3 col-xl-2 col-form-label-sm">Password</label>
         <div class="col-md-8 col-lg-9 col-xl-10">
           <input type="password" class="form-control" id="password" aria-describedby="pass" placeholder="4657512" name="password" value="${userDTO.password}"/>
+          <form:errors path="password" cssClass="alert-warning"/>
         </div>
       </div>
       <c:if test="${param.error != null}">
         <p style="color: red">Wrong login or password</p>
       </c:if>
+      <br>
       <a href="${pageContext.request.contextPath}/registration" class="btn btn-primary float-left">Registration</a>
       <button type="submit" class="btn btn-primary float-right">Sign in</button>
     </form:form>

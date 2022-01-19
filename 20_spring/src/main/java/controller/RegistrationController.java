@@ -44,10 +44,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registration(
-            @ModelAttribute(name = "user")
-            @Valid UserRegisterDTO user,
-            BindingResult result, Model model
+    public String registration(@Valid @ModelAttribute(name = "user") UserRegisterDTO user, BindingResult result, Model model
 //            @RequestParam("g-recaptcha-response") String captchaResponse
     ) {
 //        CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
@@ -58,9 +55,9 @@ public class RegistrationController {
             result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
         }
         model.addAttribute("user", user);
-//        if (result.hasErrors() || !response.isSuccess()) {
-//            return "registration";
-//        }
+        if (result.hasErrors()) {
+            return "registration";
+        }
         boolean registered = userService.registerUser(UserUtil.toUser(user));
         if (!registered) {
             result.rejectValue("login", "error.user", "User with this login already exists");

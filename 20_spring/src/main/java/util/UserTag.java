@@ -99,7 +99,7 @@ public class UserTag implements Tag {
                                 + user.getRole().getName() + "</td><td>");
 
                 if (!user.getId().equals(id)) {
-                    output.append("<form action=\"users/delete/" + user.getId() + "\" method=\"post\""
+                    output.append("<form action=\"users/delete/" + user.getId() + "\" method=\"get\""
                             + "\" onclick=\"return confirm"
                             + "('Are you sure?')\"><input type=\"submit\" value=\"delete\"/></form>");
                 }

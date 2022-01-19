@@ -29,6 +29,7 @@
                     <form:errors path="login" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                 <div class="col-8 col-xl-9 required-field-block">
@@ -42,6 +43,7 @@
                     <form:errors path="password" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="passwordRepeat" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
                 <div class="col-8 col-xl-9 required-field-block">
@@ -55,6 +57,7 @@
                     <form:errors path="passwordAgain" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="email" class="col-xl-3 col-4 col-form-label-sm">Email</label>
                 <div class="col-8 col-xl-9 required-field-block">
@@ -67,6 +70,7 @@
                     <form:errors path="email" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="firstName" class="col-xl-3 col-4 col-form-label-sm">First Name</label>
                 <div class="col-8 col-xl-9 required-field-block">
@@ -79,6 +83,7 @@
                     <form:errors path="firstName" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="lastname" class="col-xl-3 col-4 col-form-label-sm">Last Name</label>
                 <div class="col-8 col-xl-9 required-field-block">
@@ -90,12 +95,13 @@
                     <form:errors path="lastName" cssClass="alert-warning"/>
                 </div>
             </div>
+            <br>
             <div class="form-group row">
                 <label for="birthday" class="col-xl-3 col-4 col-form-label-sm">Birthday</label>
                 <div class="col-8 col-xl-9 required-field-block">
                     <form:input path="birthday" type="date" class="form-control" id="birthday"
                                 name="birthday" data-class="invalid-input"
-                                min="1900-01-01" tabindex="7"
+                                min="1900-01-01" max="${birthday.max}" tabindex="7"
                                 data-invalid-message="Date is not correct"
                                 data-valid-message="Date is correct" data-id="invalidDate" required="required"/>
                     <small id="invalidDate" class="output"></small>
@@ -108,6 +114,7 @@
                     <small class="text-danger">${captchaError}</small>
                 </c:if>
             </div>
+            <br>
             <div>
                 <a class="btn btn-danger float-right text-center"
                    href="${pageContext.request.contextPath}/login">Cancel</a>
@@ -116,5 +123,8 @@
         </form:form>
     </div>
 </div>
+<script>
+    birthday.max = new Date().toLocaleDateString('en-ca');
+</script>
 </body>
 </html>

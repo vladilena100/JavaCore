@@ -25,12 +25,12 @@ public class WebConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-    @Bean
-    public HandlerExceptionResolver handlerExceptionResolver() {
-        final SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-        resolver.setDefaultErrorView("error");
-        return resolver;
-    }
+//    @Bean
+//    public HandlerExceptionResolver handlerExceptionResolver() {
+//        final SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+//        resolver.setDefaultErrorView("error");
+//        return resolver;
+//    }
 
     @Bean
     public RestTemplate restTemplate() {

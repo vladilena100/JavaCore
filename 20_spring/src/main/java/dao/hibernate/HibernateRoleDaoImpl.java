@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  */
 
 @Repository
+@Transactional
 public class HibernateRoleDaoImpl implements DaoRole {
 
     @Autowired
@@ -102,10 +104,10 @@ public class HibernateRoleDaoImpl implements DaoRole {
     }
 
     @Override
-    public Role findByName(String name) {
+    public Role findById(String id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Role> query = session.createQuery("FROM Role WHERE name = :role_name");
-        query.setParameter("role_name", name);
+        Query<Role> query = session.createQuery("FROM Role WHERE id = :role_id");
+        query.setParameter("role_id", id);
         return query.getSingleResult();
     }
 }

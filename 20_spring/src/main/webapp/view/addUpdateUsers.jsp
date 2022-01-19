@@ -188,6 +188,7 @@
                 </div>
                 <form:errors path="role" cssClass="alert-warning"/>
             </div>
+            <br>
             <div>
                 <a class="btn btn-danger float-right text-center"
                    href="${pageContext.request.contextPath}/users">Cancel</a>

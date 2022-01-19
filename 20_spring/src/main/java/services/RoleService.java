@@ -20,6 +20,6 @@ public class RoleService {
     }
 
     public Role findByName(String name) {
-        return roleDao.findByName(name);
+        return roleDao.findById(name);
     }
 }

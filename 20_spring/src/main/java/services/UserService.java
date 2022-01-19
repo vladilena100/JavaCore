@@ -39,7 +39,7 @@ public class UserService {
         if (exists) {
             return false;
         }
-        Role role = roleDao.findByName(user.getRole().getName());
+        Role role = roleDao.findById(Long.parseLong(user.getRole().getName()));
         userToAdd.setRole(role);
         userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(userToAdd);
@@ -47,7 +47,18 @@ public class UserService {
     }
 
     public void update(User user) {
-        userDao.update(user);
+        Role role = roleDao.findById(Long.parseLong(user.getRole().getName()));
+        User userById = userDao.findById(user.getId());
+        if (!user.getPassword().isEmpty()) {
+            userById.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userById.setLogin(user.getLogin());
+        userById.setEmail(user.getEmail());
+        userById.setFirstName(user.getFirstName());
+        userById.setLastName(user.getLastName());
+        userById.setBirthday(user.getBirthday());
+        userById.setRole(role);
+        userDao.update(userById);
     }
 
     public void remove(User user) {
@@ -59,12 +70,20 @@ public class UserService {
         return userDao.findAll();
     }
 
+    public User findByLogin(String login) {
+        return userDao.findByLogin(login);
+    }
+
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email);
+    }
+
     public boolean registerUser(User user) {
         boolean exists = checkExistingUser(user);
         if (exists) {
             return false;
         }
-        Role role = roleDao.findByName("USER");
+        Role role = roleDao.findById("USER");
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(user);
@@ -79,4 +98,5 @@ public class UserService {
         User userByLogin = userDao.findByLogin(user.getLogin());
         return userByLogin != null;
     }
+
 }

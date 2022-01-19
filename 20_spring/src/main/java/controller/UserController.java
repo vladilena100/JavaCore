@@ -18,6 +18,8 @@ import util.UserUtil;
 import util.ValidateFields;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -62,53 +64,71 @@ public class UserController {
     }
 
     @PostMapping("add")
-    public String addUser(@ModelAttribute(name = "user") @Valid UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
+    public String addUser(@Valid @ModelAttribute(name = "userAddDTO") UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
 //        if (!user.getPassword().equals(user.getPasswordAgain())) {
 //            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
 //        }
-        result = validateFields.validateFields(user, result, req);
+
+//        if (!user.getPassword().equals(user.getPasswordAgain())) {
+//            result.rejectValue("confirmPassword", "error.user", "Password and confirm password are different");
+//        }
+//        model.addAttribute("action", "Add");
+//        model.addAttribute("auth_user", principal);
+//        model.addAttribute("user", user);
+//        if (result.hasErrors()) {
+//            return "addUpdateUsers";
+//        }
+//        boolean created = userService.create(user);
+//        if (!created) {
+//            result.rejectValue("login", "error.user", "User with this login already exists");
+//            return "addUpdateUsers";
+//        }
+//        return "redirect:/users";
+
         model.addAttribute("action", "Add");
         model.addAttribute("auth_user", principal);
         model.addAttribute("user", user);
         if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";
         }
-        boolean created = userService.create(user);
-        if (!created) {
-            result.rejectValue("login", "error.user", "User with this login already exists");
+
+        if (validateFields.validateFields(user, result, req).hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";
         }
+        userService.create(user);
+
         return "redirect:/users";
     }
 
     @GetMapping("edit/{id}")
     public String editUserForm(@PathVariable Long id, Model model, @AuthenticationPrincipal User principal) {
 
-        if (!principal.getId().equals(id)) {
+
             model.addAttribute("action", "Edit");
             model.addAttribute("id", id);
             model.addAttribute("auth_user", principal);
             User user = userService.findById(id);
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            model.addAttribute("selectedRoleId", user.getRole().getId());
+            model.addAttribute("birthday", formatter.format(user.getBirthday()));
             model.addAttribute("user", UserUtil.toUserEdit(user));
             model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";
-        }
-        return "redirect:/users";
-
     }
 
     @PostMapping("edit/{id}")
     public String editUser(@PathVariable Long id, @ModelAttribute(name = "user") @Valid UserEditDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
-        if (!user.getPassword().equals(user.getPasswordAgain())) {
-            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
-        }
-        if (!user.getPassword().isEmpty() && user.getPassword().length() < 4 || user.getPassword().length() > 64) {
-            result.rejectValue("password", "error.user", "Password length must be from 4 to 64 characters");
-        }
+
         model.addAttribute("action", "Edit");
         model.addAttribute("id", id);
         model.addAttribute("auth_user", principal);
         if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";
         }
         userService.update(UserUtil.toUser(user, id));
@@ -118,7 +138,7 @@ public class UserController {
     @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable Long id, @AuthenticationPrincipal User user) {
         if (!user.getId().equals(id)) {
-            userService.remove(user);
+            userService.remove(userService.findById(id));
         }
         return "redirect:/users";
     }
