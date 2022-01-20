@@ -2,7 +2,6 @@ package controller;
 
 import dto.CaptchaResponseDTO;
 import dto.UserRegisterDTO;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -14,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import services.UserService;
 import util.UserUtil;
+import util.ValidateFields;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @Controller
@@ -23,6 +24,9 @@ import java.net.URI;
 public class RegistrationController {
 
     private final UserService userService;
+
+    @Autowired
+    private ValidateFields validateFields;
 
     @Value("${recaptcha.secret}")
     private String recaptchaSecret;
@@ -45,24 +49,21 @@ public class RegistrationController {
 
     @PostMapping
     public String registration(@Valid @ModelAttribute(name = "user") UserRegisterDTO user, BindingResult result, Model model,
-            @RequestParam("g-recaptcha-response") String captchaResponse
-    ) {
+            @RequestParam("g-recaptcha-response") String captchaResponse) {
+
         CaptchaResponseDTO response = captchaVerificationRequest(captchaResponse);
         if (response == null || !response.isSuccess()) {
             model.addAttribute("captchaError", "Captcha is required");
         }
-        if (!user.getPassword().equals(user.getPasswordAgain())) {
-            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
-        }
+
         model.addAttribute("user", user);
+        validateFields.validateFields(user, result);
         if (result.hasErrors() || !response.isSuccess()) {
+            model.addAttribute("user", user);
             return "registration";
         }
-        boolean registered = userService.registerUser(UserUtil.toUser(user));
-        if (!registered) {
-            result.rejectValue("login", "error.user", "User with this login already exists");
-            return "registration";
-        }
+        userService.registerUser(UserUtil.toUser(user));
+
         return "redirect:/login";
     }
 

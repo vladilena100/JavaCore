@@ -33,12 +33,9 @@
             <div class="form-group row">
                 <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
                 <div class="col-8 col-xl-9 required-field-block">
-                    <form:input path="password" type="password" class="form-control" id="password"
-                                aria-describedby="pass"
-                                placeholder="4657512" min="4" maxlength="64" tabindex="2"
-                                name="password" data-invalid-message="Password length must be greater than 4"
-                                data-valid-message="Password is correct" data-id="invalidPassword"
-                                data-class="invalid-input" required="required"/>
+                    <input type="password" class="form-control" id="password" aria-describedby="pass"
+                           placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                           name="password" required>
                     <small id="invalidPassword" class="output"></small>
                     <form:errors path="password" cssClass="alert-warning"/>
                 </div>
@@ -47,12 +44,10 @@
             <div class="form-group row">
                 <label for="passwordRepeat" class="col-xl-3 col-4 col-form-label-sm">Confirm password</label>
                 <div class="col-8 col-xl-9 required-field-block">
-                    <form:input path="passwordAgain" type="password" class="form-control" id="passwordRepeat"
-                                aria-describedby="passwordConfirm"
-                                placeholder="password" name="passwordRepeat" min="4" maxlength="64"
-                                data-invalid-message="Password doesn't match"
-                                data-valid-message="Passwords match" tabindex="3"
-                                data-class="invalid-input" data-id="invalidRPassword" required="required"/>
+                    <input type="password" class="form-control" id="passwordRepeat"
+                           aria-describedby="passwordConfirm"
+                           placeholder="4657512" min="5" maxlength="64" tabindex="2"
+                           name="passwordAgain" required>
                     <small id="invalidRPassword" class="output"></small>
                     <form:errors path="passwordAgain" cssClass="alert-warning"/>
                 </div>

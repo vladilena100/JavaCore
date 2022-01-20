@@ -68,10 +68,10 @@
                         </c:when>
                         <c:otherwise>
                             <label for="password" class="col-xl-3 col-4 col-form-label-sm">Password</label>
-                            <form:input path="password" type="password" class="form-control" id="password" aria-describedby="pass"
+                            <input type="password" class="form-control" id="password" aria-describedby="pass"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                                   name="password" required="required"></form:input>
-                            <form:errors path="password" cssClass="alert-warning"></form:errors>
+                                   name="password" required>
+                            <form:errors path="password" cssClass="alert-warning"/>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -90,10 +90,10 @@
                         </c:when>
                         <c:otherwise>
                             <label for="passwordAgain">Confirm password</label>
-                            <form:input path="passwordAgain" type="password" class="form-control" id="passwordAgain"
+                            <input type="password" class="form-control" id="passwordAgain"
                                    aria-describedby="passwordAgain"
                                    placeholder="4657512" min="5" maxlength="64" tabindex="2"
-                                   name="passwordAgain" required="required"/>
+                                   name="passwordAgain" required>
                             <form:errors path="passwordAgain" cssClass="alert-warning"/>
                         </c:otherwise>
                     </c:choose>
@@ -180,7 +180,7 @@
                     <select id="select" class="form-control" name="role" value="${user.role.name}" required>
                         <c:forEach var="role" items="${roles}">
                             <option value="${role.name}"
-                                    <c:if test="${role.id eq selectedRoleId}">selected="selected"</c:if>>
+                                    <c:if test="${role.name eq selectedRoleId}">selected="selected"</c:if>>
                                     ${role.name}
                             </option>
                         </c:forEach>

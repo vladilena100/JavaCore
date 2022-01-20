@@ -17,7 +17,6 @@ import util.ValidateFields;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -50,7 +49,6 @@ public class UserController {
             model.addAttribute("user", users);
             return "userPage";
         }
-
     }
 
     @GetMapping("add")
@@ -63,33 +61,16 @@ public class UserController {
     }
 
     @PostMapping("add")
-    public String addUser(@Valid @ModelAttribute(name = "user") UserAddDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal, HttpServletRequest req) {
-//        if (!user.getPassword().equals(user.getPasswordAgain())) {
-//            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
-//        }
-
-//        if (!user.getPassword().equals(user.getPasswordAgain())) {
-//            result.rejectValue("confirmPassword", "error.user", "Password and confirm password are different");
-//        }
-//        model.addAttribute("action", "Add");
-//        model.addAttribute("auth_user", principal);
-//        model.addAttribute("user", user);
-//        if (result.hasErrors()) {
-//            return "addUpdateUsers";
-//        }
-//        boolean created = userService.create(user);
-//        if (!created) {
-//            result.rejectValue("login", "error.user", "User with this login already exists");
-//            return "addUpdateUsers";
-//        }
-//        return "redirect:/users";
+    public String addUser(@Valid @ModelAttribute(name = "user") UserAddDTO user, BindingResult result, Model model,
+                          @AuthenticationPrincipal User principal) {
 
         model.addAttribute("action", "Add");
         model.addAttribute("auth_user", principal);
         model.addAttribute("user", user);
-        validateFields.validateFields(user, result, req);
+        validateFields.validateFields(user, result);
         if (result.hasErrors()) {
             model.addAttribute("user", user);
+            model.addAttribute("selectedRoleId", user.getRole().getName());
             model.addAttribute("roles", roleService.findAll());
             return "addUpdateUsers";
         }
@@ -102,27 +83,30 @@ public class UserController {
     public String editUserForm(@PathVariable Long id, Model model, @AuthenticationPrincipal User principal) {
 
 
-            model.addAttribute("action", "Edit");
-            model.addAttribute("id", id);
-            model.addAttribute("auth_user", principal);
-            User user = userService.findById(id);
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            model.addAttribute("selectedRoleId", user.getRole().getId());
-            model.addAttribute("birthday", formatter.format(user.getBirthday()));
-            model.addAttribute("user", UserUtil.toUserEdit(user));
-            model.addAttribute("roles", roleService.findAll());
-            return "addUpdateUsers";
+        model.addAttribute("action", "Edit");
+        model.addAttribute("id", id);
+        model.addAttribute("auth_user", principal);
+        User user = userService.findById(id);
+        model.addAttribute("birthday", new SimpleDateFormat("yyyy-MM-dd").format(user.getBirthday()));
+        model.addAttribute("user", UserUtil.toUserEdit(user));
+        model.addAttribute("selectedRoleId", user.getRole().getName());
+        model.addAttribute("roles", roleService.findAll());
+        return "addUpdateUsers";
     }
 
     @PostMapping("edit/{id}")
-    public String editUser(@PathVariable Long id, @ModelAttribute(name = "user") @Valid UserEditDTO user, BindingResult result, Model model, @AuthenticationPrincipal User principal) {
+    public String editUser(@PathVariable Long id, @Valid @ModelAttribute(name = "user") UserEditDTO user, BindingResult result,
+                           Model model, @AuthenticationPrincipal User principal, HttpServletRequest request) {
 
         model.addAttribute("action", "Edit");
         model.addAttribute("id", id);
         model.addAttribute("auth_user", principal);
+        validateFields.validateFields(user, result, request);
         if (result.hasErrors()) {
             model.addAttribute("user", user);
+            model.addAttribute("selectedRoleId", user.getRole().getName());
             model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("birthday", new SimpleDateFormat("yyyy-MM-dd").format(user.getBirthday()));
             return "addUpdateUsers";
         }
         userService.update(UserUtil.toUser(user, id));

@@ -3,8 +3,8 @@ package services;
 
 import dao.DaoRole;
 import dao.DaoUser;
-import dto.UserDTO;
 import dto.UserAddDTO;
+import dto.UserDTO;
 import model.Role;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public void update(User user) {
-        Role role = roleDao.findById(Long.parseLong(user.getRole().getName()));
+        Role role = roleDao.findByName(user.getRole().getName());
         User userById = userDao.findById(user.getId());
         if (!user.getPassword().isEmpty()) {
             userById.setPassword(passwordEncoder.encode(user.getPassword()));

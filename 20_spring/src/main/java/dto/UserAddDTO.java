@@ -12,10 +12,9 @@ import java.util.Date;
 public class UserAddDTO {
     @Size(min = 4, max = 64, message = "Login length must be from 4 to 64 characters")
     private String login;
-    @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
     @Pattern(regexp ="^(?=.*[0-9])(?=.*[a-z]).{4,64}$", message = "password must contain at least 4 characters and 1 letter and 1 number")
     private String password;
-    @Size(min = 4, max = 64, message = "Password length must be from 4 to 64 characters")
+
     private String passwordAgain;
     @Email(message = "email is not correct")
     private String email;
@@ -92,4 +91,5 @@ public class UserAddDTO {
     public void setRole(Role role) {
         this.role = role;
     }
+
 }

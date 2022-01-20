@@ -19,7 +19,4 @@ public class RoleService {
         return roleDao.findAll();
     }
 
-    public Role findById(Long name) {
-        return roleDao.findById(name);
-    }
 }
