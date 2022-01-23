@@ -1,8 +1,7 @@
 package com.solutions.vasylieva.dao;
 
-import model.User;
+import com.solutions.vasylieva.model.User;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 /**

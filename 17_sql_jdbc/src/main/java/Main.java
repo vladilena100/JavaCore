@@ -1,13 +1,13 @@
-import dao.DaoRole;
-import dao.DaoUser;
+import com.solutions.vasylieva.dao.DaoRole;
+import com.solutions.vasylieva.dao.DaoUser;
 import model.Role;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import support.DAOFactory;
-import support.RoleDAOFactory;
-import support.UserDAOFactory;
-import util.DBUtil;
+import com.solutions.vasylieva.support.DAOFactory;
+import com.solutions.vasylieva.support.RoleDAOFactory;
+import com.solutions.vasylieva.support.UserDAOFactory;
+import com.solutions.vasylieva.util.DBUtil;
 
 import java.sql.Date;
 import java.util.List;

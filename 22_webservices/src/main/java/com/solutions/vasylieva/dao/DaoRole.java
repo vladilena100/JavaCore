@@ -1,7 +1,7 @@
 package com.solutions.vasylieva.dao;
 
 
-import model.Role;
+import com.solutions.vasylieva.model.Role;
 
 /**
  * DaoRole
@@ -19,6 +19,8 @@ public interface DaoRole extends Dao<Role> {
 
     @Override
     void remove(Role entity);
+
+    Role findById(Long id);
 
     Role findByName(String name);
 }

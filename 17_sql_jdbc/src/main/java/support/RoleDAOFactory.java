@@ -1,7 +1,7 @@
-package support;
+package com.solutions.vasylieva.support;
 
-import dao.Dao;
-import dao.jdbc.JdbcRoleDao;
+import com.solutions.vasylieva.dao.Dao;
+import com.solutions.vasylieva.dao.jdbc.JdbcRoleDao;
 import model.Role;
 
 public class RoleDAOFactory implements DAOFactory<Role> {
