@@ -21,24 +21,28 @@ public class RESTControllerTest {
 
     private static String createUserJson = "{\n" +
             "    \"login\": \"test\",\n" +
-            "    \"password\": \"test\",\n" +
-            "    \"passwordRepeat\": \"test\",\n" +
+            "    \"password\": \"test1\",\n" +
+            "    \"passwordAgain\": \"test1\",\n" +
             "    \"email\": \"test@test\",\n" +
             "    \"firstName\": \"test\",\n" +
             "    \"lastName\": \"test\",\n" +
-            "    \"birthday\": \"1111-11-11\",\n" +
-            "    \"role\": 2\n" +
+            "    \"birthday\": \"1990-11-11\",\n" +
+            "    \"role\": {" +
+            "\"name\":\"ADMIN\"\n" +
+            "}" +
             "}";
 
     private static String updateUserJson = "{\n" +
             "    \"login\": \"test\",\n" +
-            "    \"password\": \"NEWtest\",\n" +
-            "    \"passwordRepeat\": \"NEWtest\",\n" +
+            "    \"password\": \"NEWtest1\",\n" +
+            "    \"passwordAgain\": \"NEWtest1\",\n" +
             "    \"email\": \"NEWtest@test\",\n" +
             "    \"firstName\": \"NEWtest\",\n" +
             "    \"lastName\": \"NEWtest\",\n" +
-            "    \"birthday\": \"1111-11-11\",\n" +
-            "    \"role\": 2\n" +
+            "    \"birthday\": \"1990-11-11\",\n" +
+            "    \"role\": {" +
+            "\"name\":\"ADMIN\"\n" +
+            "}" +
             "}";
 
     @BeforeClass
@@ -58,12 +62,12 @@ public class RESTControllerTest {
                 .then()
                 .extract().response();
 
-        assertEquals(201, response.statusCode());
+        assertEquals(200, response.statusCode());
         assertEquals("test", response.jsonPath().getString("login"));
         assertEquals("test@test", response.jsonPath().getString("email"));
         assertEquals("test", response.jsonPath().getString("firstName"));
         assertEquals("test", response.jsonPath().getString("lastName"));
-        assertEquals("ROLE_USER", response.jsonPath().getString("role.name"));
+        assertEquals("ADMIN", response.jsonPath().getString("role.name"));
     }
 
     @Test
@@ -72,30 +76,30 @@ public class RESTControllerTest {
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("login", equalTo("test"));
+                .body("login", equalTo("admin"));
     }
 
     @Test
     public void test3GetUserByLogin() {
-        when().get("by-login/test")
+        when().get("/userByLogin/test")
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("id", equalTo(3));
+                .body("login", equalTo("test"));
     }
 
     @Test
     public void test4GetUserByEmail() {
-        when().get("by-email/test@test")
+        when().get("/userByEmail/test@test")
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("id", equalTo(3));
+                .body("email", equalTo("test@test"));
     }
 
     @Test
     public void test5GetAllUsers() {
-        when().get("/all")
+        when().get("")
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -108,16 +112,16 @@ public class RESTControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateUserJson)
                 .when()
-                .put("/test")
+                .put("")
                 .then()
                 .extract().response();
 
-        assertEquals(202, response.statusCode());
+        assertEquals(200, response.statusCode());
         assertEquals("test", response.jsonPath().getString("login"));
         assertEquals("NEWtest@test", response.jsonPath().getString("email"));
         assertEquals("NEWtest", response.jsonPath().getString("firstName"));
         assertEquals("NEWtest", response.jsonPath().getString("lastName"));
-        assertEquals("ROLE_USER", response.jsonPath().getString("role.name"));
+        assertEquals("ADMIN", response.jsonPath().getString("role.name"));
     }
 
     @Test
@@ -125,10 +129,10 @@ public class RESTControllerTest {
         Response response = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/3")
+                .delete("/28")
                 .then()
                 .extract().response();
 
-        assertEquals(204, response.statusCode());
+        assertEquals(200, response.statusCode());
     }
 }

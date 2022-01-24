@@ -43,7 +43,7 @@ public class RESTController {
         return user;
     }
 
-    @GetMapping("/userByEmail/{email}")
+    @GetMapping("users/userByEmail/{email}")
     public User getUserBuEmail(@PathVariable String email) {
         User user = userService.findByEmail(email);
         if (user == null) {
@@ -52,7 +52,7 @@ public class RESTController {
         return user;
     }
 
-    @GetMapping("/userByLogin/{login}")
+    @GetMapping("users/userByLogin/{login}")
     public User getUserBuLogin(@PathVariable String login) {
         User user = userService.findByLogin(login);
         if (user == null) {
