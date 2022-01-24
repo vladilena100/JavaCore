@@ -38,20 +38,21 @@ public class ValidateFields {
         }
     }
 
-    public void validateFields(UserEditDTO user, BindingResult result, HttpServletRequest req) {
+    public void validateFields(UserEditDTO user, BindingResult result) {
 
         final String REGEXP = "^(?=.*[0-9])(?=.*[a-z]).{4,64}$";
         User userByEmail = userService.findByEmail(user.getEmail());
         boolean isPasswordEmpty = user.getPassword().isEmpty();
         boolean isEqualsPassPassAgain = user.getPassword().equals(user.getPasswordAgain());
+        Long id = userService.findByLogin(user.getLogin()).getId();
 
-        if (userByEmail != null && !userByEmail.getId().equals(Long.valueOf(req.getParameter("id")))) {
+        if (userByEmail != null && !userByEmail.getId().equals(id)) {
             result.rejectValue("email", "error.user", "User vih this email is exist");
         }
         if (!isPasswordEmpty && !isEqualsPassPassAgain) {
             result.rejectValue("passwordAgain", "error.user", "Password and confirm password do not match");
         }
-        if (!isPasswordEmpty && isEqualsPassPassAgain && !req.getParameter("password").matches(REGEXP)) {
+        if (!isPasswordEmpty && isEqualsPassPassAgain && !user.getPassword().matches(REGEXP)) {
             result.rejectValue("password", "error.user", "password must contain at least 4 characters and 1 letter and 1 number");
         }
     }

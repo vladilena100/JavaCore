@@ -3,7 +3,7 @@ package com.solutions.vasylieva.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "role")
-public class Role implements GrantedAuthority {
+public class Role  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +44,9 @@ public class Role implements GrantedAuthority {
     public String getName() {
         return name;
     }
-
-    @Override
-    public String getAuthority() {
-        return getName();
-    }
+//
+//    @Override
+//    public String getAuthority() {
+//        return getName();
+//    }
 }
