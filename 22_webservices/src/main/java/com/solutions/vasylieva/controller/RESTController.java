@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,7 +25,6 @@ public class RESTController {
     @Autowired
     private ValidateFields validateFields;
 
-    //    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/users")
     public List<User> findAllUsers() {
         return userService.findAll();
@@ -95,6 +93,6 @@ public class RESTController {
             throw new NoSuchUserException("Not found user with ID = " + id + " in DB");
         }
         userService.remove(userService.findById(id));
-        return "User with ID = " + id + "was deleted";
+        return "User with ID = " + id + " was deleted";
     }
 }

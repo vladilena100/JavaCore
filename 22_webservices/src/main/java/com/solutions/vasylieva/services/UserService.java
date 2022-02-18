@@ -11,6 +11,7 @@ import com.solutions.vasylieva.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +26,9 @@ public class UserService {
 
     @Autowired
     private DaoUser userDao;
-//
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
@@ -42,7 +43,7 @@ public class UserService {
         }
         Role role = roleDao.findByName(user.getRole().getName());
         userToAdd.setRole(role);
-//        userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
+        userToAdd.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(userToAdd);
         return true;
     }
@@ -51,8 +52,8 @@ public class UserService {
         Role role = roleDao.findByName(user.getRole().getName());
         User userById = userDao.findById(user.getId());
         if (!user.getPassword().isEmpty()) {
-            userById.setPassword(user.getPassword());
-//            userById.setPassword(passwordEncoder.encode(user.getPassword()));
+//            userById.setPassword(user.getPassword());
+            userById.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userById.setLogin(user.getLogin());
         userById.setEmail(user.getEmail());

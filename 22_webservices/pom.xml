@@ -6,7 +6,7 @@
 	<artifactId>22_webservices</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>spring</name>
+	<name>webservices</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,21 +16,6 @@
 		<spring-security-version>5.5.1</spring-security-version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 	</properties>
-
-<!--	<reporting>-->
-<!--		<plugins>-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-project-info-reports-plugin</artifactId>-->
-<!--				<version>3.1.2</version>-->
-<!--			</plugin>-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-surefire-report-plugin</artifactId>-->
-<!--				<version>3.0.0-M5</version>-->
-<!--			</plugin>-->
-<!--		</plugins>-->
-<!--	</reporting>-->
 
 	<dependencies>
 
@@ -46,17 +31,17 @@
 			<version>${spring-version}</version>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.security</groupId>-->
-<!--			<artifactId>spring-security-web</artifactId>-->
-<!--			<version>${spring-security-version}</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security-version}</version>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.security</groupId>-->
-<!--			<artifactId>spring-security-config</artifactId>-->
-<!--			<version>${spring-security-version}</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-security-version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.github.database-rider</groupId>
@@ -198,7 +183,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>spring</finalName>
+		<finalName>webservices</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/webapp</directory>

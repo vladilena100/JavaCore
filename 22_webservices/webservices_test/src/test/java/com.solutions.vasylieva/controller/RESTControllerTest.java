@@ -48,8 +48,8 @@ public class RESTControllerTest {
     @BeforeClass
     public static void setUp() {
         RestAssured.port = 8080;
-        RestAssured.baseURI = "http://localhost/api";
-        RestAssured.basePath = "/users";
+        RestAssured.baseURI = "http://vasylieva-app";
+        RestAssured.basePath = "/api";
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RESTControllerTest {
                 .contentType(ContentType.JSON)
                 .body(createUserJson)
                 .when()
-                .post("")
+                .post("/users")
                 .then()
                 .extract().response();
 
@@ -72,16 +72,16 @@ public class RESTControllerTest {
 
     @Test
     public void test2GetUserById() {
-        when().get("/3")
+        when().get("/users/3")
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
-                .body("login", equalTo("admin"));
+                .body("login", equalTo("test"));
     }
 
     @Test
     public void test3GetUserByLogin() {
-        when().get("/userByLogin/test")
+        when().get("/users/userByLogin/test")
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
@@ -90,7 +90,7 @@ public class RESTControllerTest {
 
     @Test
     public void test4GetUserByEmail() {
-        when().get("/userByEmail/test@test")
+        when().get("/users/userByEmail/test@test")
                 .then().statusCode(200)
                 .assertThat()
                 .contentType(ContentType.JSON)
@@ -99,7 +99,7 @@ public class RESTControllerTest {
 
     @Test
     public void test5GetAllUsers() {
-        when().get("")
+        when().get("/users")
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -112,7 +112,7 @@ public class RESTControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateUserJson)
                 .when()
-                .put("")
+                .put("/users")
                 .then()
                 .extract().response();
 
@@ -129,7 +129,7 @@ public class RESTControllerTest {
         Response response = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete("/28")
+                .delete("/users/3")
                 .then()
                 .extract().response();
 
