@@ -4,13 +4,10 @@ package com.solutions.vasylieva.services;
 import com.solutions.vasylieva.dao.DaoRole;
 import com.solutions.vasylieva.dao.DaoUser;
 import com.solutions.vasylieva.dto.UserAddDTO;
-import com.solutions.vasylieva.dto.UserDTO;
 import com.solutions.vasylieva.model.Role;
 import com.solutions.vasylieva.model.User;
 import com.solutions.vasylieva.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +49,6 @@ public class UserService {
         Role role = roleDao.findByName(user.getRole().getName());
         User userById = userDao.findById(user.getId());
         if (!user.getPassword().isEmpty()) {
-//            userById.setPassword(user.getPassword());
             userById.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userById.setLogin(user.getLogin());
@@ -81,33 +77,8 @@ public class UserService {
         return userDao.findByEmail(email);
     }
 
-    public boolean registerUser(User user) {
-        boolean exists = checkExistingUser(user);
-        if (exists) {
-            return false;
-        }
-        Role role = roleDao.findByName("USER");
-        user.setRole(role);
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.create(user);
-        return true;
-    }
-
-//    public boolean checkCorrectData(User user, UserDTO loginDTO) {
-//        return passwordEncoder.matches(loginDTO.getPassword(), user.getPassword());
-//    }
-
     public boolean checkExistingUser(User user) {
         User userByLogin = userDao.findByLogin(user.getLogin());
         return userByLogin != null;
     }
-
-//    public User loadUserByUsername(String login) throws UsernameNotFoundException {
-//        User user = userDao.findByLogin(login);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User by login " + login + " not found");
-//        }
-//        return user;
-//    }
-
 }

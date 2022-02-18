@@ -2,14 +2,11 @@ package com.solutions.vasylieva.util;
 
 import com.solutions.vasylieva.dto.UserAddDTO;
 import com.solutions.vasylieva.dto.UserEditDTO;
-import com.solutions.vasylieva.dto.UserRegisterDTO;
 import com.solutions.vasylieva.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import com.solutions.vasylieva.services.UserService;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class ValidateFields {
@@ -54,23 +51,6 @@ public class ValidateFields {
         }
         if (!isPasswordEmpty && isEqualsPassPassAgain && !user.getPassword().matches(REGEXP)) {
             result.rejectValue("password", "error.user", "password must contain at least 4 characters and 1 letter and 1 number");
-        }
-    }
-
-    public void validateFields(UserRegisterDTO user, BindingResult result) {
-
-        User userByEmail = userService.findByEmail(user.getEmail());
-        User userByLogin = userService.findByLogin(user.getLogin());
-        boolean isEqualsPassPassAgain = user.getPassword().equals(user.getPasswordAgain());
-
-        if (userByLogin != null) {
-            result.rejectValue("login", "error.user", "User with this login is exist");
-        }
-        if (userByEmail != null) {
-            result.rejectValue("email", "error.user", "User vih this email is exist");
-        }
-        if (!isEqualsPassPassAgain) {
-            result.rejectValue("passwordAgain", "error.user", "Password and confirm password are different");
         }
     }
 }

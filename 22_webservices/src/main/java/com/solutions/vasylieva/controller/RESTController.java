@@ -8,7 +8,6 @@ import com.solutions.vasylieva.services.UserService;
 import com.solutions.vasylieva.util.UserUtil;
 import com.solutions.vasylieva.util.ValidateFields;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 

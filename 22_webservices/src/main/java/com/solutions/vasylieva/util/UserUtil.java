@@ -2,7 +2,6 @@ package com.solutions.vasylieva.util;
 
 import com.solutions.vasylieva.dto.UserAddDTO;
 import com.solutions.vasylieva.dto.UserEditDTO;
-import com.solutions.vasylieva.dto.UserRegisterDTO;
 import com.solutions.vasylieva.model.User;
 
 import java.util.Date;
@@ -10,10 +9,6 @@ import java.util.Date;
 public class UserUtil {
 
     private UserUtil() {}
-
-    public static User toUser(UserRegisterDTO userRegisterDTO) {
-        return getUser(userRegisterDTO.getLogin(), userRegisterDTO.getPassword(), userRegisterDTO.getEmail(), userRegisterDTO.getFirstName(), userRegisterDTO.getLastName(), userRegisterDTO.getBirthday());
-    }
 
     public static User toUser(UserAddDTO userAddDTO) {
         User user = getUser(userAddDTO.getLogin(), userAddDTO.getPassword(), userAddDTO.getEmail(), userAddDTO.getFirstName(), userAddDTO.getLastName(), userAddDTO.getBirthday());
@@ -26,17 +21,6 @@ public class UserUtil {
         user.setRole(userEdit.getRole());
         user.setId(id);
         return user;
-    }
-
-    public static UserEditDTO toUserEdit(User user) {
-        UserEditDTO userEdit = new UserEditDTO();
-        userEdit.setLogin(user.getLogin());
-        userEdit.setEmail(user.getEmail());
-        userEdit.setFirstName(user.getFirstName());
-        userEdit.setLastName(user.getLastName());
-        userEdit.setBirthday(user.getBirthday());
-        userEdit.setRole(user.getRole());
-        return userEdit;
     }
 
     private static User getUser(String login, String password, String email, String firstName, String lastName, Date birthday) {

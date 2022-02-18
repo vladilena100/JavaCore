@@ -1,6 +1,6 @@
 package com.solutions.vasylieva.dto;
 
-public class UserDTO {
+public class LoginDTO {
     private String login;
     private String password;
 
