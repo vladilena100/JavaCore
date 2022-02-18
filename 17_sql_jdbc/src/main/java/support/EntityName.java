@@ -1,4 +1,4 @@
-package support;
+package com.solutions.vasylieva.support;
 
 import lombok.Getter;
 

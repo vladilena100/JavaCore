@@ -1,12 +1,12 @@
-package dao.jdbc;
+package com.solutions.vasylieva.dao.jdbc;
 
-import dao.DaoUser;
-import exception.DataDaoException;
+import com.solutions.vasylieva.dao.DaoUser;
+import com.solutions.vasylieva.exception.DataDaoException;
 import model.Role;
 import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import support.ConnectionManager;
+import com.solutions.vasylieva.support.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

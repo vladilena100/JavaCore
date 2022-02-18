@@ -1,6 +1,6 @@
-package support;
+package com.solutions.vasylieva.support;
 
-import dao.Dao;
+import com.solutions.vasylieva.dao.Dao;
 
 public interface DAOFactory<E> {
 

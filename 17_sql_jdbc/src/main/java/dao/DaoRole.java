@@ -1,4 +1,4 @@
-package dao;
+package com.solutions.vasylieva.dao;
 
 
 import model.Role;

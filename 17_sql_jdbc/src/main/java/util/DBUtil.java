@@ -1,9 +1,9 @@
-package util;
+package com.solutions.vasylieva.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import support.ConnectionManager;
-import support.DBConfig;
+import com.solutions.vasylieva.support.ConnectionManager;
+import com.solutions.vasylieva.support.DBConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,7 +1,7 @@
-package support;
+package com.solutions.vasylieva.support;
 
-import dao.DaoUser;
-import dao.jdbc.JdbcUserDao;
+import com.solutions.vasylieva.dao.DaoUser;
+import com.solutions.vasylieva.dao.jdbc.JdbcUserDao;
 import model.User;
 
 

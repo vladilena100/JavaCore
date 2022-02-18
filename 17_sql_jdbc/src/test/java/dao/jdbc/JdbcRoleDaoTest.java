@@ -1,4 +1,4 @@
-package dao.jdbc;
+package com.solutions.vasylieva.dao.jdbc;
 
 import model.Role;
 import org.dbunit.Assertion;
@@ -17,8 +17,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import support.ConnectionManager;
-import support.DBPoolConfig;
+import com.solutions.vasylieva.support.ConnectionManager;
+import com.solutions.vasylieva.support.DBPoolConfig;
 
 import javax.sql.DataSource;
 
