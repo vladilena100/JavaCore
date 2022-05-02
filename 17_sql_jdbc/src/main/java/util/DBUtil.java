@@ -3,7 +3,7 @@ package util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import support.ConnectionManager;
-import support.DBConfig;
+import support.DBPoolConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class DBUtil {
 
     private static final Logger LOG = LogManager.getLogger(DBUtil.class);
 
-    private static ConnectionManager connectionManager = ConnectionManager.getInstance(new DBConfig("jdbc.properties"));
+    private static ConnectionManager connectionManager = ConnectionManager.getInstance(new DBPoolConfig("jdbc.properties"));
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS \"user\"" +
             "(" +
