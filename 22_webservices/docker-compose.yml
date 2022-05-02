@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  vasylieva-app:
+    build: .
+    ports:
+      - 8080:8080
+
+    container_name: vasylieva-web
+    networks:
+      - nix-network
+
+  service-tests:
+    image: java-tomcat-test
+    container_name: spring-tomcat-test
+    build: .
+    ports:
+      - 8082:8082
+    depends_on:
+      - vasylieva-app
+
+  vasylieva-postgres:
+    image: postgres
+    container_name: vasylieva-postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    ports:
+      - 5434:5432
+    restart: always
+    networks:
+      - nix-network
+    volumes:
+      - ./postgres_init_sql/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+
+networks:
+  nix-network:
