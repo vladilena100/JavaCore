@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  vasylieva-app:
+    build: .
+
+    container_name: vasylieva-java
+    depends_on:
+      vasylieva-postgres:
+        condition: service_healthy
+    networks:
+          - nix-network
+  vasylieva-postgres:
+    image: postgres
+    container_name: vasylieva-postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    ports:
+      - 5433:5432
+    restart: always
+    networks:
+      - nix-network
+
+networks:
+  nix-network:
+
+
